@@ -8,12 +8,82 @@
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;min-height:100%;background:#003b86}
 body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif}
-.pagina{position:relative;width:min(100vw,717px);aspect-ratio:717/1076;flex-shrink:0;background-image:url('./fabrica-background-animado.png');background-repeat:no-repeat;background-position:top center;background-size:100% 100%;overflow:hidden}
-.camadas{position:absolute;inset:0;pointer-events:none}
-.roleta-animada{position:absolute;inset:0;width:100%;height:100%;background:url('./wheel-animado.png') no-repeat top center;background-size:100% 100%;transform-origin:49.65% 47.58%;transition:transform 5s cubic-bezier(.12,.72,.08,1);will-change:transform;transform:rotate(0deg);}
-.centro-fixo{position:absolute;inset:0;width:100%;height:100%;background:url('./center-fixed.png') no-repeat top center;background-size:100% 100%}
-.ponteiro-fixo{position:absolute;inset:0;width:100%;height:100%;background:url('./pointer-fixed.png') no-repeat top center;background-size:100% 100%}
-.botao-roleta{position:absolute;left:22.5%;top:78.4%;width:55%;height:10.8%;border:0;background:transparent;cursor:pointer;border-radius:80px;-webkit-tap-highlight-color:transparent;z-index:10}
+.pagina{
+  position:relative;width:min(100vw,717px);aspect-ratio:717/1076;flex-shrink:0;
+  background:url('./fabrica-background-animado.png') no-repeat top center/100% 100%;
+  overflow:hidden;
+}
+/* A roleta agora é um elemento circular de verdade. Ela não usa uma imagem de página inteira,
+   portanto continua dentro do círculo durante toda a animação, inclusive no celular. */
+.roleta{
+  position:absolute;
+  left:50%; top:47.6%;
+  width:89.7%; aspect-ratio:1;
+  transform:translate(-50%,-50%) rotate(0deg);
+  transform-origin:50% 50%;
+  border-radius:50%;
+  overflow:hidden;
+  border:7px solid #ffd200;
+  box-shadow:0 0 0 3px rgba(255,255,255,.85),0 0 24px rgba(0,0,0,.55),inset 0 0 0 2px rgba(255,255,255,.75);
+  transition:transform 5s cubic-bezier(.12,.72,.08,1);
+  will-change:transform;
+  z-index:3;
+}
+.roleta::before{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(
+    from -30deg,
+    #ffd200 0deg 60deg,
+    #1489e8 60deg 120deg,
+    #22ad55 120deg 180deg,
+    #ef161b 180deg 240deg,
+    #8734c5 240deg 300deg,
+    #12a9d4 300deg 360deg
+  );
+}
+.roleta::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:repeating-conic-gradient(from -30deg,transparent 0deg 59.1deg,rgba(255,255,255,.95) 59.1deg 60deg);
+  pointer-events:none;
+}
+.fatia{
+  position:absolute;left:50%;top:50%;width:41%;height:41%;
+  margin-left:-20.5%;margin-top:-20.5%;
+  transform:rotate(var(--a)) translateY(-89%);
+  transform-origin:50% 50%;
+  display:flex;justify-content:center;align-items:center;
+  text-align:center;color:#fff;font-weight:900;text-transform:uppercase;
+  font-size:clamp(12px,2.25vw,20px);line-height:1.02;
+  text-shadow:2px 2px 3px rgba(0,0,0,.65);
+  z-index:2;
+  pointer-events:none;
+}
+.fatia span{display:block;width:115%;transform:rotate(calc(-1 * var(--a)));}
+.fatia strong{display:block;font-size:1.5em;line-height:.95;margin-bottom:5px}
+.centro{
+  position:absolute;left:50%;top:47.6%;transform:translate(-50%,-50%);
+  width:16.5%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#155aa5,#003b86 65%,#002c65);
+  border:5px solid #ffd200;z-index:8;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  color:#fff;font-weight:900;font-size:clamp(14px,2.6vw,23px);
+  text-align:center;line-height:1;
+  box-shadow:0 5px 12px rgba(0,0,0,.45),inset 0 0 8px rgba(255,255,255,.18);
+  pointer-events:none;
+}
+.centro small{color:#ffd200;font-size:.85em;margin-top:5px}
+.ponteiro{
+  position:absolute;left:50%;top:17.4%;transform:translate(-50%,-50%);
+  width:0;height:0;
+  border-left:24px solid transparent;border-right:24px solid transparent;
+  border-top:43px solid #ffd200;
+  filter:drop-shadow(0 4px 5px rgba(0,0,0,.45));z-index:9;pointer-events:none;
+}
+.botao-roleta{
+  position:absolute;left:22.5%;top:78.4%;width:55%;height:10.8%;
+  border:0;background:transparent;cursor:pointer;border-radius:80px;
+  -webkit-tap-highlight-color:transparent;z-index:10;
+}
 .botao-roleta:focus-visible{outline:3px solid #fff;outline-offset:4px}
 .botao-roleta:active{transform:scale(.98)}
 .modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,20,55,.78)}
@@ -23,16 +93,27 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
 .cartao .premio{color:#ffd200;font-size:clamp(25px,7vw,38px);line-height:1.05;font-weight:900;text-transform:uppercase;margin:8px 0 22px}
 .fechar{border:0;border-radius:999px;padding:13px 28px;background:#ffd200;color:#003b86;font-weight:900;font-size:16px;cursor:pointer}
 .aviso{margin-top:12px;color:#fff;font-size:11px;line-height:1.35;opacity:.9}
+@media(max-width:500px){
+  .roleta{border-width:5px;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 15px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.7)}
+  .fatia{font-size:clamp(9px,2.65vw,14px);text-shadow:1px 1px 2px rgba(0,0,0,.7)}
+  .ponteiro{border-left-width:19px;border-right-width:19px;border-top-width:34px}
+  .centro{border-width:3px}
+}
 @media(min-width:718px){body{padding:20px 0}.pagina{box-shadow:0 0 35px rgba(0,0,0,.35)}}
 </style>
 </head>
 <body>
 <div class="pagina" aria-label="Roleta promocional da Fábrica de Óculos">
-  <div class="camadas" aria-hidden="true">
-    <div id="roletaAnimada" class="roleta-animada"></div>
-    <div class="centro-fixo"></div>
-    <div class="ponteiro-fixo"></div>
+  <div id="roleta" class="roleta" aria-hidden="true">
+    <div class="fatia" style="--a:0deg"><span><strong>10%</strong>DE DESCONTO<br>🏷️</span></div>
+    <div class="fatia" style="--a:60deg"><span>👓<br>ARMAÇÃO<br>CORTESIA<br>COMUM</span></div>
+    <div class="fatia" style="--a:120deg"><span><strong>15%</strong>DE DESCONTO<br>🏷️</span></div>
+    <div class="fatia" style="--a:180deg"><span>🕶️<br>ÓCULOS<br>DE SOL</span></div>
+    <div class="fatia" style="--a:240deg"><span>🧴<br>LIMPA LENTE<br>Clean'Up</span></div>
+    <div class="fatia" style="--a:300deg"><span>🧴<br>LIMPA LENTE<br>GRÁTIS</span></div>
   </div>
+  <div class="centro" aria-hidden="true">GIRAR<small>↻</small></div>
+  <div class="ponteiro" aria-hidden="true"></div>
   <button id="btnGirar" class="botao-roleta" aria-label="Girar a roleta" title="Girar a roleta"></button>
 </div>
 
@@ -51,39 +132,47 @@ const premios=[
  'ARMAÇÃO CORTESIA COMUM',
  '15% DE DESCONTO',
  'ÓCULOS DE SOL',
- 'LIMPA LENTE CLEAN’UP',
+ "LIMPA LENTE CLEAN'UP",
  'LIMPA LENTE GRÁTIS'
 ];
 const btn=document.getElementById('btnGirar');
-const roda=document.getElementById('roletaAnimada');
+const roda=document.getElementById('roleta');
 const modal=document.getElementById('modal');
 const premioEl=document.getElementById('premio');
 const fechar=document.getElementById('fechar');
 let girando=false;
 let rotacaoAtual=0;
+const passo=360/premios.length;
 
-btn.addEventListener('click',()=>{
- if(girando)return;
- girando=true;
- btn.disabled=true;
- const indice=Math.floor(Math.random()*premios.length);
- const passo=360/premios.length;
- // A fatia 0 (10%) começa centralizada no ponteiro. Cada índice seguinte está 60° à direita.
- // Para levar a fatia sorteada ao ponteiro, giramos no sentido horário o equivalente inverso.
- const ajuste=((360-(indice*passo))%360);
- const voltas=5+Math.floor(Math.random()*2);
- const alvo=rotacaoAtual + voltas*360 + ajuste;
- roda.style.transform=`rotate(${alvo}deg)`;
- rotacaoAtual=alvo;
- setTimeout(()=>{
-   premioEl.textContent=premios[indice];
-   modal.classList.add('aberto');
-   girando=false;
-   btn.disabled=false;
-   fechar.focus();
- },5100);
-});
+function normalizar(g){return ((g%360)+360)%360}
 
+function girar(){
+  if(girando)return;
+  girando=true;
+  btn.disabled=true;
+  modal.classList.remove('aberto');
+
+  const indice=Math.floor(Math.random()*premios.length);
+  const atual=normalizar(rotacaoAtual);
+  const desejada=normalizar(-indice*passo);
+  let delta=desejada-atual;
+  if(delta<0)delta+=360;
+
+  const voltas=5+Math.floor(Math.random()*2);
+  const alvo=rotacaoAtual + voltas*360 + delta;
+  roda.style.transform=`translate(-50%,-50%) rotate(${alvo}deg)`;
+  rotacaoAtual=alvo;
+
+  setTimeout(()=>{
+    premioEl.textContent=premios[indice];
+    modal.classList.add('aberto');
+    girando=false;
+    btn.disabled=false;
+    fechar.focus();
+  },5100);
+}
+
+btn.addEventListener('click',girar);
 fechar.addEventListener('click',()=>{modal.classList.remove('aberto');btn.focus()});
 modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('aberto');btn.focus()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('aberto')});
