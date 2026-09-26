@@ -2,25 +2,19 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     >
 
-    <title>Fábrica de Óculos - Roleta Promocional</title>
-
-    <meta
-        name="description"
-        content="Roleta promocional da Fábrica de Óculos"
-    >
+    <title>Fábrica de Óculos — Roleta Promocional</title>
 
     <style>
 
         /* =========================================================
-           RESET
+           CONFIGURAÇÕES GERAIS
         ========================================================= */
 
         * {
@@ -29,70 +23,59 @@
             box-sizing: border-box;
         }
 
-
-        /* =========================================================
-           BODY
-        ========================================================= */
-
         html,
         body {
             width: 100%;
             min-height: 100%;
+        }
 
-            background: #0054a6;
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #00439a 0%,
+                    #0068c9 55%,
+                    #0053a8 100%
+                );
 
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
+            color: #ffffff;
+
+            display: flex;
+            justify-content: center;
+
             overflow-x: hidden;
         }
 
 
-        body {
-            display: flex;
-
-            justify-content: center;
-        }
-
-
         /* =========================================================
-           APLICAÇÃO
+           CONTAINER PRINCIPAL
         ========================================================= */
 
-        .app {
+        .pagina {
+
             width: 100%;
-            max-width: 600px;
+
+            max-width: 520px;
 
             min-height: 100vh;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #004a96 0%,
-                    #005db8 55%,
-                    #006ac8 100%
-                );
+            padding:
+                20px
+                16px
+                40px;
 
-            position: relative;
+            display: flex;
 
-            overflow: hidden;
+            flex-direction: column;
 
-            padding-bottom: 30px;
-        }
-
-
-        /* =========================================================
-           BORDA SUPERIOR AMARELA
-        ========================================================= */
-
-        .top-line {
-            width: 100%;
-
-            height: 7px;
-
-            background: #ffd400;
+            align-items: center;
         }
 
 
@@ -100,162 +83,235 @@
            CABEÇALHO
         ========================================================= */
 
-        .header {
+        .cabecalho {
+
+            width: 100%;
+
             text-align: center;
 
-            padding:
-                18px
-                15px
-                8px;
+            margin-bottom: 18px;
+        }
+
+
+        .logo-oculos {
+
+            font-size: 0;
+
+            margin-bottom: 5px;
+        }
+
+
+        .logo-oculos::before {
+
+            content: "∞";
+
+            display: block;
+
+            color: #ffd400;
+
+            font-size: 48px;
+
+            line-height: 40px;
+
+            font-weight: 900;
+
+            transform: scaleX(1.5);
+        }
+
+
+        .titulo {
+
+            font-size: clamp(
+                32px,
+                8vw,
+                48px
+            );
+
+            font-weight: 900;
+
+            line-height: 1;
+
+            letter-spacing: -1px;
+
+            color: #ffffff;
+
+            text-shadow:
+                2px 3px 0 #003b82;
+        }
+
+
+        .titulo span {
+
+            color: #ffd400;
+        }
+
+
+        .subtitulo {
+
+            margin-top: 12px;
+
+            font-size: 20px;
+
+            font-weight: 900;
+
+            color: #ffffff;
+
+            text-transform: uppercase;
+        }
+
+
+        .descricao {
+
+            margin-top: 4px;
+
+            font-size: 15px;
+
+            font-weight: 700;
 
             color: #ffffff;
         }
 
 
-        .logo-glasses {
-            color: #ffd400;
+        /* =========================================================
+           ÁREA DA ROLETA
+        ========================================================= */
 
-            font-size: 50px;
+        .area-roleta {
 
-            font-weight: 900;
+            position: relative;
 
-            line-height: 0.7;
+            width: min(
+                92vw,
+                430px
+            );
 
-            margin-bottom: 12px;
-        }
+            aspect-ratio: 1 / 1;
 
+            margin-top: 8px;
 
-        .brand {
-            font-size:
-                clamp(
-                    34px,
-                    9vw,
-                    50px
-                );
+            display: flex;
 
-            font-weight: 900;
+            justify-content: center;
 
-            line-height: 0.95;
-
-            text-transform: uppercase;
-
-            letter-spacing: -1px;
-        }
-
-
-        .brand span {
-            color: #ffd400;
-        }
-
-
-        .subtitle {
-            margin-top: 12px;
-
-            font-size:
-                clamp(
-                    18px,
-                    5vw,
-                    26px
-                );
-
-            font-weight: 900;
-        }
-
-
-        .description {
-            margin-top: 4px;
-
-            font-size: 16px;
-
-            font-weight: 700;
+            align-items: center;
         }
 
 
         /* =========================================================
-           ARTE PRINCIPAL
+           ROleta
         ========================================================= */
 
-        .poster {
-            position: relative;
+        .roleta {
 
-            width: calc(100% - 28px);
-
-            margin:
-                8px
-                auto
-                15px;
-
-            border:
-                4px solid #ffd400;
-
-            border-radius: 16px;
-
-            overflow: hidden;
-
-            box-shadow:
-                0 8px 25px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.45
-                );
-
-            background: #004a96;
-        }
-
-
-        /*
-         * A imagem original é utilizada aqui.
-         *
-         * Ela contém a identidade visual:
-         * logo, textos, roleta, óculos e faixa amarela.
-         */
-
-        .poster-image {
-            display: block;
+            position: absolute;
 
             width: 100%;
 
-            height: auto;
+            height: 100%;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            display: block;
 
             user-select: none;
 
             -webkit-user-drag: none;
+
+            transform: rotate(0deg);
+
+            transition:
+                transform 5s
+                cubic-bezier(
+                    0.12,
+                    0.75,
+                    0.18,
+                    1
+                );
+
+            filter:
+                drop-shadow(
+                    0 8px 12px
+                    rgba(0, 0, 0, 0.45)
+                );
         }
 
 
         /* =========================================================
-           CAMADA INTERATIVA
+           PONTEIRO
         ========================================================= */
 
-        .interaction {
+        .ponteiro {
+
             position: absolute;
 
-            inset: 0;
-
-            pointer-events: none;
-        }
-
-
-        /*
-         * Área sobre o centro da roleta.
-         *
-         * Não colocamos outro círculo aqui.
-         * Apenas transformamos o centro da arte
-         * em uma área clicável.
-         */
-
-        .wheel-click {
-            position: absolute;
-
-            width: 31%;
-
-            aspect-ratio: 1 / 1;
+            top: -4px;
 
             left: 50%;
 
-            top: 48%;
+            transform:
+                translateX(-50%);
+
+            width: 0;
+
+            height: 0;
+
+            border-left:
+                25px solid transparent;
+
+            border-right:
+                25px solid transparent;
+
+            border-top:
+                48px solid #ffd400;
+
+            filter:
+                drop-shadow(
+                    0 4px 4px
+                    rgba(0, 0, 0, 0.45)
+                );
+
+            z-index: 20;
+        }
+
+
+        .ponteiro::after {
+
+            content: "";
+
+            position: absolute;
+
+            left: -15px;
+
+            top: -44px;
+
+            width: 30px;
+
+            height: 38px;
+
+            background: #ffd400;
+
+            clip-path:
+                polygon(
+                    50% 100%,
+                    0 0,
+                    100% 0
+                );
+        }
+
+
+        /* =========================================================
+           BOTÃO CENTRAL
+        ========================================================= */
+
+        .botao-centro {
+
+            position: absolute;
+
+            left: 50%;
+
+            top: 50%;
 
             transform:
                 translate(
@@ -263,167 +319,162 @@
                     -50%
                 );
 
+            width: 104px;
+
+            height: 104px;
+
             border-radius: 50%;
 
-            cursor: pointer;
-
-            pointer-events: auto;
+            border:
+                5px solid #ffd400;
 
             background:
-                transparent;
+                radial-gradient(
+                    circle at 35% 30%,
+                    #174f9b,
+                    #002c68
+                );
 
-            border: none;
+            color: #ffffff;
 
-            outline: none;
-        }
+            font-size: 19px;
 
+            font-weight: 900;
 
-        .wheel-click:focus-visible {
-            outline:
-                3px solid #ffffff;
+            display: flex;
 
-            outline-offset: 4px;
-        }
+            flex-direction: column;
 
+            justify-content: center;
 
-        /*
-         * Área sobre o botão GIRAR A ROLETA
-         * existente na própria imagem.
-         */
+            align-items: center;
 
-        .image-spin-button {
-            position: absolute;
-
-            width: 55%;
-
-            height: 9%;
-
-            left: 50%;
-
-            top: 79%;
-
-            transform:
-                translateX(-50%);
-
-            border: none;
-
-            background: transparent;
+            text-align: center;
 
             cursor: pointer;
 
-            pointer-events: auto;
+            z-index: 30;
 
-            border-radius: 50px;
+            box-shadow:
+                0 4px 10px
+                rgba(0, 0, 0, 0.5),
+
+                inset 0 2px 4px
+                rgba(255,255,255,0.2);
+
+            transition:
+                transform 0.15s ease,
+
+                box-shadow 0.15s ease;
         }
 
 
-        .image-spin-button:focus-visible {
-            outline:
-                3px solid #ffffff;
+        .botao-centro:hover {
 
-            outline-offset: 3px;
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                )
+                scale(1.05);
+        }
+
+
+        .botao-centro:active {
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                )
+                scale(0.96);
+        }
+
+
+        .botao-centro .icone {
+
+            color: #ffd400;
+
+            font-size: 28px;
+
+            line-height: 22px;
+
+            margin-top: 3px;
+        }
+
+
+        .botao-centro.desabilitado {
+
+            cursor: default;
+
+            opacity: 0.85;
         }
 
 
         /* =========================================================
-           BOTÃO EXTRA
+           BOTÃO EXTERNO
         ========================================================= */
 
-        .spin-area {
-            text-align: center;
+        .botao-girar {
+
+            margin-top: 22px;
+
+            min-width: 240px;
 
             padding:
-                0
-                20px
-                12px;
-        }
+                14px
+                30px;
 
-
-        .spin-button {
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 8px;
-
-            min-width: 230px;
-
-            padding:
-                15px
-                28px;
-
-            border:
-                3px solid #f7c900;
+            border: none;
 
             border-radius: 50px;
 
             background:
                 linear-gradient(
                     180deg,
-                    #fff05a,
+                    #ffe33b,
                     #ffc400
                 );
 
-            color: #003b7a;
+            color: #003b82;
 
-            font-size: 19px;
+            font-size: 18px;
 
             font-weight: 900;
 
             cursor: pointer;
 
             box-shadow:
-                0 5px 0 #9c7100,
+                0 5px 0 #b78600,
+
                 0 8px 15px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.35
-                );
+                rgba(0, 0, 0, 0.25);
 
             transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+                transform 0.15s ease;
         }
 
 
-        .spin-button:hover {
+        .botao-girar:hover {
+
             transform:
                 translateY(-2px);
-
-            box-shadow:
-                0 7px 0 #9c7100,
-                0 10px 18px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.4
-                );
         }
 
 
-        .spin-button:active {
+        .botao-girar:active {
+
             transform:
                 translateY(3px);
 
             box-shadow:
-                0 2px 0 #9c7100,
-                0 4px 10px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.3
-                );
+                0 2px 0 #b78600;
         }
 
 
-        .spin-button:disabled {
-            opacity: 0.6;
+        .botao-girar:disabled {
+
+            opacity: 0.65;
 
             cursor: not-allowed;
 
@@ -435,93 +486,100 @@
            RESULTADO
         ========================================================= */
 
-        .result {
-            width:
-                calc(
-                    100% - 40px
-                );
+        .resultado {
 
-            margin:
-                8px auto
-                18px;
+            width: 100%;
+
+            margin-top: 24px;
 
             padding:
-                15px
-                18px;
-
-            background:
-                #063b79;
+                18px
+                20px;
 
             border:
-                2px solid #ffd400;
+                3px solid #ffd400;
 
-            border-radius: 12px;
+            border-radius: 16px;
+
+            background:
+                rgba(
+                    0,
+                    43,
+                    102,
+                    0.90
+                );
 
             text-align: center;
 
-            color: #ffffff;
-
             box-shadow:
-                0 6px 15px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.25
-                );
+                0 6px 18px
+                rgba(0,0,0,0.25);
+
+            min-height: 86px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            align-items: center;
         }
 
 
-        .result-title {
+        .resultado-titulo {
+
             font-size: 13px;
-
-            font-weight: 700;
-
-            text-transform: uppercase;
-
-            margin-bottom: 5px;
-        }
-
-
-        .result-value {
-            color: #ffd400;
-
-            font-size:
-                clamp(
-                    22px,
-                    6vw,
-                    32px
-                );
 
             font-weight: 900;
 
+            margin-bottom: 7px;
+
+            color: #ffffff;
+
             text-transform: uppercase;
+        }
+
+
+        .resultado-premio {
+
+            font-size: clamp(
+                21px,
+                5vw,
+                30px
+            );
+
+            font-weight: 900;
+
+            color: #ffd400;
+
+            line-height: 1.1;
         }
 
 
         /* =========================================================
-           AVISO
+           TEXTO INFORMATIVO
         ========================================================= */
 
-        .notice {
-            width:
-                calc(
-                    100% - 45px
-                );
+        .aviso {
 
-            margin:
-                0 auto
-                18px;
+            margin-top: 18px;
+
+            max-width: 430px;
 
             text-align: center;
 
-            color: #ffffff;
-
             font-size: 11px;
 
-            line-height: 1.45;
+            line-height: 1.5;
 
-            opacity: 0.95;
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.90
+                );
         }
 
 
@@ -529,273 +587,197 @@
            RODAPÉ
         ========================================================= */
 
-        .footer {
-            text-align: center;
+        .rodape {
 
-            color: #ffffff;
+            margin-top: 32px;
 
             font-size: 11px;
 
-            padding:
-                5px
-                15px
-                10px;
+            font-weight: 700;
 
-            opacity: 0.9;
+            color:
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.90
+                );
+
+            text-align: center;
         }
 
 
         /* =========================================================
-           MOBILE
+           RESPONSIVIDADE
         ========================================================= */
 
-        @media (
-            max-width: 480px
-        ) {
+        @media (max-width: 420px) {
 
-            .top-line {
-                height: 5px;
-            }
-
-
-            .header {
-                padding-top: 15px;
-            }
-
-
-            .logo-glasses {
-                font-size: 42px;
-
-                margin-bottom: 10px;
-            }
-
-
-            .brand {
-                font-size: 36px;
-            }
-
-
-            .subtitle {
-                font-size: 19px;
-
-                margin-top: 9px;
-            }
-
-
-            .description {
-                font-size: 14px;
-            }
-
-
-            .poster {
-                width:
-                    calc(
-                        100% - 18px
-                    );
-
-                margin-top: 8px;
-
-                border-width: 3px;
-
-                border-radius: 12px;
-            }
-
-
-            .spin-button {
-                min-width: 215px;
-
-                font-size: 17px;
+            .pagina {
 
                 padding:
-                    13px
-                    24px;
+                    16px
+                    12px
+                    30px;
             }
 
 
-            .result {
-                width:
-                    calc(
-                        100% - 28px
-                    );
+            .titulo {
+
+                font-size: 34px;
             }
 
 
-            .notice {
-                width:
-                    calc(
-                        100% - 30px
-                    );
+            .subtitulo {
 
-                font-size: 10px;
-            }
-
-        }
-
-
-        /* =========================================================
-           TELAS MUITO PEQUENAS
-        ========================================================= */
-
-        @media (
-            max-width: 360px
-        ) {
-
-            .brand {
-                font-size: 31px;
-            }
-
-
-            .subtitle {
                 font-size: 17px;
             }
 
 
-            .description {
+            .descricao {
+
                 font-size: 13px;
             }
 
 
-            .poster {
-                width:
-                    calc(
-                        100% - 12px
-                    );
+            .botao-centro {
+
+                width: 92px;
+
+                height: 92px;
+
+                font-size: 17px;
             }
 
 
-            .spin-button {
-                min-width: 200px;
+            .botao-centro .icone {
 
-                font-size: 16px;
+                font-size: 24px;
             }
 
+
+            .ponteiro {
+
+                border-left-width: 21px;
+
+                border-right-width: 21px;
+
+                border-top-width: 42px;
+            }
+        }
+
+
+        /* =========================================================
+           ANIMAÇÃO DE RESULTADO
+        ========================================================= */
+
+        @keyframes destaque {
+
+            0% {
+
+                transform: scale(1);
+            }
+
+            50% {
+
+                transform: scale(1.04);
+            }
+
+            100% {
+
+                transform: scale(1);
+            }
+        }
+
+
+        .resultado.destaque {
+
+            animation:
+                destaque 0.5s ease;
         }
 
     </style>
-
 </head>
 
 
 <body>
 
-
-    <main class="app">
-
-
-        <!-- =====================================================
-             LINHA SUPERIOR
-        ====================================================== -->
-
-        <div class="top-line"></div>
+    <main class="pagina">
 
 
         <!-- =====================================================
              CABEÇALHO
         ====================================================== -->
 
-        <header class="header">
+        <header class="cabecalho">
 
-            <div class="logo-glasses">
-                ∞
+            <div class="logo-oculos">
+                Logo
             </div>
 
-
-            <h1 class="brand">
-
-                FÁBRICA
-                <span>DE ÓCULOS</span>
-
+            <h1 class="titulo">
+                FÁBRICA <span>DE ÓCULOS</span>
             </h1>
 
-
-            <div class="subtitle">
-
+            <h2 class="subtitulo">
                 ROLETA PROMOCIONAL
+            </h2>
 
-            </div>
-
-
-            <div class="description">
-
+            <p class="descricao">
                 Gire a roleta e concorra a prêmios!
-
-            </div>
+            </p>
 
         </header>
 
 
         <!-- =====================================================
-             ARTE DA PROMOÇÃO
+             ROLETA
         ====================================================== -->
 
-        <section class="poster">
+        <section
+            class="area-roleta"
+            aria-label="Roleta promocional"
+        >
+
+            <!-- Ponteiro fixo -->
+            <div
+                class="ponteiro"
+                aria-hidden="true"
+            ></div>
 
 
             <!--
                 IMPORTANTE:
 
-                Coloque a imagem original no GitHub
-                com o nome:
+                Essa é a imagem da roleta.
 
-                roleta.png
+                O arquivo precisa estar na mesma pasta
+                do index.html com este nome:
+
+                roleta-bg-final.png
             -->
 
             <img
-                src="roleta.png"
+                id="roleta"
+                class="roleta"
+                src="roleta-bg-final.png"
                 alt="Roleta promocional da Fábrica de Óculos"
-                class="poster-image"
-                draggable="false"
             >
 
 
-            <!-- CAMADA DE INTERAÇÃO -->
-
-            <div class="interaction">
-
-
-                <!--
-                    Clique no centro da roleta
-                -->
-
-                <button
-                    id="wheelClick"
-                    class="wheel-click"
-                    aria-label="Girar a roleta"
-                    type="button"
-                ></button>
-
-
-                <!--
-                    Clique sobre o botão
-                    GIRAR A ROLETA da própria arte.
-                -->
-
-                <button
-                    id="imageSpinButton"
-                    class="image-spin-button"
-                    aria-label="Girar a roleta"
-                    type="button"
-                ></button>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================================
-             BOTÃO PRINCIPAL
-        ====================================================== -->
-
-        <section class="spin-area">
-
+            <!-- Botão central fixo -->
             <button
-                id="spinButton"
-                class="spin-button"
+                id="btnGirar"
+                class="botao-centro"
                 type="button"
+                aria-label="Girar roleta"
             >
 
-                ↻ GIRAR A ROLETA
+                GIRAR
+
+                <span class="icone">
+                    ↻
+                </span>
 
             </button>
 
@@ -803,29 +785,36 @@
 
 
         <!-- =====================================================
+             BOTÃO EXTERNO
+        ====================================================== -->
+
+        <button
+            id="btnGirarExterno"
+            class="botao-girar"
+            type="button"
+        >
+            ↻ GIRAR A ROLETA
+        </button>
+
+
+        <!-- =====================================================
              RESULTADO
         ====================================================== -->
 
         <section
-            id="result"
-            class="result"
-            aria-live="polite"
+            id="resultado"
+            class="resultado"
         >
 
-            <div class="result-title">
-
+            <div class="resultado-titulo">
                 Resultado
-
             </div>
 
-
             <div
-                id="resultValue"
-                class="result-value"
+                id="premio"
+                class="resultado-premio"
             >
-
                 Gire a roleta!
-
             </div>
 
         </section>
@@ -835,13 +824,12 @@
              AVISO
         ====================================================== -->
 
-        <p class="notice">
+        <p class="aviso">
 
             A roleta funciona diretamente no navegador.
-            Para uma promoção oficial com controle de
-            tentativas, estoque, auditoria ou validação
-            de prêmios, o sorteio deverá ser realizado
-            por um servidor.
+            Para uma promoção oficial com controle de tentativas,
+            estoque, auditoria ou validação de prêmios,
+            o sorteio deverá ser realizado por um servidor.
 
         </p>
 
@@ -850,12 +838,11 @@
              RODAPÉ
         ====================================================== -->
 
-        <footer class="footer">
+        <footer class="rodape">
 
             Fábrica de Óculos — Roleta Promocional
 
         </footer>
-
 
     </main>
 
@@ -864,38 +851,50 @@
 
         /* =========================================================
            PRÊMIOS
+
+           A ordem aqui precisa corresponder à ordem visual
+           da arte da roleta.
+
+           A imagem possui:
+
+           1 - 10% de desconto
+           2 - Armação cortesia comum
+           3 - 15% de desconto
+           4 - Óculos de sol
+           5 - Limpa lente Clean'Up
+           6 - Limpa lente grátis
         ========================================================= */
 
-        const prizes = [
+        const premios = [
 
             {
-                name: "10% DE DESCONTO",
-                probability: 1
+                nome: "10% DE DESCONTO",
+                emoji: "🏷️"
             },
 
             {
-                name: "ARMAÇÃO CORTESIA COMUM",
-                probability: 1
+                nome: "ARMAÇÃO CORTESIA COMUM",
+                emoji: "👓"
             },
 
             {
-                name: "15% DE DESCONTO",
-                probability: 1
+                nome: "15% DE DESCONTO",
+                emoji: "🏷️"
             },
 
             {
-                name: "ÓCULOS DE SOL",
-                probability: 1
+                nome: "ÓCULOS DE SOL",
+                emoji: "🕶️"
             },
 
             {
-                name: "LIMPA LENTE CLEAN'UP",
-                probability: 1
+                nome: "LIMPA LENTE CLEAN'UP",
+                emoji: "🧴"
             },
 
             {
-                name: "LIMPA LENTE GRÁTIS",
-                probability: 1
+                nome: "LIMPA LENTE GRÁTIS",
+                emoji: "🧴"
             }
 
         ];
@@ -905,210 +904,205 @@
            ELEMENTOS
         ========================================================= */
 
-        const spinButton =
-            document.getElementById(
-                "spinButton"
-            );
+        const roleta =
+            document.getElementById("roleta");
 
+        const btnGirar =
+            document.getElementById("btnGirar");
 
-        const wheelClick =
-            document.getElementById(
-                "wheelClick"
-            );
+        const btnGirarExterno =
+            document.getElementById("btnGirarExterno");
 
+        const resultado =
+            document.getElementById("resultado");
 
-        const imageSpinButton =
-            document.getElementById(
-                "imageSpinButton"
-            );
-
-
-        const resultValue =
-            document.getElementById(
-                "resultValue"
-            );
+        const premio =
+            document.getElementById("premio");
 
 
         /* =========================================================
-           ESTADO
+           VARIÁVEIS
         ========================================================= */
 
-        let spinning = false;
+        let girando = false;
+
+        let anguloAtual = 0;
 
 
         /* =========================================================
-           ESCOLHER PRÊMIO
+           FUNÇÃO PARA GIRAR
         ========================================================= */
 
-        function choosePrize() {
-
-            const total =
-                prizes.reduce(
-                    (
-                        sum,
-                        prize
-                    ) => {
-
-                        return (
-                            sum +
-                            prize.probability
-                        );
-
-                    },
-                    0
-                );
-
-
-            let random =
-                Math.random() *
-                total;
-
-
-            for (
-                const prize of prizes
-            ) {
-
-                random -=
-                    prize.probability;
-
-
-                if (
-                    random <= 0
-                ) {
-
-                    return prize;
-
-                }
-
-            }
-
-
-            return prizes[
-                prizes.length - 1
-            ];
-        }
-
-
-        /* =========================================================
-           EFEITO VISUAL DE GIRO
-        ========================================================= */
-
-        function playSpinEffect() {
+        function girarRoleta() {
 
             /*
-             * Como a arte completa é uma imagem,
-             * não giramos a página inteira.
-             *
-             * Aplicamos apenas um efeito visual
-             * no poster para indicar que o sorteio
-             * está acontecendo.
-             */
+                Impede dois giros simultâneos.
+            */
 
-            const poster =
-                document.querySelector(
-                    ".poster"
-                );
-
-
-            poster.animate(
-                [
-                    {
-                        transform:
-                            "scale(1)"
-                    },
-
-                    {
-                        transform:
-                            "scale(1.015)"
-                    },
-
-                    {
-                        transform:
-                            "scale(1)"
-                    }
-                ],
-                {
-                    duration: 5000,
-
-                    easing:
-                        "ease-in-out"
-                }
-            );
-
-        }
-
-
-        /* =========================================================
-           GIRAR
-        ========================================================= */
-
-        function spin() {
-
-            if (spinning) {
+            if (girando) {
 
                 return;
-
             }
 
 
-            spinning = true;
-
-
-            spinButton.disabled =
-                true;
-
-
-            wheelClick.disabled =
-                true;
-
-
-            imageSpinButton.disabled =
-                true;
-
-
-            resultValue.textContent =
-                "Girando...";
-
-
-            playSpinEffect();
+            girando = true;
 
 
             /*
-             * Escolhe o prêmio.
-             */
+                Desabilita os botões.
+            */
 
-            const prize =
-                choosePrize();
+            btnGirar.disabled = true;
+
+            btnGirar.classList.add(
+                "desabilitado"
+            );
+
+            btnGirarExterno.disabled = true;
 
 
             /*
-             * Aguarda o efeito.
-             */
+                Atualiza mensagem.
+            */
+
+            premio.textContent =
+                "GIRANDO...";
+
+
+            resultado.classList.remove(
+                "destaque"
+            );
+
+
+            /*
+                Força o navegador a reconhecer
+                a remoção da animação antes de
+                iniciar outra.
+            */
+
+            void roleta.offsetWidth;
+
+
+            /*
+                Sorteia o prêmio.
+
+                IMPORTANTE:
+
+                Como a imagem é uma arte pronta,
+                o resultado é sorteado separadamente
+                da posição física dos elementos.
+
+                Para uma promoção real, o sorteio
+                deve ser controlado por servidor.
+            */
+
+            const indice =
+                Math.floor(
+                    Math.random() *
+                    premios.length
+                );
+
+
+            const premioSorteado =
+                premios[indice];
+
+
+            /*
+                Número de voltas completas.
+
+                5 a 7 voltas.
+            */
+
+            const voltas =
+                5 +
+                Math.floor(
+                    Math.random() * 3
+                );
+
+
+            /*
+                Pequena variação aleatória
+                para não parar sempre no
+                mesmo ponto.
+            */
+
+            const variacao =
+                Math.floor(
+                    Math.random() * 360
+                );
+
+
+            /*
+                Calcula novo ângulo.
+            */
+
+            const novoAngulo =
+                anguloAtual +
+                (voltas * 360) +
+                variacao;
+
+
+            anguloAtual =
+                novoAngulo;
+
+
+            /*
+                Aplica rotação.
+
+                IMPORTANTE:
+
+                A imagem inteira gira.
+            */
+
+            roleta.style.transform =
+                `rotate(${novoAngulo}deg)`;
+
+
+            /*
+                Aguarda o término da animação.
+
+                O CSS está configurado para
+                5 segundos.
+            */
 
             setTimeout(
-                () => {
+                function () {
 
-                    resultValue.textContent =
-                        prize.name;
+                    /*
+                        Mostra o resultado.
+                    */
 
-
-                    spinning =
-                        false;
-
-
-                    spinButton.disabled =
-                        false;
+                    premio.textContent =
+                        `${premioSorteado.emoji} ${premioSorteado.nome}`;
 
 
-                    wheelClick.disabled =
-                        false;
+                    /*
+                        Anima a caixa de resultado.
+                    */
+
+                    resultado.classList.add(
+                        "destaque"
+                    );
 
 
-                    imageSpinButton.disabled =
+                    /*
+                        Libera os botões.
+                    */
+
+                    girando = false;
+
+                    btnGirar.disabled = false;
+
+                    btnGirar.classList.remove(
+                        "desabilitado"
+                    );
+
+                    btnGirarExterno.disabled =
                         false;
 
                 },
-                5000
+
+                5100
             );
 
         }
@@ -1118,26 +1112,19 @@
            EVENTOS
         ========================================================= */
 
-        spinButton.addEventListener(
+        btnGirar.addEventListener(
             "click",
-            spin
+            girarRoleta
         );
 
 
-        wheelClick.addEventListener(
+        btnGirarExterno.addEventListener(
             "click",
-            spin
-        );
-
-
-        imageSpinButton.addEventListener(
-            "click",
-            spin
+            girarRoleta
         );
 
 
     </script>
-
 
 </body>
 
