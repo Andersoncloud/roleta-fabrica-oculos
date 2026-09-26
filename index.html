@@ -1,713 +1,1398 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#080808">
-<meta name="description" content="Roleta promocional da Fábrica de Óculos">
-<title>Roleta Promocional — Fábrica de Óculos</title>
+    <meta charset="UTF-8">
 
-<!-- QR Code usado apenas para gerar o QR da página atual -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-<style>
-:root{
-    --gold:#f7c600;
-    --gold2:#ffd83d;
-    --black:#070707;
-    --black2:#111;
-    --red:#e53935;
-    --blue:#1688e8;
-    --purple:#8e44ad;
-    --green:#24a148;
-    --yellow:#e4b900;
-}
+    <meta
+        name="description"
+        content="Roleta Promocional da Fábrica de Óculos"
+    >
 
-*{box-sizing:border-box;margin:0;padding:0}
+    <meta name="theme-color" content="#080808">
 
-html,body{
-    min-height:100%;
-    background:#050505;
-}
+    <title>Roleta Promocional — Fábrica de Óculos</title>
 
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    overflow-x:hidden;
-    background:
-        radial-gradient(circle at 50% 12%,rgba(247,198,0,.10),transparent 28%),
-        linear-gradient(180deg,#111 0%,#080808 52%,#000 100%);
-}
+    <!--
+        QRCode.js
+        Biblioteca utilizada para gerar o QR Code no navegador.
+    -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+    ></script>
 
-.app{
-    width:min(100%,680px);
-    padding:22px 14px 30px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
+    <style>
 
-/* CABEÇALHO */
-.header{
-    width:100%;
-    text-align:center;
-}
+        /* =========================================================
+           RESET
+        ========================================================= */
 
-.brand{
-    color:var(--gold);
-    font-size:clamp(1.8rem,7vw,2.7rem);
-    font-weight:1000;
-    letter-spacing:.3px;
-    text-transform:uppercase;
-    text-shadow:
-        0 3px 0 #604500,
-        0 0 18px rgba(247,198,0,.28);
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.title{
-    margin-top:4px;
-    font-size:clamp(1.15rem,4.5vw,1.6rem);
-    font-weight:1000;
-    text-transform:uppercase;
-}
+        html {
+            min-height: 100%;
+            background: #080808;
+        }
 
-.subtitle{
-    margin-top:5px;
-    color:#eee;
-    font-size:.9rem;
-    font-weight:700;
-}
+        body {
+            min-height: 100vh;
 
-/* ROLETA */
-.wheel-area{
-    position:relative;
-    width:min(92vw,500px);
-    aspect-ratio:1;
-    margin:26px auto 18px;
-}
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
 
-.wheel-shadow{
-    position:absolute;
-    inset:6%;
-    border-radius:50%;
-    background:#000;
-    filter:blur(18px);
-    opacity:.8;
-    transform:translateY(12px);
-}
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    #25200b 0%,
+                    #11110e 28%,
+                    #080808 65%
+                );
 
-.wheel-border{
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    padding:8px;
-    background:linear-gradient(
-        135deg,
-        #8b6200 0%,
-        #ffe675 18%,
-        #c18a00 38%,
-        #fff1a0 50%,
-        #b57d00 68%,
-        #ffd83d 84%,
-        #8b6200 100%
-    );
-    box-shadow:
-        0 0 0 2px #3f2b00,
-        0 0 30px rgba(247,198,0,.38),
-        inset 0 0 14px rgba(255,255,255,.55);
-    z-index:2;
-}
+            color: #ffffff;
 
-.wheel{
-    position:relative;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    overflow:hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
 
-    /* 6 FATIAS IGUAIS — NÃO DEPENDE DE CLIP-PATH */
-    background:conic-gradient(
-        from -90deg,
-        var(--red) 0deg 60deg,
-        var(--blue) 60deg 120deg,
-        var(--yellow) 120deg 180deg,
-        var(--purple) 180deg 240deg,
-        var(--green) 240deg 300deg,
-        #167fd8 300deg 360deg
-    );
+            padding: 24px 16px 40px;
 
-    box-shadow:
-        inset 0 0 0 2px rgba(255,255,255,.8),
-        inset 0 0 30px rgba(0,0,0,.55);
+            overflow-x: hidden;
+        }
 
-    transition:transform 5s cubic-bezier(.12,.72,.08,1);
-    will-change:transform;
-}
 
-.wheel::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:50%;
-    background:
-        radial-gradient(circle at 30% 22%,rgba(255,255,255,.22),transparent 25%),
-        linear-gradient(135deg,rgba(255,255,255,.10),transparent 32%);
-    pointer-events:none;
-    z-index:4;
-}
+        /* =========================================================
+           CABEÇALHO
+        ========================================================= */
 
-.separator{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:2px;
-    height:50%;
-    background:rgba(255,255,255,.82);
-    transform-origin:50% 100%;
-    z-index:3;
-    box-shadow:0 0 2px rgba(0,0,0,.7);
-}
+        .cabecalho {
+            width: 100%;
+            max-width: 850px;
 
-/* textos dos prêmios */
-.prize{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:30%;
-    min-height:60px;
-    transform:translate(-50%,-50%);
-    text-align:center;
-    z-index:5;
-    color:#fff;
-    font-size:clamp(.62rem,2.5vw,.9rem);
-    line-height:1.08;
-    font-weight:1000;
-    text-shadow:
-        1px 2px 3px rgba(0,0,0,.9),
-        0 0 2px #000;
-    user-select:none;
-}
+            text-align: center;
 
-.prize-icon{
-    display:block;
-    font-size:clamp(1.35rem,5vw,2rem);
-    margin-bottom:5px;
-}
+            margin-bottom: 12px;
+        }
 
-.prize strong{
-    display:block;
-}
+        .logo {
+            color: #ffd100;
 
-/* ponteiro */
-.pointer{
-    position:absolute;
-    top:-4px;
-    left:50%;
-    transform:translateX(-50%);
-    width:0;
-    height:0;
-    border-left:23px solid transparent;
-    border-right:23px solid transparent;
-    border-top:49px solid var(--gold);
-    filter:drop-shadow(0 4px 5px rgba(0,0,0,.7));
-    z-index:20;
-}
+            font-size: clamp(2rem, 5vw, 3.3rem);
 
-.pointer::after{
-    content:"";
-    position:absolute;
-    left:-11px;
-    top:-43px;
-    width:22px;
-    height:34px;
-    background:#fff;
-    clip-path:polygon(50% 0,100% 30%,78% 100%,22% 100%,0 30%);
-    opacity:.8;
-}
+            font-weight: 900;
 
-/* botão central */
-.center{
-    position:absolute;
-    top:50%;
-    left:50%;
-    width:clamp(82px,22vw,108px);
-    aspect-ratio:1;
-    transform:translate(-50%,-50%);
-    border:4px solid var(--gold);
-    border-radius:50%;
-    background:radial-gradient(circle at 35% 28%,#333,#111 55%,#000);
-    color:var(--gold);
-    font-size:clamp(.82rem,3vw,1rem);
-    font-weight:1000;
-    line-height:1;
-    cursor:pointer;
-    z-index:10;
-    box-shadow:
-        0 4px 0 #674900,
-        0 8px 18px rgba(0,0,0,.65),
-        inset 0 0 15px rgba(255,255,255,.08);
-}
+            letter-spacing: 1px;
 
-.center:active{
-    transform:translate(-50%,-50%) scale(.96);
-}
+            text-shadow:
+                0 0 8px rgba(255, 209, 0, 0.25),
+                3px 3px 0 #000;
+        }
 
-.center:disabled{
-    cursor:not-allowed;
-    opacity:.75;
-}
+        .titulo {
+            margin-top: 4px;
 
-.spin{
-    display:block;
-    margin-top:6px;
-    font-size:1.2rem;
-}
+            color: #ffffff;
 
-/* RESULTADO */
-.result{
-    width:min(100%,500px);
-    min-height:78px;
-    padding:15px 20px;
-    border:1px solid var(--gold);
-    border-radius:18px;
-    background:
-        linear-gradient(135deg,rgba(247,198,0,.16),rgba(247,198,0,.05)),
-        #17140a;
-    box-shadow:0 8px 22px rgba(0,0,0,.45);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font-size:clamp(.9rem,3.7vw,1.12rem);
-    font-weight:1000;
-    line-height:1.2;
-}
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
 
-.result.win{
-    color:#ffd83d;
-    animation:pulse .65s ease-in-out 2;
-}
+            font-weight: 900;
 
-@keyframes pulse{
-    50%{
-        transform:scale(1.025);
-        box-shadow:0 0 28px rgba(247,198,0,.35);
-    }
-}
+            text-transform: uppercase;
+        }
 
-.again{
-    margin-top:14px;
-    border:0;
-    border-radius:999px;
-    padding:13px 28px;
-    background:linear-gradient(180deg,#ffdc4a,#e5ad00);
-    color:#151000;
-    font-weight:1000;
-    cursor:pointer;
-    box-shadow:0 4px 0 #8b6300,0 8px 15px rgba(0,0,0,.4);
-}
+        .subtitulo {
+            margin-top: 5px;
 
-.again:active{
-    transform:translateY(2px);
-}
+            color: #ffffff;
 
-.info{
-    max-width:510px;
-    margin-top:18px;
-    color:#cfcfcf;
-    text-align:center;
-    font-size:.75rem;
-    line-height:1.4;
-}
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
 
-/* QR */
-.qr-box{
-    margin-top:22px;
-    width:min(100%,310px);
-    min-height:255px;
-    padding:16px;
-    border-radius:16px;
-    background:#fff;
-    color:#111;
-    text-align:center;
-    box-shadow:0 10px 24px rgba(0,0,0,.45);
-}
+            font-weight: 700;
+        }
 
-.qr-title{
-    font-size:.9rem;
-    font-weight:1000;
-    margin-bottom:10px;
-}
 
-#qrcode{
-    width:190px;
-    height:190px;
-    max-width:100%;
-}
+        /* =========================================================
+           ÁREA DA ROLETA
+        ========================================================= */
 
-.qr-url{
-    margin-top:7px;
-    color:#666;
-    font-size:.62rem;
-    word-break:break-all;
-}
+        .roleta-area {
+            width: min(92vw, 560px);
 
-.footer{
-    margin-top:20px;
-    color:#aaa;
-    font-size:.7rem;
-}
+            margin: 22px auto 0;
 
-/* confete */
-.confetti{
-    position:fixed;
-    top:-20px;
-    width:8px;
-    height:14px;
-    z-index:100;
-    pointer-events:none;
-    animation:fall linear forwards;
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-@keyframes fall{
-    to{
-        transform:translate3d(var(--x),110vh,0) rotate(720deg);
-        opacity:0;
-    }
-}
+        .roleta-container {
+            position: relative;
 
-@media(max-width:390px){
-    .app{padding-left:9px;padding-right:9px}
-    .wheel-area{width:94vw}
-    .prize{font-size:.57rem;width:31%}
-    .prize-icon{font-size:1.25rem}
-}
+            width: 100%;
+            aspect-ratio: 1 / 1;
 
-@media(prefers-reduced-motion:reduce){
-    .wheel{transition-duration:.01ms}
-    .confetti{display:none}
-}
-</style>
+            max-width: 560px;
+        }
+
+
+        /* =========================================================
+           BORDA EXTERNA
+        ========================================================= */
+
+        .roleta-moldura {
+            position: absolute;
+
+            inset: 0;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff1a3 0%,
+                    #ffd100 18%,
+                    #a66f00 48%,
+                    #ffd100 75%,
+                    #fff4b0 100%
+                );
+
+            padding: 9px;
+
+            box-shadow:
+                0 0 0 2px #7c5700,
+                0 0 20px rgba(255, 209, 0, 0.65),
+                0 12px 35px rgba(0, 0, 0, 0.75);
+        }
+
+
+        /* =========================================================
+           SVG DA ROLETA
+        ========================================================= */
+
+        .roleta {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            border-radius: 50%;
+
+            overflow: visible;
+
+            transform-origin: 50% 50%;
+
+            transition:
+                transform 5s cubic-bezier(0.12, 0.72, 0.08, 1);
+        }
+
+        .fatia {
+            stroke: #ffffff;
+            stroke-width: 1.5;
+            stroke-opacity: 0.8;
+        }
+
+        .texto-fatia {
+            fill: #ffffff;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            font-size: 16px;
+
+            font-weight: 900;
+
+            text-anchor: middle;
+
+            dominant-baseline: middle;
+
+            paint-order: stroke;
+
+            stroke: rgba(0, 0, 0, 0.7);
+
+            stroke-width: 4px;
+
+            stroke-linejoin: round;
+        }
+
+        .icone-fatia {
+            font-size: 28px;
+
+            text-anchor: middle;
+
+            dominant-baseline: middle;
+        }
+
+
+        /* =========================================================
+           PONTEIRO
+        ========================================================= */
+
+        .ponteiro {
+            position: absolute;
+
+            top: -4px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: 0;
+            height: 0;
+
+            border-left: 23px solid transparent;
+            border-right: 23px solid transparent;
+
+            border-top: 48px solid #ffd100;
+
+            filter:
+                drop-shadow(0 4px 5px rgba(0, 0, 0, 0.7));
+
+            z-index: 20;
+        }
+
+        .ponteiro::after {
+            content: "";
+
+            position: absolute;
+
+            left: -12px;
+            top: -43px;
+
+            width: 0;
+            height: 0;
+
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+
+            border-top: 28px solid #ffffff;
+        }
+
+
+        /* =========================================================
+           BOTÃO CENTRAL
+        ========================================================= */
+
+        .centro {
+            position: absolute;
+
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            width: clamp(92px, 19vw, 120px);
+            height: clamp(92px, 19vw, 120px);
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #252525 0%,
+                    #090909 65%,
+                    #000000 100%
+                );
+
+            border: 5px solid #ffd100;
+
+            box-shadow:
+                0 0 0 3px #8c6500,
+                0 7px 15px rgba(0, 0, 0, 0.75),
+                inset 0 0 15px rgba(255, 209, 0, 0.15);
+
+            color: #ffd100;
+
+            font-size: clamp(1rem, 3vw, 1.25rem);
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            z-index: 30;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .centro:hover {
+            transform:
+                translate(-50%, -50%)
+                scale(1.05);
+
+            box-shadow:
+                0 0 0 3px #8c6500,
+                0 0 25px rgba(255, 209, 0, 0.5),
+                inset 0 0 15px rgba(255, 209, 0, 0.2);
+        }
+
+        .centro:active {
+            transform:
+                translate(-50%, -50%)
+                scale(0.96);
+        }
+
+        .icone-girar {
+            font-size: 1.4rem;
+
+            line-height: 1;
+
+            margin-top: 3px;
+        }
+
+        .centro.desabilitado {
+            cursor: not-allowed;
+
+            opacity: 0.8;
+        }
+
+
+        /* =========================================================
+           RESULTADO
+        ========================================================= */
+
+        .resultado {
+            width: min(92vw, 560px);
+
+            min-height: 82px;
+
+            margin-top: 24px;
+
+            padding: 18px 22px;
+
+            border:
+                1px solid #ffd100;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 209, 0, 0.16),
+                    rgba(255, 209, 0, 0.07)
+                );
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.4);
+
+            color: #ffffff;
+
+            font-size: clamp(1rem, 3vw, 1.3rem);
+
+            font-weight: 900;
+
+            text-align: center;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            line-height: 1.3;
+        }
+
+        .resultado.sucesso {
+            color: #ffd100;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 209, 0, 0.25),
+                    rgba(255, 209, 0, 0.08)
+                );
+
+            box-shadow:
+                0 0 25px rgba(255, 209, 0, 0.18);
+        }
+
+
+        /* =========================================================
+           BOTÃO NOVAMENTE
+        ========================================================= */
+
+        .botao-girar-novamente {
+            margin-top: 18px;
+
+            padding: 14px 30px;
+
+            border: none;
+
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffe15c 0%,
+                    #ffd100 45%,
+                    #d9a900 100%
+                );
+
+            color: #111111;
+
+            font-size: 1rem;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 0 #916e00,
+                0 8px 18px rgba(0, 0, 0, 0.35);
+
+            display: none;
+        }
+
+        .botao-girar-novamente:hover {
+            filter: brightness(1.05);
+        }
+
+        .botao-girar-novamente:active {
+            transform: translateY(3px);
+
+            box-shadow:
+                0 1px 0 #916e00,
+                0 5px 12px rgba(0, 0, 0, 0.35);
+        }
+
+
+        /* =========================================================
+           AVISO
+        ========================================================= */
+
+        .aviso {
+            width: min(92vw, 600px);
+
+            margin-top: 18px;
+
+            color: #bdbdbd;
+
+            font-size: 0.82rem;
+
+            line-height: 1.45;
+
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           QR CODE
+        ========================================================= */
+
+        .qrcode-container {
+            width: min(92vw, 360px);
+
+            margin-top: 25px;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background: #ffffff;
+
+            color: #111111;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.45);
+
+            text-align: center;
+        }
+
+        .qrcode-titulo {
+            margin-bottom: 14px;
+
+            font-size: 1rem;
+
+            font-weight: 900;
+
+            color: #111111;
+        }
+
+        #qrcode {
+            min-height: 220px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+        }
+
+        #qrcode img {
+            display: block;
+
+            width: 210px !important;
+            height: 210px !important;
+
+            margin: 0 auto;
+        }
+
+        .qr-url {
+            margin-top: 12px;
+
+            font-size: 0.7rem;
+
+            color: #555555;
+
+            word-break: break-all;
+        }
+
+        .qr-erro {
+            padding: 20px;
+
+            color: #b00020;
+
+            font-size: 0.8rem;
+        }
+
+
+        /* =========================================================
+           RODAPÉ
+        ========================================================= */
+
+        .rodape {
+            margin-top: 24px;
+
+            color: #777777;
+
+            font-size: 0.75rem;
+
+            text-align: center;
+        }
+
+
+        /* =========================================================
+           CELULAR
+        ========================================================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding:
+                    18px
+                    10px
+                    30px;
+            }
+
+            .cabecalho {
+                margin-bottom: 4px;
+            }
+
+            .roleta-area {
+                width: 96vw;
+
+                margin-top: 16px;
+            }
+
+            .roleta-moldura {
+                padding: 6px;
+            }
+
+            .texto-fatia {
+                font-size: 14px;
+
+                stroke-width: 3px;
+            }
+
+            .icone-fatia {
+                font-size: 25px;
+            }
+
+            .ponteiro {
+                border-left-width: 18px;
+                border-right-width: 18px;
+                border-top-width: 40px;
+            }
+
+            .ponteiro::after {
+                left: -10px;
+                top: -36px;
+
+                border-left-width: 10px;
+                border-right-width: 10px;
+                border-top-width: 23px;
+            }
+
+            .resultado {
+                min-height: 76px;
+
+                margin-top: 18px;
+
+                padding: 15px;
+            }
+
+            .qrcode-container {
+                padding: 16px;
+            }
+        }
+
+    </style>
 </head>
 
+
 <body>
-<main class="app">
 
-<header class="header">
-    <div class="brand">FÁBRICA DE ÓCULOS</div>
-    <div class="title">ROLETA PROMOCIONAL</div>
-    <div class="subtitle">Gire e concorra a prêmios incríveis!</div>
-</header>
+    <!-- =========================================================
+         CABEÇALHO
+    ========================================================== -->
 
-<section class="wheel-area" aria-label="Roleta de prêmios">
-    <div class="wheel-shadow"></div>
+    <header class="cabecalho">
 
-    <div class="wheel-border">
-        <div class="wheel" id="roleta"></div>
-    </div>
+        <div class="logo">
+            FÁBRICA DE ÓCULOS
+        </div>
 
-    <div class="pointer" aria-hidden="true"></div>
+        <div class="titulo">
+            ROLETA PROMOCIONAL
+        </div>
 
-    <button class="center" id="btnGirar" type="button">
-        GIRAR
-        <span class="spin">↻</span>
-    </button>
-</section>
+        <div class="subtitulo">
+            Gire e concorra a prêmios incríveis!
+        </div>
 
-<div class="result" id="resultado">
-    Clique no centro para girar a roleta!
-</div>
+    </header>
 
-<button class="again" id="btnGirarNovamente" type="button" hidden>
-    GIRAR NOVAMENTE ↻
-</button>
 
-<p class="info">
-    A roleta funciona diretamente no navegador. Para uma promoção oficial
-    com controle de prêmios, o sorteio deverá ser validado por um servidor.
-</p>
+    <!-- =========================================================
+         ROLETA
+    ========================================================== -->
 
-<section class="qr-box">
-    <div class="qr-title">📱 Escaneie e abra a roleta</div>
-    <canvas id="qrcode" width="190" height="190"></canvas>
-    <div class="qr-url" id="qrUrl"></div>
-</section>
+    <main>
 
-<footer class="footer">
-    Fábrica de Óculos — Roleta Promocional
-</footer>
+        <section class="roleta-area">
 
-</main>
+            <div class="roleta-container">
 
-<script>
-/*
-============================================================
-PRÊMIOS
-============================================================
-Todos com probability 1 = mesmo peso no sorteio.
-*/
-const premios = [
-    { nome:"ÓCULOS DE SOL", cor:"#e53935", icone:"🕶️", probability:1 },
-    { nome:"15% DE DESCONTO", cor:"#1688e8", icone:"🏷️", probability:1 },
-    { nome:"ARMAÇÃO DE CORTESIA", cor:"#e4b900", icone:"👓", probability:1 },
-    { nome:"10% DE DESCONTO", cor:"#8e44ad", icone:"🏷️", probability:1 },
-    { nome:"LIMPA LENTE GRÁTIS", cor:"#24a148", icone:"🧴", probability:1 },
-    { nome:"LIMPA LENTE CLEAN'UP", cor:"#167fd8", icone:"🧴", probability:1 }
-];
+                <div class="ponteiro"></div>
 
-const roleta=document.getElementById("roleta");
-const btnGirar=document.getElementById("btnGirar");
-const btnNovamente=document.getElementById("btnGirarNovamente");
-const resultado=document.getElementById("resultado");
-const qrUrl=document.getElementById("qrUrl");
+                <div class="roleta-moldura">
 
-const qtd=premios.length;
-const fatia=360/qtd;
-let girando=false;
-let anguloAtual=0;
+                    <svg
+                        id="roleta"
+                        class="roleta"
+                        viewBox="0 0 500 500"
+                        aria-label="Roleta promocional"
+                    >
+                    </svg>
 
-/*
-Cria as linhas divisórias e os textos.
-O fundo da roleta usa conic-gradient, evitando o problema
-visual da versão anterior.
-*/
-for(let i=0;i<qtd;i++){
+                </div>
 
-    const linha=document.createElement("div");
-    linha.className="separator";
-    linha.style.transform=`rotate(${i*fatia}deg)`;
-    roleta.appendChild(linha);
 
-    const premio=premios[i];
+                <button
+                    id="btnGirar"
+                    class="centro"
+                    type="button"
+                    aria-label="Girar a roleta"
+                >
 
-    const label=document.createElement("div");
-    label.className="prize";
+                    <span>GIRAR</span>
 
-    /*
-    -90° = topo.
-    Coloca cada texto no centro geométrico da sua fatia.
-    */
-    const angulo=(-90)+(i*fatia)+(fatia/2);
-    const rad=angulo*Math.PI/180;
+                    <span class="icone-girar">
+                        ↻
+                    </span>
 
-    const distancia=31;
-    const x=50+Math.cos(rad)*distancia;
-    const y=50+Math.sin(rad)*distancia;
+                </button>
 
-    label.style.left=`${x}%`;
-    label.style.top=`${y}%`;
+            </div>
 
-    label.innerHTML=`
-        <span class="prize-icon">${premio.icone}</span>
-        <strong>${premio.nome}</strong>
-    `;
+        </section>
 
-    roleta.appendChild(label);
-}
 
-/* sorteio por peso */
-function sortearPremio(){
+        <!-- =====================================================
+             RESULTADO
+        ====================================================== -->
 
-    const total=premios.reduce(
-        (soma,premio)=>soma+premio.probability,0
-    );
+        <div
+            id="resultado"
+            class="resultado"
+        >
+            Clique no centro para girar a roleta!
+        </div>
 
-    let valor=Math.random()*total;
 
-    for(let i=0;i<premios.length;i++){
-        valor-=premios[i].probability;
-        if(valor<=0)return i;
-    }
+        <button
+            id="btnGirarNovamente"
+            class="botao-girar-novamente"
+            type="button"
+        >
+            GIRAR NOVAMENTE ↻
+        </button>
 
-    return premios.length-1;
-}
 
-/* confete */
-function confete(){
+        <!-- =====================================================
+             AVISO
+        ====================================================== -->
 
-    const cores=[
-        "#f7c600","#fff","#e53935",
-        "#1688e8","#24a148","#8e44ad"
-    ];
+        <p class="aviso">
+            A roleta funciona diretamente no navegador.
+            Para uma promoção oficial com controle de tentativas,
+            estoque, auditoria ou validação de prêmios,
+            o sorteio deverá ser realizado por um servidor.
+        </p>
 
-    for(let i=0;i<90;i++){
 
-        const el=document.createElement("span");
-        el.className="confetti";
+        <!-- =====================================================
+             QR CODE
+        ====================================================== -->
 
-        el.style.left=`${Math.random()*100}vw`;
-        el.style.background=cores[
-            Math.floor(Math.random()*cores.length)
+        <section class="qrcode-container">
+
+            <div class="qrcode-titulo">
+                📱 Escaneie e abra a roleta
+            </div>
+
+            <div id="qrcode"></div>
+
+            <div
+                id="qrUrl"
+                class="qr-url"
+            ></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         RODAPÉ
+    ========================================================== -->
+
+    <footer class="rodape">
+        Fábrica de Óculos — Roleta Promocional
+    </footer>
+
+
+    <script>
+
+        /* =========================================================
+           CONFIGURAÇÃO DOS PRÊMIOS
+        ========================================================== */
+
+        const premios = [
+
+            {
+                nome: "ÓCULOS DE SOL",
+                linhas: ["ÓCULOS", "DE SOL"],
+                cor: "#e5b900",
+                emoji: "🕶️"
+            },
+
+            {
+                nome: "15% DE DESCONTO",
+                linhas: ["15% DE", "DESCONTO"],
+                cor: "#8e44ad",
+                emoji: "🏷️"
+            },
+
+            {
+                nome: "ARMAÇÃO DE CORTESIA",
+                linhas: ["ARMAÇÃO DE", "CORTESIA"],
+                cor: "#2eaf55",
+                emoji: "👓"
+            },
+
+            {
+                nome: "10% DE DESCONTO",
+                linhas: ["10% DE", "DESCONTO"],
+                cor: "#2389d7",
+                emoji: "🏷️"
+            },
+
+            {
+                nome: "LIMPA LENTE GRÁTIS",
+                linhas: ["LIMPA LENTE", "GRÁTIS"],
+                cor: "#168bd4",
+                emoji: "🧴"
+            },
+
+            {
+                nome: "LIMPA LENTE CLEAN'UP",
+                linhas: ["LIMPA LENTE", "CLEAN'UP"],
+                cor: "#e74c3c",
+                emoji: "🧴"
+            }
+
         ];
 
-        el.style.setProperty(
-            "--x",
-            `${(Math.random()-.5)*220}px`
-        );
 
-        el.style.animationDuration=
-            `${2+Math.random()*2.5}s`;
+        /* =========================================================
+           ELEMENTOS
+        ========================================================== */
 
-        document.body.appendChild(el);
+        const roleta =
+            document.getElementById("roleta");
 
-        setTimeout(()=>el.remove(),5000);
-    }
-}
+        const btnGirar =
+            document.getElementById("btnGirar");
 
-/* som */
-let audioContext=null;
+        const btnGirarNovamente =
+            document.getElementById("btnGirarNovamente");
 
-function som(){
+        const resultado =
+            document.getElementById("resultado");
 
-    try{
 
-        audioContext=
-            audioContext ||
-            new(window.AudioContext||window.webkitAudioContext)();
+        /* =========================================================
+           CONFIGURAÇÕES DA ROLETA
+        ========================================================== */
 
-        const osc=audioContext.createOscillator();
-        const gain=audioContext.createGain();
+        const quantidade =
+            premios.length;
 
-        osc.type="square";
-        osc.frequency.value=150;
+        const grausPorFatia =
+            360 / quantidade;
 
-        gain.gain.setValueAtTime(
-            .0001,
-            audioContext.currentTime
-        );
+        let girando = false;
 
-        gain.gain.exponentialRampToValueAtTime(
-            .045,
-            audioContext.currentTime+.015
-        );
+        let rotacaoAtual = 0;
 
-        gain.gain.exponentialRampToValueAtTime(
-            .0001,
-            audioContext.currentTime+.08
-        );
 
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
+        /* =========================================================
+           CRIA ROLETA SVG
+        ========================================================== */
 
-        osc.start();
-        osc.stop(audioContext.currentTime+.09);
+        function criarRoleta() {
 
-    }catch(e){}
-}
+            const cx = 250;
+            const cy = 250;
+            const raio = 240;
 
-/* giro */
-function girar(){
+            roleta.innerHTML = "";
 
-    if(girando)return;
+            premios.forEach((premio, indice) => {
 
-    girando=true;
+                /*
+                    O primeiro prêmio começa centralizado
+                    no topo da roleta.
 
-    btnGirar.disabled=true;
-    btnNovamente.hidden=true;
+                    -90 graus = 12 horas.
+                */
 
-    resultado.classList.remove("win");
-    resultado.textContent="Girando...";
+                const centroGraus =
+                    -90 + (indice * grausPorFatia);
 
-    const indice=sortearPremio();
+                const inicioGraus =
+                    centroGraus - (grausPorFatia / 2);
 
-    /*
-    O ponteiro fica no topo (-90°).
-    O centro da fatia sorteada precisa parar nesse ponto.
-    */
-    const centroFatia=
-        indice*fatia+(fatia/2);
+                const fimGraus =
+                    centroGraus + (grausPorFatia / 2);
 
-    const destino=360-centroFatia;
 
-    const voltas=
-        (5+Math.floor(Math.random()*3))*360;
+                const inicio =
+                    polarParaCartesiano(
+                        cx,
+                        cy,
+                        raio,
+                        inicioGraus
+                    );
 
-    const resto=
-        ((anguloAtual%360)+360)%360;
+                const fim =
+                    polarParaCartesiano(
+                        cx,
+                        cy,
+                        raio,
+                        fimGraus
+                    );
 
-    const ajuste=
-        ((destino-resto)+360)%360;
 
-    const final=
-        anguloAtual+voltas+ajuste;
+                const grandeArco =
+                    grausPorFatia > 180 ? 1 : 0;
 
-    roleta.style.transform=`rotate(${final}deg)`;
-    anguloAtual=final;
 
-    let contador=0;
+                const pathData = [
+                    `M ${cx} ${cy}`,
+                    `L ${inicio.x} ${inicio.y}`,
+                    `A ${raio} ${raio} 0 ${grandeArco} 1 ${fim.x} ${fim.y}`,
+                    "Z"
+                ].join(" ");
 
-    const intervalo=setInterval(()=>{
 
-        som();
-        contador++;
+                const path =
+                    document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "path"
+                    );
 
-        if(contador>=18){
-            clearInterval(intervalo);
+                path.setAttribute(
+                    "d",
+                    pathData
+                );
+
+                path.setAttribute(
+                    "fill",
+                    premio.cor
+                );
+
+                path.setAttribute(
+                    "class",
+                    "fatia"
+                );
+
+                roleta.appendChild(path);
+
+
+                /*
+                    Texto no centro de cada fatia.
+                */
+
+                const distanciaTexto = 155;
+
+                const textoPos =
+                    polarParaCartesiano(
+                        cx,
+                        cy,
+                        distanciaTexto,
+                        centroGraus
+                    );
+
+
+                /*
+                    Grupo para emoji + texto.
+                */
+
+                const grupo =
+                    document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "g"
+                    );
+
+
+                /*
+                    Emoji
+                */
+
+                const emoji =
+                    document.createElementNS(
+                        "http://www.w3.org/2000/svg",
+                        "text"
+                    );
+
+                emoji.setAttribute(
+                    "x",
+                    textoPos.x
+                );
+
+                emoji.setAttribute(
+                    "y",
+                    textoPos.y - 23
+                );
+
+                emoji.setAttribute(
+                    "class",
+                    "icone-fatia"
+                );
+
+                emoji.textContent =
+                    premio.emoji;
+
+                grupo.appendChild(emoji);
+
+
+                /*
+                    Primeira linha
+                */
+
+                premio.linhas.forEach(
+                    (linha, linhaIndex) => {
+
+                        const texto =
+                            document.createElementNS(
+                                "http://www.w3.org/2000/svg",
+                                "text"
+                            );
+
+                        texto.setAttribute(
+                            "x",
+                            textoPos.x
+                        );
+
+                        texto.setAttribute(
+                            "y",
+                            textoPos.y +
+                            (linhaIndex * 19)
+                        );
+
+                        texto.setAttribute(
+                            "class",
+                            "texto-fatia"
+                        );
+
+                        texto.textContent =
+                            linha;
+
+                        grupo.appendChild(texto);
+
+                    }
+                );
+
+
+                roleta.appendChild(grupo);
+
+            });
+
+
+            /*
+                Círculo externo da roleta.
+            */
+
+            const circulo =
+                document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "circle"
+                );
+
+            circulo.setAttribute(
+                "cx",
+                cx
+            );
+
+            circulo.setAttribute(
+                "cy",
+                cy
+            );
+
+            circulo.setAttribute(
+                "r",
+                raio
+            );
+
+            circulo.setAttribute(
+                "fill",
+                "none"
+            );
+
+            circulo.setAttribute(
+                "stroke",
+                "#ffd100"
+            );
+
+            circulo.setAttribute(
+                "stroke-width",
+                "4"
+            );
+
+            roleta.appendChild(circulo);
+
         }
 
-    },270);
 
-    setTimeout(()=>{
+        /* =========================================================
+           CONVERTE GRAUS PARA X/Y
+        ========================================================== */
 
-        clearInterval(intervalo);
+        function polarParaCartesiano(
+            cx,
+            cy,
+            raio,
+            graus
+        ) {
 
-        const premio=premios[indice];
+            const radianos =
+                graus * Math.PI / 180;
 
-        resultado.innerHTML=
-            `🎉 VOCÊ GANHOU: ${premio.icone} <strong>${premio.nome}</strong> 🎉`;
+            return {
 
-        resultado.classList.add("win");
+                x:
+                    cx +
+                    raio *
+                    Math.cos(radianos),
 
-        confete();
+                y:
+                    cy +
+                    raio *
+                    Math.sin(radianos)
 
-        btnGirar.disabled=false;
-        btnNovamente.hidden=false;
-        girando=false;
+            };
 
-    },5000);
-}
+        }
 
-btnGirar.addEventListener("click",girar);
-btnNovamente.addEventListener("click",girar);
 
-/*
-QR Code.
-Se o CDN não estiver acessível, mostramos a URL
-em vez de deixar uma caixa vazia.
-*/
-function gerarQR(){
+        /* =========================================================
+           SORTEIO
+        ========================================================== */
 
-    const url=window.location.href;
+        function girarRoleta() {
 
-    qrUrl.textContent=url;
-
-    if(typeof QRCode==="undefined"){
-        qrUrl.textContent=
-            "Abra esta página com internet para gerar o QR Code.";
-        return;
-    }
-
-    QRCode.toCanvas(
-        document.getElementById("qrcode"),
-        url,
-        {
-            width:190,
-            margin:2,
-            color:{
-                dark:"#111111",
-                light:"#ffffff"
+            if (girando) {
+                return;
             }
-        },
-        function(err){
-            if(err)console.error(err);
-        }
-    );
-}
 
-window.addEventListener("load",gerarQR);
-</script>
+
+            girando = true;
+
+
+            btnGirar.disabled = true;
+
+            btnGirar.classList.add(
+                "desabilitado"
+            );
+
+            btnGirarNovamente.style.display =
+                "none";
+
+
+            resultado.classList.remove(
+                "sucesso"
+            );
+
+            resultado.innerHTML =
+                "Girando...";
+
+
+            /*
+                Sorteia o prêmio.
+            */
+
+            const indiceSorteado =
+                Math.floor(
+                    Math.random() *
+                    quantidade
+                );
+
+
+            /*
+                Cada fatia possui 60 graus.
+
+                O primeiro prêmio está no topo.
+
+                Para levar o prêmio sorteado
+                para o ponteiro, calculamos
+                a rotação inversa.
+            */
+
+            const destino =
+                -(indiceSorteado *
+                grausPorFatia);
+
+
+            /*
+                Adicionamos entre 5 e 7 voltas.
+            */
+
+            const voltas =
+                5 +
+                Math.floor(
+                    Math.random() * 3
+                );
+
+
+            /*
+                Mantemos a rotação acumulada.
+            */
+
+            const rotacaoDestino =
+                rotacaoAtual +
+                (voltas * 360) +
+                destino -
+                (rotacaoAtual % 360);
+
+
+            rotacaoAtual =
+                rotacaoDestino;
+
+
+            roleta.style.transform =
+                `rotate(${rotacaoDestino}deg)`;
+
+
+            /*
+                Aguarda o final da animação.
+            */
+
+            setTimeout(
+                () => {
+
+                    const premio =
+                        premios[indiceSorteado];
+
+
+                    resultado.innerHTML =
+                        `
+                        🎉 VOCÊ GANHOU:
+                        <strong>
+                        ${premio.emoji}
+                        ${premio.nome}
+                        </strong>
+                        🎉
+                        `;
+
+
+                    resultado.classList.add(
+                        "sucesso"
+                    );
+
+
+                    girando = false;
+
+                    btnGirar.disabled =
+                        false;
+
+                    btnGirar.classList.remove(
+                        "desabilitado"
+                    );
+
+                    btnGirarNovamente.style.display =
+                        "inline-block";
+
+
+                },
+                5200
+            );
+
+        }
+
+
+        /* =========================================================
+           QR CODE
+        ========================================================== */
+
+        function gerarQRCode() {
+
+            const container =
+                document.getElementById(
+                    "qrcode"
+                );
+
+            const qrUrl =
+                document.getElementById(
+                    "qrUrl"
+                );
+
+
+            /*
+                Usa a URL atual.
+
+                Assim, se você mudar o domínio
+                no futuro, não precisará alterar
+                manualmente o QR Code.
+            */
+
+            const url =
+                window.location.href;
+
+
+            qrUrl.textContent =
+                url;
+
+
+            container.innerHTML = "";
+
+
+            /*
+                Verifica se a biblioteca carregou.
+            */
+
+            if (
+                typeof QRCode ===
+                "undefined"
+            ) {
+
+                container.innerHTML =
+                    `
+                    <div class="qr-erro">
+                        Não foi possível carregar
+                        o gerador de QR Code.
+                        <br><br>
+                        Atualize a página e tente novamente.
+                    </div>
+                    `;
+
+                return;
+
+            }
+
+
+            try {
+
+                new QRCode(
+                    container,
+                    {
+                        text: url,
+
+                        width: 210,
+
+                        height: 210,
+
+                        colorDark:
+                            "#00337C",
+
+                        colorLight:
+                            "#ffffff",
+
+                        correctLevel:
+                            QRCode.CorrectLevel.H
+                    }
+                );
+
+            }
+
+            catch (erro) {
+
+                console.error(
+                    "Erro ao gerar QR Code:",
+                    erro
+                );
+
+                container.innerHTML =
+                    `
+                    <div class="qr-erro">
+                        Erro ao gerar o QR Code.
+                    </div>
+                    `;
+
+            }
+
+        }
+
+
+        /* =========================================================
+           EVENTOS
+        ========================================================== */
+
+        btnGirar.addEventListener(
+            "click",
+            girarRoleta
+        );
+
+
+        btnGirarNovamente.addEventListener(
+            "click",
+            girarRoleta
+        );
+
+
+        /* =========================================================
+           INICIALIZAÇÃO
+        ========================================================== */
+
+        criarRoleta();
+
+
+        window.addEventListener(
+            "load",
+            () => {
+
+                gerarQRCode();
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
