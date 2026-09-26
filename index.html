@@ -23,9 +23,10 @@
             padding: 0;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+
+        /* =========================================================
+           BODY
+        ========================================================= */
 
         body {
             min-height: 100vh;
@@ -38,12 +39,15 @@
             background:
                 linear-gradient(
                     180deg,
-                    #0755ad 0%,
-                    #0864c8 50%,
-                    #0758b5 100%
+                    #004aad 0%,
+                    #0066cc 50%,
+                    #004aad 100%
                 );
 
             color: #ffffff;
+
+            display: flex;
+            justify-content: center;
 
             overflow-x: hidden;
         }
@@ -53,16 +57,18 @@
            CONTAINER PRINCIPAL
         ========================================================= */
 
-        .page {
+        .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 760px;
 
-            margin: 0 auto;
+            min-height: 100vh;
 
             padding:
-                22px
+                28px
                 20px
                 50px;
+
+            text-align: center;
         }
 
 
@@ -70,94 +76,57 @@
            CABEÇALHO
         ========================================================= */
 
-        header {
-            text-align: center;
-
-            margin-bottom: 22px;
-        }
-
-        .logo-mark {
-            font-size: 48px;
+        .logo-symbol {
+            font-size: 54px;
             line-height: 1;
 
             color: #ffd400;
 
             font-weight: 900;
 
-            letter-spacing: -8px;
+            margin-bottom: 4px;
+
+            text-shadow:
+                0 3px 5px rgba(0, 0, 0, 0.35);
+        }
+
+
+        h1 {
+            font-size: clamp(38px, 7vw, 64px);
+
+            line-height: 1;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            margin-bottom: 12px;
+
+            text-shadow:
+                0 4px 6px rgba(0, 0, 0, 0.35);
+        }
+
+
+        h1 span {
+            color: #ffd400;
+        }
+
+
+        .subtitle {
+            font-size: clamp(18px, 4vw, 26px);
+
+            font-weight: 900;
 
             margin-bottom: 5px;
         }
 
-        header h1 {
-            font-size: clamp(32px, 6vw, 58px);
 
-            line-height: 1;
+        .description {
+            font-size: 17px;
 
-            font-weight: 900;
+            font-weight: 600;
 
-            text-transform: uppercase;
-
-            color: #ffffff;
-
-            text-shadow:
-                3px 3px 0 #063f82;
-        }
-
-        header h1 span {
-            color: #ffd400;
-        }
-
-        header h2 {
-            margin-top: 12px;
-
-            font-size: clamp(20px, 4vw, 30px);
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-        }
-
-        header p {
-            margin-top: 5px;
-
-            font-size: clamp(15px, 2.5vw, 20px);
-
-            font-weight: 700;
-        }
-
-
-        /* =========================================================
-           BANNER
-        ========================================================= */
-
-        .banner-container {
-            width: 100%;
-            max-width: 620px;
-
-            margin: 0 auto 32px;
-
-            border: 4px solid #ffd400;
-
-            border-radius: 18px;
-
-            overflow: hidden;
-
-            background: #ffffff;
-
-            box-shadow:
-                0 12px 30px rgba(0, 0, 0, 0.35);
-        }
-
-        .banner-container img {
-            display: block;
-
-            width: 100%;
-            height: auto;
-
-            max-height: 720px;
-
-            object-fit: contain;
+            margin-bottom: 25px;
         }
 
 
@@ -165,41 +134,34 @@
            ÁREA DA ROLETA
         ========================================================= */
 
-        .wheel-section {
-            display: flex;
+        .roulette-area {
+            position: relative;
 
-            flex-direction: column;
+            width: min(92vw, 560px);
+
+            aspect-ratio: 1 / 1;
+
+            margin: 0 auto 28px;
+
+            display: flex;
 
             align-items: center;
 
-            width: 100%;
+            justify-content: center;
         }
 
 
         /* =========================================================
-           ROLETA
+           PONTEIRO
         ========================================================= */
-
-        .wheel-wrapper {
-            position: relative;
-
-            width: min(86vw, 560px);
-            aspect-ratio: 1 / 1;
-
-            margin: 10px auto 25px;
-        }
-
-
-        /*
-         * Ponteiro
-         */
 
         .pointer {
             position: absolute;
 
             z-index: 20;
 
-            top: -5px;
+            top: -8px;
+
             left: 50%;
 
             transform: translateX(-50%);
@@ -208,115 +170,159 @@
             height: 0;
 
             border-left:
-                24px solid transparent;
+                25px solid transparent;
 
             border-right:
-                24px solid transparent;
+                25px solid transparent;
 
             border-top:
-                48px solid #ffffff;
+                42px solid #ffd400;
 
             filter:
-                drop-shadow(0 3px 2px rgba(0,0,0,.6));
-
-            pointer-events: none;
+                drop-shadow(
+                    0 4px 4px
+                    rgba(0, 0, 0, 0.45)
+                );
         }
+
 
         .pointer::after {
             content: "";
 
             position: absolute;
 
-            left: -17px;
-            top: -46px;
+            left: -15px;
 
-            width: 34px;
-            height: 34px;
+            top: -42px;
 
-            background: #ffd400;
+            width: 30px;
+            height: 10px;
 
-            clip-path: polygon(
-                50% 100%,
-                0 0,
-                100% 0
-            );
-        }
-
-
-        /*
-         * Borda externa
-         */
-
-        .wheel-border {
-            position: absolute;
-
-            inset: 0;
+            background: #ffffff;
 
             border-radius: 50%;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #fff6a0,
-                    #ffd400,
-                    #b57b00,
-                    #fff2a0,
-                    #ffd400
-                );
-
-            padding: 8px;
-
-            box-shadow:
-                0 0 0 2px #ffffff,
-                0 0 25px rgba(255, 212, 0, .75),
-                0 15px 35px rgba(0,0,0,.4);
+            opacity: 0.8;
         }
 
 
-        /*
-         * Canvas
-         */
+        /* =========================================================
+           BORDA DA ROLETA
+        ========================================================= */
 
-        #wheel {
-            display: block;
+        .roulette-frame {
+            position: relative;
 
             width: 100%;
             height: 100%;
 
             border-radius: 50%;
 
-            background: #ffffff;
+            padding: 7px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff4a3,
+                    #ffd000,
+                    #fff4a3,
+                    #e4a900
+                );
+
+            box-shadow:
+                0 0 0 3px #ffffff,
+                0 0 25px rgba(255, 210, 0, 0.9),
+                0 12px 30px rgba(0, 0, 0, 0.45);
+
+            overflow: hidden;
         }
 
 
         /* =========================================================
-           BOTÃO GIRAR
+           ROLETA
+           AQUI ESTÁ O PONTO PRINCIPAL:
+           A IMAGEM É O FUNDO DA ROLETA
         ========================================================= */
 
-        .spin-button {
-            position: absolute;
+        .roulette {
+            position: relative;
 
-            z-index: 30;
-
-            left: 50%;
-            top: 50%;
-
-            transform: translate(-50%, -50%);
-
-            width: 125px;
-            height: 125px;
+            width: 100%;
+            height: 100%;
 
             border-radius: 50%;
 
-            border:
-                5px solid #ffd400;
+            overflow: hidden;
+
+            background-image:
+                url("roleta.png");
+
+            background-repeat: no-repeat;
+
+            /*
+             * A imagem original é vertical.
+             * O tamanho abaixo faz com que a parte da roleta
+             * ocupe praticamente todo o círculo.
+             */
+            background-size: 165% auto;
+
+            /*
+             * Ajusta a posição da imagem para deixar
+             * a roleta da arte exatamente no centro.
+             */
+            background-position: center 52%;
+
+            /*
+             * A rotação acontece neste elemento.
+             */
+            transform: rotate(0deg);
+
+            transition:
+                transform 5s
+                cubic-bezier(
+                    0.12,
+                    0.72,
+                    0.18,
+                    1
+                );
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+
+        /* =========================================================
+           ÁREA CENTRAL CLICÁVEL
+        ========================================================= */
+
+        .roulette-button {
+            position: absolute;
+
+            z-index: 15;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                );
+
+            width: 110px;
+            height: 110px;
+
+            border-radius: 50%;
+
+            border: 5px solid #ffd000;
 
             background:
                 radial-gradient(
-                    circle at 35% 30%,
-                    #263d70,
-                    #08245b 65%,
-                    #041638
+                    circle,
+                    #124b91 0%,
+                    #06336f 70%,
+                    #022550 100%
                 );
 
             color: #ffffff;
@@ -325,47 +331,55 @@
 
             font-weight: 900;
 
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+
             cursor: pointer;
 
             box-shadow:
-                0 5px 0 #02112c,
-                0 8px 20px rgba(0,0,0,.45);
+                0 5px 0 #a77700,
+                0 8px 15px
+                rgba(0, 0, 0, 0.45);
 
             transition:
-                transform .15s ease,
-                filter .15s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
         }
 
-        .spin-button:hover {
-            filter: brightness(1.15);
 
+        .roulette-button:hover {
             transform:
-                translate(-50%, -50%)
-                scale(1.04);
+                translate(
+                    -50%,
+                    -50%
+                )
+                scale(1.05);
         }
 
-        .spin-button:active {
+
+        .roulette-button:active {
             transform:
-                translate(-50%, -50%)
-                scale(.96);
+                translate(
+                    -50%,
+                    -50%
+                )
+                scale(0.97);
+
+            box-shadow:
+                0 2px 0 #a77700,
+                0 5px 10px
+                rgba(0, 0, 0, 0.4);
         }
 
-        .spin-button:disabled {
+
+        .roulette-button:disabled {
             cursor: not-allowed;
 
-            filter: grayscale(.3);
-
-            opacity: .8;
-        }
-
-        .spin-icon {
-            display: block;
-
-            font-size: 26px;
-
-            color: #ffd400;
-
-            margin-top: 3px;
+            opacity: 0.8;
         }
 
 
@@ -373,44 +387,69 @@
            BOTÃO EXTERNO
         ========================================================= */
 
-        .spin-again {
+        .spin-button {
             border: none;
 
             background:
                 linear-gradient(
                     180deg,
-                    #ffe45c,
+                    #ffe75a,
                     #ffc400
                 );
 
-            color: #063b82;
+            color: #003b7a;
 
-            font-size: 20px;
+            font-size: 22px;
 
             font-weight: 900;
 
             padding:
-                16px
-                34px;
+                17px
+                38px;
 
-            border-radius: 40px;
+            border-radius: 50px;
 
             cursor: pointer;
 
             box-shadow:
-                0 5px 0 #9b6c00,
-                0 10px 20px rgba(0,0,0,.25);
+                0 5px 0 #9b7000,
+                0 8px 18px
+                rgba(0, 0, 0, 0.35);
 
             transition:
-                transform .15s ease;
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+            margin-bottom: 25px;
         }
 
-        .spin-again:hover {
+
+        .spin-button:hover {
             transform: translateY(-2px);
+
+            box-shadow:
+                0 7px 0 #9b7000,
+                0 10px 20px
+                rgba(0, 0, 0, 0.4);
         }
 
-        .spin-again:active {
-            transform: translateY(2px);
+
+        .spin-button:active {
+            transform: translateY(3px);
+
+            box-shadow:
+                0 2px 0 #9b7000,
+                0 5px 10px
+                rgba(0, 0, 0, 0.3);
+        }
+
+
+        .spin-button:disabled {
+            opacity: 0.65;
+
+            cursor: not-allowed;
+
+            transform: none;
         }
 
 
@@ -418,48 +457,57 @@
            RESULTADO
         ========================================================= */
 
-        .result-box {
-            width: min(100%, 620px);
+        .result {
+            width: min(92vw, 560px);
 
             margin:
-                28px
-                auto
-                18px;
+                0 auto
+                25px;
 
             padding:
                 18px
                 20px;
 
             border:
-                3px solid #ffd400;
+                3px solid #ffd000;
 
             border-radius: 15px;
 
             background:
-                rgba(3, 43, 101, .85);
-
-            text-align: center;
+                rgba(
+                    0,
+                    45,
+                    95,
+                    0.85
+                );
 
             box-shadow:
-                0 8px 25px rgba(0,0,0,.25);
+                0 8px 20px
+                rgba(0, 0, 0, 0.3);
         }
 
-        .result-title {
-            font-size: 14px;
 
-            font-weight: 900;
+        .result-label {
+            font-size: 15px;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
 
             text-transform: uppercase;
-
-            margin-bottom: 8px;
         }
 
-        .result-text {
-            font-size: clamp(24px, 5vw, 34px);
 
-            font-weight: 900;
+        .result-value {
+            font-size: clamp(
+                25px,
+                5vw,
+                36px
+            );
 
             color: #ffd400;
+
+            font-weight: 900;
 
             text-transform: uppercase;
         }
@@ -470,14 +518,11 @@
         ========================================================= */
 
         .notice {
-            width: min(100%, 650px);
+            max-width: 620px;
 
             margin:
-                10px
-                auto
+                0 auto
                 25px;
-
-            text-align: center;
 
             font-size: 13px;
 
@@ -492,27 +537,25 @@
         ========================================================= */
 
         .qr-container {
-            width: min(100%, 360px);
+            width: min(92vw, 360px);
 
             margin:
-                20px
-                auto
-                35px;
+                0 auto
+                30px;
 
-            padding:
-                22px;
-
-            border-radius: 18px;
+            padding: 25px;
 
             background: #ffffff;
 
-            color: #083d84;
+            color: #003b7a;
 
-            text-align: center;
+            border-radius: 18px;
 
             box-shadow:
-                0 10px 30px rgba(0,0,0,.30);
+                0 10px 25px
+                rgba(0, 0, 0, 0.35);
         }
+
 
         .qr-title {
             font-size: 18px;
@@ -522,261 +565,250 @@
             margin-bottom: 15px;
         }
 
-        #qrcode {
+
+        .qr-code {
+            width: 100%;
+
+            max-width: 280px;
+
+            aspect-ratio: 1 / 1;
+
+            margin: 0 auto;
+
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    #000 0,
+                    #000 3px,
+                    #fff 3px,
+                    #fff 6px
+                );
+
             display: flex;
 
             align-items: center;
             justify-content: center;
 
-            width: 100%;
+            overflow: hidden;
         }
 
-        #qrcode canvas,
-        #qrcode img {
-            max-width: 100%;
-            height: auto;
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
         }
+
 
         .qr-url {
-            margin-top: 12px;
-
             font-size: 10px;
 
-            word-break: break-all;
+            color: #333;
 
-            color: #333333;
+            margin-top: 10px;
+
+            word-break: break-all;
         }
 
 
         /* =========================================================
-           RODAPÉ
+           FOOTER
         ========================================================= */
 
         footer {
-            text-align: center;
-
             font-size: 12px;
 
-            color: #ffffff;
+            opacity: 0.9;
 
-            opacity: .9;
+            margin-top: 15px;
         }
 
 
         /* =========================================================
-           RESPONSIVO
+           RESPONSIVIDADE
         ========================================================= */
 
         @media (max-width: 600px) {
 
-            .page {
+            .container {
                 padding:
-                    15px
+                    20px
                     12px
-                    35px;
+                    40px;
             }
 
-            .logo-mark {
+
+            .logo-symbol {
+                font-size: 42px;
+            }
+
+
+            h1 {
                 font-size: 38px;
             }
 
-            header {
-                margin-bottom: 15px;
+
+            .subtitle {
+                font-size: 20px;
             }
 
-            .banner-container {
-                border-width: 3px;
 
-                border-radius: 13px;
-
-                margin-bottom: 22px;
+            .description {
+                font-size: 14px;
             }
 
-            .wheel-wrapper {
-                width: min(94vw, 500px);
+
+            .roulette-area {
+                width: min(
+                    94vw,
+                    430px
+                );
             }
 
-            .spin-button {
-                width: 100px;
-                height: 100px;
 
-                font-size: 17px;
+            .roulette-button {
+                width: 85px;
+                height: 85px;
+
+                font-size: 16px;
 
                 border-width: 4px;
             }
 
-            .spin-icon {
-                font-size: 21px;
-            }
 
             .pointer {
                 border-left-width: 20px;
                 border-right-width: 20px;
-                border-top-width: 40px;
+                border-top-width: 34px;
             }
 
-            .spin-again {
-                font-size: 17px;
+
+            .spin-button {
+                font-size: 18px;
 
                 padding:
-                    14px
+                    15px
                     28px;
             }
 
-            .result-box {
-                margin-top: 22px;
-            }
 
-            .qr-container {
-                width: min(100%, 330px);
+            .result-value {
+                font-size: 25px;
             }
         }
 
-
-        @media (max-width: 380px) {
-
-            .wheel-wrapper {
-                width: 94vw;
-            }
-
-            .spin-button {
-                width: 88px;
-                height: 88px;
-
-                font-size: 15px;
-            }
-        }
 
     </style>
 </head>
 
+
 <body>
 
-<div class="page">
+    <main class="container">
 
-    <!-- =====================================================
-         CABEÇALHO
-    ====================================================== -->
 
-    <header>
+        <!-- =====================================================
+             CABEÇALHO
+        ====================================================== -->
 
-        <div class="logo-mark">
+        <div class="logo-symbol">
             ∞
         </div>
 
         <h1>
-            FÁBRICA <span>DE ÓCULOS</span>
+            FÁBRICA
+            <span>DE ÓCULOS</span>
         </h1>
 
-        <h2>
+        <div class="subtitle">
             ROLETA PROMOCIONAL
-        </h2>
+        </div>
 
-        <p>
+        <div class="description">
             Gire a roleta e concorra a prêmios!
-        </p>
-
-    </header>
-
-
-    <!-- =====================================================
-         IMAGEM PROMOCIONAL
-    ====================================================== -->
-
-    <section class="banner-container">
-
-        <!--
-            Coloque a imagem promocional no GitHub com o nome:
-
-            banner.png
-        -->
-
-        <img
-            src="banner.png"
-            alt="Fábrica de Óculos — Roleta Promocional"
-        >
-
-    </section>
-
-
-    <!-- =====================================================
-         ROLETA
-    ====================================================== -->
-
-    <main class="wheel-section">
-
-        <div class="wheel-wrapper">
-
-            <div class="pointer"></div>
-
-            <div class="wheel-border">
-
-                <canvas
-                    id="wheel"
-                    width="900"
-                    height="900"
-                ></canvas>
-
-            </div>
-
-            <button
-                id="spinButton"
-                class="spin-button"
-                type="button"
-                aria-label="Girar roleta"
-            >
-
-                GIRAR
-
-                <span class="spin-icon">
-                    ↻
-                </span>
-
-            </button>
-
         </div>
 
 
-        <!-- =================================================
+        <!-- =====================================================
+             ROLETA
+        ====================================================== -->
+
+        <section
+            class="roulette-area"
+            aria-label="Roleta promocional"
+        >
+
+            <div class="pointer"></div>
+
+            <div class="roulette-frame">
+
+                <div
+                    id="roulette"
+                    class="roulette"
+                    title="Clique para girar"
+                >
+                </div>
+
+            </div>
+
+
+            <!-- BOTÃO CENTRAL -->
+
+            <button
+                id="rouletteButton"
+                class="roulette-button"
+                type="button"
+                aria-label="Girar roleta"
+            >
+                GIRAR
+                <br>
+                ↻
+            </button>
+
+        </section>
+
+
+        <!-- =====================================================
              BOTÃO
-        ================================================== -->
+        ====================================================== -->
 
         <button
-            id="spinAgain"
-            class="spin-again"
+            id="spinButton"
+            class="spin-button"
             type="button"
         >
             ↻ GIRAR A ROLETA
         </button>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              RESULTADO
-        ================================================== -->
+        ====================================================== -->
 
         <section
-            id="resultBox"
-            class="result-box"
+            id="result"
+            class="result"
             aria-live="polite"
         >
 
-            <div class="result-title">
+            <div class="result-label">
                 Resultado
             </div>
 
             <div
-                id="resultText"
-                class="result-text"
+                id="resultValue"
+                class="result-value"
             >
-                GIRE A ROLETA
+                Gire a roleta!
             </div>
 
         </section>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              AVISO
-        ================================================== -->
+        ====================================================== -->
 
         <p class="notice">
 
@@ -788,17 +820,24 @@
         </p>
 
 
-        <!-- =================================================
+        <!-- =====================================================
              QR CODE
-        ================================================== -->
+        ====================================================== -->
 
         <section class="qr-container">
 
             <div class="qr-title">
-                📱 Escaneie e abra a roleta
+                ▦ &nbsp; Escaneie e abra a roleta
             </div>
 
-            <div id="qrcode"></div>
+            <div class="qr-code">
+
+                <img
+                    id="qrImage"
+                    alt="QR Code da roleta"
+                >
+
+            </div>
 
             <div
                 id="qrUrl"
@@ -807,694 +846,297 @@
 
         </section>
 
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <footer>
+            Fábrica de Óculos — Roleta Promocional
+        </footer>
+
+
     </main>
 
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
+    <script>
 
-    <footer>
+        /* =========================================================
+           CONFIGURAÇÃO
+        ========================================================= */
 
-        Fábrica de Óculos — Roleta Promocional
+        const prizes = [
 
-    </footer>
+            {
+                name: "10% DE DESCONTO",
+                probability: 1
+            },
 
-</div>
+            {
+                name: "ARMAÇÃO CORTESIA COMUM",
+                probability: 1
+            },
 
+            {
+                name: "15% DE DESCONTO",
+                probability: 1
+            },
 
-<script>
+            {
+                name: "ÓCULOS DE SOL",
+                probability: 1
+            },
 
-    /* ========================================================
-       CONFIGURAÇÃO DOS PRÊMIOS
-    ======================================================== */
+            {
+                name: "LIMPA LENTE CLEAN'UP",
+                probability: 1
+            },
 
-    const prizes = [
+            {
+                name: "LIMPA LENTE GRÁTIS",
+                probability: 1
+            }
 
-        {
-            name: "10% DE DESCONTO",
-            icon: "🏷️",
-            color: "#ffd400"
-        },
-
-        {
-            name: "ARMAÇÃO CORTESIA COMUM",
-            icon: "👓",
-            color: "#20ad57"
-        },
-
-        {
-            name: "15% DE DESCONTO",
-            icon: "🏷️",
-            color: "#ed1f2d"
-        },
-
-        {
-            name: "ÓCULOS DE SOL",
-            icon: "🕶️",
-            color: "#ff3434"
-        },
-
-        {
-            name: "LIMPA LENTE CLEAN'UP",
-            icon: "🧴",
-            color: "#9c3fc4"
-        },
-
-        {
-            name: "LIMPA LENTE GRÁTIS",
-            icon: "🧴",
-            color: "#16a6df"
-        },
-
-        {
-            name: "10% DE DESCONTO",
-            icon: "🏷️",
-            color: "#ffcf00"
-        }
-
-    ];
+        ];
 
 
-    /* ========================================================
-       ELEMENTOS
-    ======================================================== */
+        /* =========================================================
+           ELEMENTOS
+        ========================================================= */
 
-    const canvas =
-        document.getElementById("wheel");
+        const roulette =
+            document.getElementById(
+                "roulette"
+            );
 
-    const ctx =
-        canvas.getContext("2d");
+        const rouletteButton =
+            document.getElementById(
+                "rouletteButton"
+            );
 
-    const spinButton =
-        document.getElementById("spinButton");
+        const spinButton =
+            document.getElementById(
+                "spinButton"
+            );
 
-    const spinAgain =
-        document.getElementById("spinAgain");
+        const resultValue =
+            document.getElementById(
+                "resultValue"
+            );
 
-    const resultText =
-        document.getElementById("resultText");
+        const qrImage =
+            document.getElementById(
+                "qrImage"
+            );
 
-    const qrCode =
-        document.getElementById("qrcode");
-
-    const qrUrl =
-        document.getElementById("qrUrl");
-
-
-    /* ========================================================
-       CONFIGURAÇÃO
-    ======================================================== */
-
-    const center =
-        canvas.width / 2;
-
-    const radius =
-        canvas.width * 0.47;
-
-    const segmentAngle =
-        (Math.PI * 2) / prizes.length;
-
-    let currentRotation = 0;
-
-    let spinning = false;
+        const qrUrl =
+            document.getElementById(
+                "qrUrl"
+            );
 
 
-    /* ========================================================
-       DESENHAR ROLETA
-    ======================================================== */
+        /* =========================================================
+           ESTADO
+        ========================================================= */
 
-    function drawWheel() {
+        let currentRotation = 0;
 
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+        let spinning = false;
 
 
-        /*
-         * Sombra
-         */
+        /* =========================================================
+           ESCOLHA DO PRÊMIO
+        ========================================================= */
 
-        ctx.save();
+        function choosePrize() {
 
-        ctx.beginPath();
-
-        ctx.arc(
-            center,
-            center,
-            radius,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.shadowColor =
-            "rgba(0,0,0,.5)";
-
-        ctx.shadowBlur = 20;
-
-        ctx.fillStyle = "#ffffff";
-
-        ctx.fill();
-
-        ctx.restore();
-
-
-        /*
-         * Setores
-         */
-
-        prizes.forEach(
-            (prize, index) => {
-
-                const start =
-                    index * segmentAngle
-                    - Math.PI / 2;
-
-                const end =
-                    start + segmentAngle;
-
-
-                ctx.beginPath();
-
-                ctx.moveTo(
-                    center,
-                    center
+            const total =
+                prizes.reduce(
+                    (
+                        total,
+                        prize
+                    ) => total + prize.probability,
+                    0
                 );
 
-                ctx.arc(
-                    center,
-                    center,
-                    radius,
-                    start,
-                    end
-                );
+            let random =
+                Math.random() * total;
 
-                ctx.closePath();
+            for (
+                const prize of prizes
+            ) {
 
-                ctx.fillStyle =
-                    prize.color;
-
-                ctx.fill();
-
-                ctx.lineWidth = 7;
-
-                ctx.strokeStyle =
-                    "#ffffff";
-
-                ctx.stroke();
-
-
-                /*
-                 * Texto
-                 */
-
-                const middle =
-                    start + segmentAngle / 2;
-
-
-                const textRadius =
-                    radius * 0.67;
-
-
-                const x =
-                    center +
-                    Math.cos(middle) *
-                    textRadius;
-
-                const y =
-                    center +
-                    Math.sin(middle) *
-                    textRadius;
-
-
-                ctx.save();
-
-                ctx.translate(
-                    x,
-                    y
-                );
-
-
-                /*
-                 * Mantém o texto
-                 * sempre legível.
-                 */
-
-                let textAngle =
-                    middle + Math.PI / 2;
+                random -=
+                    prize.probability;
 
                 if (
-                    textAngle >
-                    Math.PI / 2 &&
-                    textAngle <
-                    Math.PI * 1.5
+                    random <= 0
                 ) {
-                    textAngle += Math.PI;
+
+                    return prize;
+
                 }
 
-                ctx.rotate(textAngle);
-
-
-                /*
-                 * Ícone
-                 */
-
-                ctx.font =
-                    "36px Arial";
-
-                ctx.textAlign =
-                    "center";
-
-                ctx.textBaseline =
-                    "middle";
-
-                ctx.fillText(
-                    prize.icon,
-                    0,
-                    -28
-                );
-
-
-                /*
-                 * Texto
-                 */
-
-                ctx.font =
-                    "900 27px Arial";
-
-                ctx.fillStyle =
-                    "#ffffff";
-
-                ctx.strokeStyle =
-                    "rgba(0,0,0,.75)";
-
-                ctx.lineWidth = 7;
-
-                ctx.lineJoin =
-                    "round";
-
-
-                const words =
-                    prize.name.split(" ");
-
-
-                /*
-                 * Quebra automática
-                 * para evitar sobreposição.
-                 */
-
-                const lines = [];
-
-                let line = "";
-
-                words.forEach(word => {
-
-                    const test =
-                        line
-                        ? line + " " + word
-                        : word;
-
-                    const width =
-                        ctx.measureText(test).width;
-
-                    if (
-                        width >
-                        radius * 0.48
-                    ) {
-
-                        if (line) {
-                            lines.push(line);
-                        }
-
-                        line = word;
-
-                    } else {
-
-                        line = test;
-
-                    }
-
-                });
-
-                if (line) {
-                    lines.push(line);
-                }
-
-
-                const lineHeight =
-                    31;
-
-
-                const startY =
-                    ((lines.length - 1)
-                    * -lineHeight) / 2;
-
-
-                lines.forEach(
-                    (text, lineIndex) => {
-
-                        const lineY =
-                            startY +
-                            lineIndex *
-                            lineHeight;
-
-
-                        ctx.strokeText(
-                            text,
-                            0,
-                            lineY + 15
-                        );
-
-                        ctx.fillText(
-                            text,
-                            0,
-                            lineY + 15
-                        );
-
-                    }
-                );
-
-
-                ctx.restore();
-
             }
-        );
 
-
-        /*
-         * Borda interna
-         */
-
-        ctx.beginPath();
-
-        ctx.arc(
-            center,
-            center,
-            radius - 4,
-            0,
-            Math.PI * 2
-        );
-
-        ctx.lineWidth = 8;
-
-        ctx.strokeStyle =
-            "#ffd400";
-
-        ctx.stroke();
-
-
-        /*
-         * Pequenas luzes
-         */
-
-        const bulbs = 24;
-
-        for (
-            let i = 0;
-            i < bulbs;
-            i++
-        ) {
-
-            const angle =
-                (Math.PI * 2 / bulbs) * i;
-
-            const x =
-                center +
-                Math.cos(angle) *
-                (radius - 17);
-
-            const y =
-                center +
-                Math.sin(angle) *
-                (radius - 17);
-
-
-            ctx.beginPath();
-
-            ctx.arc(
-                x,
-                y,
-                7,
-                0,
-                Math.PI * 2
-            );
-
-            ctx.fillStyle =
-                "#fff6b0";
-
-            ctx.fill();
-
+            return prizes[
+                prizes.length - 1
+            ];
         }
 
-    }
 
+        /* =========================================================
+           GIRAR ROLETA
+        ========================================================= */
 
-    /* ========================================================
-       GIRO
-    ======================================================== */
+        function spin() {
 
-    function spin() {
-
-        if (spinning) {
-            return;
-        }
-
-        spinning = true;
-
-        spinButton.disabled = true;
-
-        spinAgain.disabled = true;
-
-
-        resultText.textContent =
-            "GIRANDO...";
-
-
-        /*
-         * Escolhe o prêmio.
-         */
-
-        const winner =
-            Math.floor(
-                Math.random() *
-                prizes.length
-            );
-
-
-        /*
-         * Número de voltas.
-         */
-
-        const rotations =
-            6 + Math.floor(
-                Math.random() * 3
-            );
-
-
-        /*
-         * Calcula posição do prêmio.
-         */
-
-        const winnerCenter =
-            winner * segmentAngle +
-            segmentAngle / 2;
-
-
-        const target =
-            rotations *
-            Math.PI *
-            2
-            -
-            winnerCenter;
-
-
-        const startRotation =
-            currentRotation;
-
-
-        const finalRotation =
-            startRotation +
-            target;
-
-
-        const duration =
-            5200;
-
-
-        const startTime =
-            performance.now();
-
-
-        function animate(now) {
-
-            const elapsed =
-                now - startTime;
-
-
-            let progress =
-                elapsed / duration;
-
-
-            if (progress > 1) {
-                progress = 1;
+            if (spinning) {
+                return;
             }
+
+            spinning = true;
+
+            spinButton.disabled = true;
+
+            rouletteButton.disabled = true;
 
 
             /*
-             * Ease-out.
+             * Escolhe o prêmio.
              */
 
-            const eased =
-                1 -
-                Math.pow(
-                    1 - progress,
-                    4
+            const prize =
+                choosePrize();
+
+
+            /*
+             * Como a arte já contém os prêmios,
+             * fazemos uma rotação completa aleatória.
+             */
+
+            const extraRotation =
+                1440 +
+                Math.floor(
+                    Math.random() * 720
                 );
 
 
-            currentRotation =
-                startRotation +
-                (
-                    finalRotation -
-                    startRotation
-                ) *
-                eased;
+            currentRotation +=
+                extraRotation;
 
 
-            wheelTransform();
+            roulette.style.transform =
+                `rotate(${currentRotation}deg)`;
 
 
-            if (progress < 1) {
+            /*
+             * Aguarda a animação terminar.
+             */
 
-                requestAnimationFrame(
-                    animate
-                );
+            setTimeout(
+                () => {
 
-            } else {
+                    resultValue.textContent =
+                        prize.name;
 
-                spinning = false;
+                    spinning = false;
 
-                spinButton.disabled = false;
+                    spinButton.disabled =
+                        false;
 
-                spinAgain.disabled = false;
+                    rouletteButton.disabled =
+                        false;
 
-
-                resultText.textContent =
-                    prizes[winner].icon +
-                    " " +
-                    prizes[winner].name;
-
-            }
-
+                },
+                5100
+            );
         }
 
 
-        requestAnimationFrame(
-            animate
+        /* =========================================================
+           EVENTOS
+        ========================================================= */
+
+        spinButton.addEventListener(
+            "click",
+            spin
         );
 
-    }
+
+        rouletteButton.addEventListener(
+            "click",
+            spin
+        );
 
 
-    /* ========================================================
-       ROTACIONAR CANVAS
-    ======================================================== */
-
-    function wheelTransform() {
-
-        /*
-         * A roleta é desenhada em um canvas.
-         *
-         * Para manter o ponteiro fixo,
-         * somente o canvas é rotacionado.
-         */
-
-        canvas.style.transform =
-            `rotate(${currentRotation}rad)`;
-
-        canvas.style.transition =
-            "none";
-
-    }
+        roulette.addEventListener(
+            "click",
+            spin
+        );
 
 
-    /* ========================================================
-       EVENTOS
-    ======================================================== */
+        /* =========================================================
+           QR CODE
+        ========================================================= */
 
-    spinButton.addEventListener(
-        "click",
-        spin
-    );
-
-
-    spinAgain.addEventListener(
-        "click",
-        spin
-    );
-
-
-    /* ========================================================
-       QR CODE
-    ======================================================== */
-
-    function generateQRCode() {
-
-        const url =
+        const siteUrl =
             window.location.href;
 
 
         qrUrl.textContent =
-            url;
+            siteUrl;
 
 
         /*
-         * Usa uma API pública somente
-         * para gerar a imagem do QR Code.
+         * QR Code utilizando serviço externo.
          *
-         * A roleta continua funcionando
-         * normalmente sem essa API.
+         * Como o GitHub Pages é estático,
+         * isso evita precisar gerar um arquivo
+         * QR Code manualmente.
          */
 
-        const encoded =
-            encodeURIComponent(url);
+        qrImage.src =
+            "https://api.qrserver.com/v1/create-qr-code/" +
+            "?size=300x300" +
+            "&data=" +
+            encodeURIComponent(siteUrl);
 
 
-        const img =
-            document.createElement("img");
+        /* =========================================================
+           ACESSIBILIDADE
+        ========================================================= */
+
+        roulette.setAttribute(
+            "role",
+            "button"
+        );
+
+        roulette.setAttribute(
+            "tabindex",
+            "0"
+        );
 
 
-        img.alt =
-            "QR Code para abrir a roleta";
+        roulette.addEventListener(
+            "keydown",
+            event => {
 
+                if (
+                    event.key === "Enter" ||
+                    event.key === " "
+                ) {
 
-        img.width = 280;
+                    event.preventDefault();
 
-        img.height = 280;
+                    spin();
 
+                }
 
-        img.src =
-            "https://api.qrserver.com/v1/create-qr-code/?size=280x280&data="
-            + encoded;
+            }
+        );
 
-
-        qrCode.appendChild(img);
-
-    }
-
-
-    /* ========================================================
-       INICIALIZAÇÃO
-    ======================================================== */
-
-    drawWheel();
-
-    generateQRCode();
-
-</script>
+    </script>
 
 </body>
 </html>
