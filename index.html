@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#063b78}
-body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;font-family:Arial,Helvetica,sans-serif}
+body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
 .page{width:min(100vw,717px);position:relative}
 .stage{
     position:relative;
@@ -15,19 +15,14 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
     aspect-ratio:717 / 1076;
     background:url("fabrica-layout.png") center top/100% 100% no-repeat;
     overflow:hidden;
+    touch-action:manipulation;
 }
 
-/* Todas as camadas usam as mesmas proporções da arte original 717x1076. */
-.ring{
-    position:absolute;
-    left:calc(35 / 717 * 100%);
-    top:calc(188 / 1076 * 100%);
-    width:calc(644 / 717 * 100%);
-    height:auto;
-    z-index:2;
-    pointer-events:none;
-}
-
+/*
+   A composição inteira usa a mesma referência 717x1076.
+   Portanto, no celular tudo é reduzido proporcionalmente sem
+   alterar a posição relativa dos elementos.
+*/
 .wheel-wrap{
     position:absolute;
     left:calc(87 / 717 * 100%);
@@ -39,12 +34,13 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
     overflow:visible;
 }
 
+/* SOMENTE os setores giram. Não contém fundo, aro ou botão. */
 .wheel{
     position:absolute;
     inset:0;
     width:100%;
     height:100%;
-    object-fit:contain;
+    display:block;
     transform:rotate(0deg);
     transform-origin:50% 50%;
     transition:transform 4.2s cubic-bezier(.12,.72,.12,1);
@@ -52,16 +48,29 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
     pointer-events:none;
 }
 
+/* Aro fixo */
+.ring{
+    position:absolute;
+    left:calc(87 / 717 * 100%);
+    top:calc(241 / 1076 * 100%);
+    width:calc(538 / 717 * 100%);
+    height:auto;
+    z-index:5;
+    pointer-events:none;
+}
+
+/* Ponteiro fixo */
 .pointer{
     position:absolute;
     left:calc(303 / 717 * 100%);
     top:calc(145 / 1076 * 100%);
-    width:calc(108 / 717 * 100%);
+    width:calc(110 / 717 * 100%);
     height:auto;
     z-index:7;
     pointer-events:none;
 }
 
+/* Centro fixo */
 .center{
     position:absolute;
     left:calc(276 / 717 * 100%);
@@ -71,10 +80,13 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
     z-index:8;
     cursor:pointer;
     user-select:none;
+    -webkit-user-select:none;
     -webkit-tap-highlight-color:transparent;
     filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));
+    touch-action:manipulation;
 }
 
+/* Área clicável sobre o botão amarelo que já existe na arte */
 .hit-button{
     position:absolute;
     left:calc(155 / 717 * 100%);
@@ -83,9 +95,12 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
     height:calc(118 / 1076 * 100%);
     z-index:9;
     border:0;
+    padding:0;
+    margin:0;
     background:transparent;
     cursor:pointer;
     -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
 }
 
 .resultado{
@@ -107,7 +122,7 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
 }
 
 @media(max-width:500px){
-    .resultado{width:calc(100% - 28px);margin-top:10px;font-size:17px}
+    .resultado{width:calc(100% - 28px);margin-top:10px;margin-bottom:20px;font-size:17px}
 }
 
 @media(min-width:718px){
@@ -115,26 +130,22 @@ body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start
 }
 </style>
 </head>
-
 <body>
 <div class="page">
     <div class="stage" id="stage">
+        <!-- Aro parado -->
+        <img class="ring" src="ring-only.png" alt="" aria-hidden="true">
 
-        <!-- Fundo original, sem alterar o layout -->
-        <!-- A roleta animada é composta por uma camada interna + aro fixo. -->
-
-        <img class="ring" src="ring-fixed.png" alt="" aria-hidden="true">
-
+        <!-- ÚNICA camada que gira -->
         <div class="wheel-wrap">
-            <img id="wheel" class="wheel" src="wheel-inner-rotating.png" alt="Roleta">
+            <img id="wheel" class="wheel" src="wheel-sectors.png" alt="Roleta">
         </div>
 
-        <img class="pointer" src="pointer-crop.png" alt="" aria-hidden="true">
+        <!-- Elementos que nunca giram -->
+        <img class="pointer" src="pointer-transparent.png" alt="" aria-hidden="true">
+        <img id="centerButton" class="center" src="center-only.png" alt="Girar">
 
-        <!-- Centro permanece fixo enquanto a roleta gira -->
-        <img id="centerButton" class="center" src="center-button.png" alt="Girar">
-
-        <!-- Botão que fica exatamente sobre o botão amarelo da arte -->
+        <!-- Botão sobre a arte original -->
         <button id="hitButton" class="hit-button" aria-label="Girar a roleta"></button>
     </div>
 
@@ -158,28 +169,47 @@ const resultado = document.getElementById("resultado");
 
 let girando = false;
 let rotacaoAtual = 0;
+const DURACAO = 4200;
+const SETOR = 60;
 
-function girar() {
-    if (girando) return;
+function normalizarAngulo(angulo){
+    return ((angulo % 360) + 360) % 360;
+}
+
+function girar(){
+    if(girando) return;
 
     girando = true;
     resultado.textContent = "Girando...";
 
+    // A imagem original, sem rotação, possui os setores nesta ordem,
+    // começando pelo topo e seguindo no sentido horário:
+    // 0  = 10%
+    // 1  = Armação
+    // 2  = 15%
+    // 3  = Óculos de Sol
+    // 4  = Clean'Up
+    // 5  = Limpa Lente Grátis
     const indice = Math.floor(Math.random() * premios.length);
 
-    // A arte original começa com 10% no topo e segue no sentido horário:
-    // 10%, armação, 15%, óculos de sol, Clean'Up, limpa lente grátis.
-    // Para colocar a fatia sorteada exatamente sob o ponteiro:
-    const ajuste = (360 - (indice * 60)) % 360;
-    const voltas = 5 + Math.floor(Math.random() * 2);
+    const atual = normalizarAngulo(rotacaoAtual);
+    const desejado = normalizarAngulo(-indice * SETOR);
 
-    rotacaoAtual += voltas * 360 + ajuste;
-    wheel.style.transform = `rotate(${rotacaoAtual}deg)`;
+    // Faz sempre várias voltas para frente e termina exatamente
+    // com o centro do setor sorteado apontando para o ponteiro.
+    let delta = desejado - atual;
+    if(delta < 0) delta += 360;
 
-    setTimeout(() => {
+    const voltas = 5 + Math.floor(Math.random() * 2); // 5 ou 6
+    const novaRotacao = rotacaoAtual + voltas * 360 + delta;
+
+    rotacaoAtual = novaRotacao;
+    wheel.style.transform = `rotate(${novaRotacao}deg)`;
+
+    window.setTimeout(() => {
         resultado.textContent = `🎉 VOCÊ GANHOU: ${premios[indice]}!`;
         girando = false;
-    }, 4300);
+    }, DURACAO + 100);
 }
 
 hitButton.addEventListener("click", girar);
