@@ -5,201 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Fábrica de Óculos — Roleta Promocional</title>
 <style>
-    * { box-sizing: border-box; }
-    html, body {
-        margin: 0;
-        padding: 0;
-        min-height: 100%;
-        background: #003b86;
-    }
-
-    body {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        overflow-x: hidden;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .pagina {
-        position: relative;
-        width: min(100vw, 717px);
-        aspect-ratio: 717 / 1076;
-        background-image: url('./fabrica-layout.png');
-        background-repeat: no-repeat;
-        background-position: top center;
-        background-size: 100% 100%;
-        flex-shrink: 0;
-    }
-
-    /*
-       Área transparente sobre o botão "GIRAR A ROLETA"
-       da própria arte. A arte continua sendo a base visual;
-       não redesenhamos a página por cima dela.
-    */
-    .botao-roleta {
-        position: absolute;
-        left: 22.5%;
-        top: 78.4%;
-        width: 55%;
-        height: 10.8%;
-        border: 0;
-        background: transparent;
-        cursor: pointer;
-        border-radius: 80px;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .botao-roleta:focus-visible {
-        outline: 3px solid #fff;
-        outline-offset: 4px;
-    }
-
-    .botao-roleta:active {
-        transform: scale(.98);
-    }
-
-    /* Resultado aparece somente depois do clique, sem alterar o layout inicial. */
-    .modal {
-        position: fixed;
-        inset: 0;
-        z-index: 20;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background: rgba(0, 20, 55, .78);
-    }
-
-    .modal.aberto { display: flex; }
-
-    .cartao {
-        width: min(92vw, 430px);
-        border: 4px solid #ffd200;
-        border-radius: 22px;
-        background: #003b86;
-        color: #fff;
-        text-align: center;
-        padding: 26px 22px 22px;
-        box-shadow: 0 15px 45px rgba(0,0,0,.45);
-    }
-
-    .cartao .titulo {
-        color: #ffd200;
-        font-size: 14px;
-        font-weight: 900;
-        letter-spacing: .08em;
-        margin-bottom: 10px;
-    }
-
-    .cartao .premio {
-        color: #ffd200;
-        font-size: clamp(25px, 7vw, 38px);
-        line-height: 1.05;
-        font-weight: 900;
-        text-transform: uppercase;
-        margin: 8px 0 22px;
-    }
-
-    .fechar {
-        border: 0;
-        border-radius: 999px;
-        padding: 13px 28px;
-        background: #ffd200;
-        color: #003b86;
-        font-weight: 900;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .aviso {
-        margin-top: 12px;
-        color: #fff;
-        font-size: 11px;
-        line-height: 1.35;
-        opacity: .9;
-    }
-
-    @media (min-width: 718px) {
-        body { padding: 20px 0; }
-        .pagina { box-shadow: 0 0 35px rgba(0,0,0,.35); }
-    }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100%;background:#003b86}
+body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif}
+.pagina{position:relative;width:min(100vw,717px);aspect-ratio:717/1076;flex-shrink:0;background-image:url('./fabrica-background-animado.png');background-repeat:no-repeat;background-position:top center;background-size:100% 100%;overflow:hidden}
+.camadas{position:absolute;inset:0;pointer-events:none}
+.roleta-animada{position:absolute;inset:0;width:100%;height:100%;background:url('./wheel-animado.png') no-repeat top center;background-size:100% 100%;transform-origin:356px 512px;transition:transform 5s cubic-bezier(.12,.72,.08,1);will-change:transform}
+.centro-fixo{position:absolute;inset:0;width:100%;height:100%;background:url('./center-fixed.png') no-repeat top center;background-size:100% 100%}
+.ponteiro-fixo{position:absolute;inset:0;width:100%;height:100%;background:url('./pointer-fixed.png') no-repeat top center;background-size:100% 100%}
+.botao-roleta{position:absolute;left:22.5%;top:78.4%;width:55%;height:10.8%;border:0;background:transparent;cursor:pointer;border-radius:80px;-webkit-tap-highlight-color:transparent;z-index:10}
+.botao-roleta:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.botao-roleta:active{transform:scale(.98)}
+.modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,20,55,.78)}
+.modal.aberto{display:flex}
+.cartao{width:min(92vw,430px);border:4px solid #ffd200;border-radius:22px;background:#003b86;color:#fff;text-align:center;padding:26px 22px 22px;box-shadow:0 15px 45px rgba(0,0,0,.45)}
+.cartao .titulo{color:#ffd200;font-size:14px;font-weight:900;letter-spacing:.08em;margin-bottom:10px}
+.cartao .premio{color:#ffd200;font-size:clamp(25px,7vw,38px);line-height:1.05;font-weight:900;text-transform:uppercase;margin:8px 0 22px}
+.fechar{border:0;border-radius:999px;padding:13px 28px;background:#ffd200;color:#003b86;font-weight:900;font-size:16px;cursor:pointer}
+.aviso{margin-top:12px;color:#fff;font-size:11px;line-height:1.35;opacity:.9}
+@media(min-width:718px){body{padding:20px 0}.pagina{box-shadow:0 0 35px rgba(0,0,0,.35)}}
 </style>
 </head>
 <body>
-
 <div class="pagina" aria-label="Roleta promocional da Fábrica de Óculos">
-    <button
-        id="btnGirar"
-        class="botao-roleta"
-        aria-label="Girar a roleta"
-        title="Girar a roleta">
-    </button>
+  <div class="camadas" aria-hidden="true">
+    <div id="roletaAnimada" class="roleta-animada"></div>
+    <div class="centro-fixo"></div>
+    <div class="ponteiro-fixo"></div>
+  </div>
+  <button id="btnGirar" class="botao-roleta" aria-label="Girar a roleta" title="Girar a roleta"></button>
 </div>
 
 <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloResultado">
-    <div class="cartao">
-        <div id="tituloResultado" class="titulo">RESULTADO</div>
-        <div id="premio" class="premio"></div>
-        <button id="fechar" class="fechar">FECHAR</button>
-        <div class="aviso">
-            Resultado demonstrativo. Para uma promoção oficial com controle de tentativas,
-            estoque, auditoria ou validação dos prêmios, o sorteio deve ser realizado em um servidor.
-        </div>
-    </div>
+  <div class="cartao">
+    <div id="tituloResultado" class="titulo">RESULTADO</div>
+    <div id="premio" class="premio"></div>
+    <button id="fechar" class="fechar">FECHAR</button>
+    <div class="aviso">Resultado demonstrativo. Para uma promoção oficial com controle de tentativas, estoque, auditoria ou validação dos prêmios, o sorteio deve ser realizado em um servidor.</div>
+  </div>
 </div>
 
 <script>
-    const premios = [
-        '10% DE DESCONTO',
-        'ARMAÇÃO CORTESIA COMUM',
-        '15% DE DESCONTO',
-        'ÓCULOS DE SOL',
-        'LIMPA LENTE CLEAN’UP',
-        'LIMPA LENTE GRÁTIS'
-    ];
+const premios=[
+ '10% DE DESCONTO',
+ 'ARMAÇÃO CORTESIA COMUM',
+ '15% DE DESCONTO',
+ 'ÓCULOS DE SOL',
+ 'LIMPA LENTE CLEAN’UP',
+ 'LIMPA LENTE GRÁTIS'
+];
+const btn=document.getElementById('btnGirar');
+const roda=document.getElementById('roletaAnimada');
+const modal=document.getElementById('modal');
+const premioEl=document.getElementById('premio');
+const fechar=document.getElementById('fechar');
+let girando=false;
+let rotacaoAtual=0;
 
-    const btn = document.getElementById('btnGirar');
-    const modal = document.getElementById('modal');
-    const premioEl = document.getElementById('premio');
-    const fechar = document.getElementById('fechar');
+btn.addEventListener('click',()=>{
+ if(girando)return;
+ girando=true;
+ btn.disabled=true;
+ const indice=Math.floor(Math.random()*premios.length);
+ const passo=360/premios.length;
+ // A fatia 0 (10%) começa centralizada no ponteiro. Cada índice seguinte está 60° à direita.
+ // Para levar a fatia sorteada ao ponteiro, giramos no sentido horário o equivalente inverso.
+ const ajuste=((360-(indice*passo))%360);
+ const voltas=5+Math.floor(Math.random()*2);
+ const alvo=rotacaoAtual + voltas*360 + ajuste;
+ roda.style.transform=`rotate(${alvo}deg)`;
+ rotacaoAtual=alvo;
+ setTimeout(()=>{
+   premioEl.textContent=premios[indice];
+   modal.classList.add('aberto');
+   girando=false;
+   btn.disabled=false;
+   fechar.focus();
+ },5100);
+});
 
-    let bloqueado = false;
-
-    btn.addEventListener('click', () => {
-        if (bloqueado) return;
-        bloqueado = true;
-
-        const indice = Math.floor(Math.random() * premios.length);
-        premioEl.textContent = premios[indice];
-
-        // Pequena espera para dar sensação de processamento sem alterar a arte.
-        setTimeout(() => {
-            modal.classList.add('aberto');
-            bloqueado = false;
-            fechar.focus();
-        }, 250);
-    });
-
-    fechar.addEventListener('click', () => {
-        modal.classList.remove('aberto');
-        btn.focus();
-    });
-
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.classList.remove('aberto');
-            btn.focus();
-        }
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            modal.classList.remove('aberto');
-        }
-    });
+fechar.addEventListener('click',()=>{modal.classList.remove('aberto');btn.focus()});
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('aberto');btn.focus()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('aberto')});
 </script>
-
 </body>
 </html>
