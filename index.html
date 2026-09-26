@@ -2,267 +2,188 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Fábrica de Óculos — Roleta Promocional</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{min-height:100%;background:#073e82}
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  display:flex;
-  justify-content:center;
-  overflow-x:hidden;
-}
-.app{
-  width:min(100vw,717px);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#063b78}
+body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;font-family:Arial,Helvetica,sans-serif}
+.page{width:min(100vw,717px);position:relative}
 .stage{
-  position:relative;
-  width:100%;
-  aspect-ratio:717/1076;
-  background:url("fabrica-layout.png") center top/100% 100% no-repeat;
-  overflow:hidden;
+    position:relative;
+    width:100%;
+    aspect-ratio:717 / 1076;
+    background:url("fabrica-layout.png") center top/100% 100% no-repeat;
+    overflow:hidden;
 }
 
-/* A roleta fica exatamente sobre a roleta existente na arte.
-   O fundo continua sendo a imagem original. */
+/* Todas as camadas usam as mesmas proporções da arte original 717x1076. */
+.ring{
+    position:absolute;
+    left:calc(35 / 717 * 100%);
+    top:calc(188 / 1076 * 100%);
+    width:calc(644 / 717 * 100%);
+    height:auto;
+    z-index:2;
+    pointer-events:none;
+}
+
 .wheel-wrap{
-  position:absolute;
-  left:4.88%;
-  top:17.38%;
-  width:90.24%;
-  aspect-ratio:1;
-  border-radius:50%;
-  z-index:5;
-  filter:drop-shadow(0 5px 8px rgba(0,0,0,.55));
+    position:absolute;
+    left:calc(87 / 717 * 100%);
+    top:calc(241 / 1076 * 100%);
+    width:calc(538 / 717 * 100%);
+    aspect-ratio:1;
+    z-index:3;
+    border-radius:50%;
+    overflow:visible;
 }
-.wheel{
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  overflow:hidden;
-  transform:rotate(0deg);
-  transition:transform 5s cubic-bezier(.12,.72,.08,1);
-  will-change:transform;
-  background:conic-gradient(
-    from -90deg,
-    #ffd20a 0deg 60deg,
-    #168be5 60deg 120deg,
-    #22a94f 120deg 180deg,
-    #f20d1b 180deg 240deg,
-    #8429c5 240deg 300deg,
-    #18a9cb 300deg 360deg
-  );
-  border:3px solid #f8cf00;
-  box-shadow:
-    inset 0 0 0 2px rgba(255,255,255,.8),
-    inset 0 0 20px rgba(0,0,0,.28);
-}
-.wheel:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:50%;
-  border:2px solid rgba(255,255,255,.85);
-  pointer-events:none;
-}
-.divider{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:2px;
-  height:50%;
-  transform-origin:50% 100%;
-  background:rgba(255,255,255,.85);
-  box-shadow:0 0 2px rgba(0,0,0,.45);
-  z-index:2;
-}
-.prize{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:27%;
-  min-height:58px;
-  transform:translate(-50%,-50%);
-  text-align:center;
-  color:#fff;
-  font-weight:900;
-  line-height:1.02;
-  font-size:clamp(10px,2.8vw,19px);
-  text-shadow:1px 2px 3px rgba(0,0,0,.95),0 0 2px #000;
-  z-index:4;
-  user-select:none;
-}
-.prize .icon{
-  display:block;
-  font-size:clamp(15px,4.5vw,30px);
-  margin-bottom:3px;
-}
-.prize.p0{transform:translate(-50%,-50%) translateY(-29%);}
-.prize.p1{transform:translate(-50%,-50%) translate(29%,-15%);}
-.prize.p2{transform:translate(-50%,-50%) translate(29%,20%);}
-.prize.p3{transform:translate(-50%,-50%) translateY(31%);}
-.prize.p4{transform:translate(-50%,-50%) translate(-29%,20%);}
-.prize.p5{transform:translate(-50%,-50%) translate(-29%,-15%);}
 
-.center{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:24%;
-  aspect-ratio:1;
-  transform:translate(-50%,-50%);
-  border-radius:50%;
-  border:4px solid #ffd000;
-  background:radial-gradient(circle at 35% 25%,#315a9b,#063b7f 55%,#02285c);
-  color:#fff;
-  z-index:10;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  font-weight:900;
-  font-size:clamp(14px,3.5vw,25px);
-  line-height:1;
-  box-shadow:0 4px 0 #7e5d00,0 4px 12px rgba(0,0,0,.55);
-  cursor:pointer;
+.wheel{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    transform:rotate(0deg);
+    transform-origin:50% 50%;
+    transition:transform 4.2s cubic-bezier(.12,.72,.12,1);
+    will-change:transform;
+    pointer-events:none;
 }
-.center span{color:#ffd000;font-size:.75em;margin-top:5px}
 
 .pointer{
-  position:absolute;
-  left:50%;
-  top:13.9%;
-  transform:translateX(-50%);
-  width:0;height:0;
-  border-left:22px solid transparent;
-  border-right:22px solid transparent;
-  border-top:43px solid #ffd000;
-  z-index:20;
-  filter:drop-shadow(0 3px 3px rgba(0,0,0,.5));
-  pointer-events:none;
+    position:absolute;
+    left:calc(303 / 717 * 100%);
+    top:calc(145 / 1076 * 100%);
+    width:calc(108 / 717 * 100%);
+    height:auto;
+    z-index:7;
+    pointer-events:none;
 }
-.spin-button{
-  position:absolute;
-  left:22%;
-  top:78.8%;
-  width:56%;
-  height:8.8%;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  z-index:25;
-}
-.spin-button:disabled{cursor:not-allowed}
 
-.result{
-  width:calc(100% - 40px);
-  margin:14px 20px 20px;
-  padding:13px 18px;
-  background:#073d80;
-  border:2px solid #ffd000;
-  border-radius:14px;
-  color:#ffd000;
-  text-align:center;
-  font-size:clamp(15px,3.8vw,23px);
-  font-weight:900;
-  display:none;
+.center{
+    position:absolute;
+    left:calc(276 / 717 * 100%);
+    top:calc(430 / 1076 * 100%);
+    width:calc(160 / 717 * 100%);
+    height:auto;
+    z-index:8;
+    cursor:pointer;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));
 }
-.result.show{display:block}
 
-@media (min-width:718px){
-  .result{margin-bottom:28px}
+.hit-button{
+    position:absolute;
+    left:calc(155 / 717 * 100%);
+    top:calc(847 / 1076 * 100%);
+    width:calc(410 / 717 * 100%);
+    height:calc(118 / 1076 * 100%);
+    z-index:9;
+    border:0;
+    background:transparent;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+}
+
+.resultado{
+    width:calc(100% - 60px);
+    max-width:650px;
+    margin:12px auto 30px;
+    min-height:48px;
+    border:2px solid #ffd100;
+    border-radius:12px;
+    background:#063b78;
+    color:#ffd100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:10px 16px;
+    font-weight:900;
+    font-size:clamp(16px,3.5vw,24px);
+}
+
+@media(max-width:500px){
+    .resultado{width:calc(100% - 28px);margin-top:10px;font-size:17px}
+}
+
+@media(min-width:718px){
+    .stage{box-shadow:0 0 25px rgba(0,0,0,.25)}
 }
 </style>
 </head>
+
 <body>
-<div class="app">
-  <div class="stage" id="stage">
-    <div class="wheel-wrap">
-      <div class="wheel" id="wheel">
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(0deg)"></div>
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(60deg)"></div>
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(120deg)"></div>
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(180deg)"></div>
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(240deg)"></div>
-        <div class="divider" style="transform:translate(-50%,-100%) rotate(300deg)"></div>
+<div class="page">
+    <div class="stage" id="stage">
 
-        <div class="prize p0"><span class="icon">🏷️</span>10%<br>DE DESCONTO</div>
-        <div class="prize p1"><span class="icon">👓</span>ARMAÇÃO<br>CORTESIA<br>COMUM</div>
-        <div class="prize p2"><span class="icon">🏷️</span>15%<br>DE DESCONTO</div>
-        <div class="prize p3"><span class="icon">🕶️</span>ÓCULOS<br>DE SOL</div>
-        <div class="prize p4"><span class="icon">🧴</span>LIMPA LENTE<br>CLEAN'UP</div>
-        <div class="prize p5"><span class="icon">🧴</span>LIMPA LENTE<br>GRÁTIS</div>
+        <!-- Fundo original, sem alterar o layout -->
+        <!-- A roleta animada é composta por uma camada interna + aro fixo. -->
 
-        <button class="center" id="centerButton" type="button" aria-label="Girar roleta">
-          GIRAR
-          <span>↻</span>
-        </button>
-      </div>
+        <img class="ring" src="ring-fixed.png" alt="" aria-hidden="true">
+
+        <div class="wheel-wrap">
+            <img id="wheel" class="wheel" src="wheel-inner-rotating.png" alt="Roleta">
+        </div>
+
+        <img class="pointer" src="pointer-crop.png" alt="" aria-hidden="true">
+
+        <!-- Centro permanece fixo enquanto a roleta gira -->
+        <img id="centerButton" class="center" src="center-button.png" alt="Girar">
+
+        <!-- Botão que fica exatamente sobre o botão amarelo da arte -->
+        <button id="hitButton" class="hit-button" aria-label="Girar a roleta"></button>
     </div>
 
-    <!-- Ponteiro e botão fazem parte da composição fixa da arte -->
-    <div class="pointer"></div>
-    <button class="spin-button" id="spinButton" type="button" aria-label="Girar a roleta"></button>
-  </div>
-
-  <div class="result" id="result"></div>
+    <div id="resultado" class="resultado">Clique em GIRAR A ROLETA para participar!</div>
 </div>
 
 <script>
-const prizes = [
-  "10% DE DESCONTO",
-  "ARMAÇÃO CORTESIA COMUM",
-  "15% DE DESCONTO",
-  "ÓCULOS DE SOL",
-  "LIMPA LENTE CLEAN'UP",
-  "LIMPA LENTE GRÁTIS"
+const premios = [
+    "10% DE DESCONTO",
+    "ARMAÇÃO CORTESIA COMUM",
+    "15% DE DESCONTO",
+    "ÓCULOS DE SOL",
+    "LIMPA LENTE CLEAN'UP",
+    "LIMPA LENTE GRÁTIS"
 ];
 
 const wheel = document.getElementById("wheel");
-const spinButton = document.getElementById("spinButton");
 const centerButton = document.getElementById("centerButton");
-const result = document.getElementById("result");
+const hitButton = document.getElementById("hitButton");
+const resultado = document.getElementById("resultado");
 
-let spinning = false;
-let currentAngle = 0;
+let girando = false;
+let rotacaoAtual = 0;
 
-function spin(){
-  if(spinning) return;
+function girar() {
+    if (girando) return;
 
-  spinning = true;
-  spinButton.disabled = true;
-  centerButton.disabled = true;
-  result.classList.remove("show");
+    girando = true;
+    resultado.textContent = "Girando...";
 
-  const index = Math.floor(Math.random() * prizes.length);
-  const slice = 360 / prizes.length;
+    const indice = Math.floor(Math.random() * premios.length);
 
-  // Cada prêmio tem seu centro em:
-  // 0=0°, 1=60°, 2=120°... considerando o topo como 0°.
-  // Para levar o centro escolhido exatamente ao ponteiro do topo:
-  const target = -(index * slice);
-  const normalized = ((currentAngle % 360) + 360) % 360;
-  const correction = target - normalized;
-  const extraTurns = (5 + Math.floor(Math.random() * 3)) * 360;
+    // A arte original começa com 10% no topo e segue no sentido horário:
+    // 10%, armação, 15%, óculos de sol, Clean'Up, limpa lente grátis.
+    // Para colocar a fatia sorteada exatamente sob o ponteiro:
+    const ajuste = (360 - (indice * 60)) % 360;
+    const voltas = 5 + Math.floor(Math.random() * 2);
 
-  currentAngle += extraTurns + correction;
-  wheel.style.transform = `rotate(${currentAngle}deg)`;
+    rotacaoAtual += voltas * 360 + ajuste;
+    wheel.style.transform = `rotate(${rotacaoAtual}deg)`;
 
-  setTimeout(() => {
-    result.textContent = `🎉 VOCÊ GANHOU: ${prizes[index]}!`;
-    result.classList.add("show");
-    spinning = false;
-    spinButton.disabled = false;
-    centerButton.disabled = false;
-  }, 5100);
+    setTimeout(() => {
+        resultado.textContent = `🎉 VOCÊ GANHOU: ${premios[indice]}!`;
+        girando = false;
+    }, 4300);
 }
 
-spinButton.addEventListener("click", spin);
-centerButton.addEventListener("click", spin);
+hitButton.addEventListener("click", girar);
+centerButton.addEventListener("click", girar);
 </script>
 </body>
 </html>
