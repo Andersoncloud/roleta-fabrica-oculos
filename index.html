@@ -1,1210 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Fábrica de Óculos — Roleta Promocional</title>
-
-    <style>
-
-        /* =========================================================
-           CONFIGURAÇÕES GERAIS
-        ========================================================= */
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            width: 100%;
-            min-height: 100%;
-        }
-
-        body {
-            min-height: 100vh;
-            background:
-                linear-gradient(
-                    180deg,
-                    #06489c 0%,
-                    #0064bd 50%,
-                    #0759ad 100%
-                );
-
-            font-family: Arial, Helvetica, sans-serif;
-
-            display: flex;
-            justify-content: center;
-
-            color: white;
-
-            overflow-x: hidden;
-        }
-
-
-        /* =========================================================
-           CONTAINER PRINCIPAL
-        ========================================================= */
-
-        .app {
-            width: 100%;
-            max-width: 620px;
-
-            min-height: 100vh;
-
-            padding: 22px 15px 30px;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-
-        /* =========================================================
-           CABEÇALHO
-        ========================================================= */
-
-        .logo-oculos {
-            font-size: 35px;
-            line-height: 1;
-
-            color: #ffd500;
-
-            margin-bottom: 8px;
-
-            font-weight: 900;
-
-            letter-spacing: -2px;
-        }
-
-        .titulo {
-            text-align: center;
-
-            font-size: 42px;
-
-            line-height: 0.95;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            margin-bottom: 12px;
-        }
-
-        .titulo .branco {
-            color: white;
-        }
-
-        .titulo .amarelo {
-            color: #ffd500;
-        }
-
-        .subtitulo {
-            text-align: center;
-
-            font-size: 19px;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            margin-bottom: 3px;
-        }
-
-        .descricao {
-            text-align: center;
-
-            font-size: 15px;
-
-            font-weight: 700;
-
-            margin-bottom: 24px;
-        }
-
-
-        /* =========================================================
-           ÁREA DA ROLETA
-        ========================================================= */
-
-        .roleta-area {
-            position: relative;
-
-            width: 360px;
-            height: 360px;
-
-            margin-top: 8px;
-            margin-bottom: 25px;
-        }
-
-
-        /* =========================================================
-           PONTEIRO
-        ========================================================= */
-
-        .ponteiro {
-            position: absolute;
-
-            z-index: 30;
-
-            top: -12px;
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            width: 0;
-            height: 0;
-
-            border-left: 23px solid transparent;
-            border-right: 23px solid transparent;
-
-            border-top: 0;
-            border-bottom: 42px solid #ffd500;
-
-            filter:
-                drop-shadow(0 3px 3px rgba(0,0,0,0.5));
-        }
-
-        .ponteiro::after {
-            content: "";
-
-            position: absolute;
-
-            left: -13px;
-            top: 4px;
-
-            width: 0;
-            height: 0;
-
-            border-left: 13px solid transparent;
-            border-right: 13px solid transparent;
-
-            border-bottom: 25px solid #ffffff;
-        }
-
-
-        /* =========================================================
-           MOLDURA EXTERNA
-        ========================================================= */
-
-        .moldura {
-            position: absolute;
-
-            inset: 0;
-
-            border-radius: 50%;
-
-            background: #ffd500;
-
-            box-shadow:
-                0 0 0 5px #ffffff,
-                0 0 0 9px #ffd500,
-                0 10px 30px rgba(0,0,0,0.45);
-
-            z-index: 1;
-        }
-
-
-        /* =========================================================
-           ROLETA
-        ========================================================= */
-
-        .roleta {
-            position: absolute;
-
-            left: 9px;
-            top: 9px;
-
-            width: calc(100% - 18px);
-            height: calc(100% - 18px);
-
-            border-radius: 50%;
-
-            overflow: hidden;
-
-            z-index: 5;
-
-            border: 4px solid white;
-
-            background: white;
-
-            /*
-                IMPORTANTE:
-
-                As seis fatias têm exatamente 60 graus.
-
-                Ordem:
-
-                0 = 10% desconto
-                1 = Armação cortesia
-                2 = 15% desconto
-                3 = Óculos de sol
-                4 = Limpa lente Clean'Up
-                5 = Limpa lente grátis
-            */
-
-            background:
-                conic-gradient(
-                    from 0deg,
-
-                    #ffd500 0deg 60deg,
-                    #1688e5 60deg 120deg,
-                    #21a84f 120deg 180deg,
-                    #ed2024 180deg 240deg,
-                    #8d35c9 240deg 300deg,
-                    #16a9d8 300deg 360deg
-                );
-
-            transition:
-                transform 4.5s
-                cubic-bezier(0.12, 0.72, 0.12, 1);
-
-            transform: rotate(0deg);
-        }
-
-
-        /* =========================================================
-           LINHAS ENTRE AS FATIAS
-        ========================================================= */
-
-        .linha {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            width: 50%;
-            height: 2px;
-
-            background: white;
-
-            transform-origin: left center;
-
-            z-index: 10;
-
-            pointer-events: none;
-        }
-
-
-        /* =========================================================
-           TEXTOS DAS FATIAS
-        ========================================================= */
-
-        .premio {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            width: 105px;
-
-            margin-left: -52px;
-            margin-top: -32px;
-
-            text-align: center;
-
-            color: white;
-
-            font-size: 13px;
-
-            line-height: 1.05;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            text-shadow:
-                1px 1px 2px rgba(0,0,0,0.65),
-                -1px -1px 1px rgba(0,0,0,0.25);
-
-            z-index: 15;
-
-            pointer-events: none;
-
-            /*
-               Cada texto é colocado radialmente.
-               O JavaScript define a rotação.
-            */
-
-            transform-origin: center center;
-        }
-
-        .premio .icone {
-            display: block;
-
-            font-size: 27px;
-
-            margin-bottom: 5px;
-        }
-
-
-        /* =========================================================
-           BOTÃO CENTRAL
-        ========================================================= */
-
-        .centro {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            width: 88px;
-            height: 88px;
-
-            transform: translate(-50%, -50%);
-
-            z-index: 25;
-
-            border-radius: 50%;
-
-            border: 5px solid #ffd500;
-
-            background:
-                radial-gradient(
-                    circle at 35% 30%,
-                    #1269ba,
-                    #003b81
-                );
-
-            box-shadow:
-                0 5px 10px rgba(0,0,0,0.45),
-                inset 0 0 8px rgba(0,0,0,0.3);
-
-            color: white;
-
-            display: flex;
-            flex-direction: column;
-
-            justify-content: center;
-            align-items: center;
-
-            cursor: pointer;
-
-            font-size: 16px;
-
-            font-weight: 900;
-
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
-        }
-
-        .centro:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-        }
-
-        .centro:active {
-            transform: translate(-50%, -50%) scale(0.96);
-        }
-
-        .centro .simbolo {
-            color: #ffd500;
-
-            font-size: 25px;
-
-            line-height: 20px;
-
-            margin-top: 3px;
-        }
-
-
-        /* =========================================================
-           BOTÃO GIRAR
-        ========================================================= */
-
-        .botao-girar {
-            border: none;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #ffd900,
-                    #ffca00
-                );
-
-            color: #003b81;
-
-            padding: 14px 30px;
-
-            border-radius: 35px;
-
-            font-size: 18px;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
-            cursor: pointer;
-
-            box-shadow:
-                0 5px 0 #b88d00,
-                0 8px 18px rgba(0,0,0,0.25);
-
-            margin-bottom: 22px;
-
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
-        }
-
-        .botao-girar:hover {
-            transform: translateY(-2px);
-        }
-
-        .botao-girar:active {
-            transform: translateY(3px);
-
-            box-shadow:
-                0 2px 0 #b88d00,
-                0 5px 12px rgba(0,0,0,0.25);
-        }
-
-        .botao-girar:disabled {
-            opacity: 0.6;
-
-            cursor: not-allowed;
-
-            transform: none;
-        }
-
-
-        /* =========================================================
-           RESULTADO
-        ========================================================= */
-
-        .resultado {
-            width: 390px;
-            max-width: 92%;
-
-            min-height: 100px;
-
-            padding: 15px 20px;
-
-            border-radius: 14px;
-
-            border: 3px solid #ffd500;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #073b7e,
-                    #00306b
-                );
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            align-items: center;
-
-            text-align: center;
-
-            box-shadow:
-                0 5px 15px rgba(0,0,0,0.25);
-
-            margin-bottom: 18px;
-        }
-
-        .resultado-titulo {
-            font-size: 12px;
-
-            font-weight: 900;
-
-            margin-bottom: 7px;
-        }
-
-        .resultado-premio {
-            color: #ffd500;
-
-            font-size: 23px;
-
-            line-height: 1.05;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-        }
-
-
-        /* =========================================================
-           AVISO
-        ========================================================= */
-
-        .aviso {
-            width: 430px;
-            max-width: 90%;
-
-            text-align: center;
-
-            font-size: 10px;
-
-            line-height: 1.4;
-
-            color: white;
-
-            opacity: 0.95;
-
-            margin-bottom: 28px;
-        }
-
-
-        /* =========================================================
-           RODAPÉ
-        ========================================================= */
-
-        .rodape {
-            font-size: 11px;
-
-            font-weight: 700;
-
-            text-align: center;
-
-            margin-top: auto;
-
-            padding-top: 10px;
-        }
-
-
-        /* =========================================================
-           RESPONSIVIDADE
-        ========================================================= */
-
-        @media (max-width: 500px) {
-
-            .app {
-                padding-top: 20px;
-            }
-
-            .logo-oculos {
-                font-size: 30px;
-            }
-
-            .titulo {
-                font-size: 38px;
-            }
-
-            .subtitulo {
-                font-size: 17px;
-            }
-
-            .descricao {
-                font-size: 14px;
-            }
-
-            .roleta-area {
-                width: 320px;
-                height: 320px;
-            }
-
-            .premio {
-                width: 92px;
-
-                margin-left: -46px;
-
-                font-size: 11px;
-            }
-
-            .premio .icone {
-                font-size: 24px;
-            }
-
-            .resultado-premio {
-                font-size: 20px;
-            }
-        }
-
-
-        @media (max-width: 360px) {
-
-            .roleta-area {
-                width: 285px;
-                height: 285px;
-            }
-
-            .titulo {
-                font-size: 34px;
-            }
-
-            .premio {
-                width: 82px;
-
-                margin-left: -41px;
-
-                font-size: 10px;
-            }
-
-            .premio .icone {
-                font-size: 21px;
-            }
-
-            .centro {
-                width: 75px;
-                height: 75px;
-
-                font-size: 14px;
-            }
-        }
-
-    </style>
-</head>
-
-
-<body>
-
-<div class="app">
-
-
-    <!-- =========================================================
-         CABEÇALHO
-    ========================================================== -->
-
-    <div class="logo-oculos">
-        ∞
-    </div>
-
-    <div class="titulo">
-        <span class="branco">FÁBRICA</span>
-        <span class="amarelo"> DE<br>ÓCULOS</span>
-    </div>
-
-    <div class="subtitulo">
-        ROLETA PROMOCIONAL
-    </div>
-
-    <div class="descricao">
-        Gire a roleta e concorra a prêmios!
-    </div>
-
-
-    <!-- =========================================================
-         ROLETA
-    ========================================================== -->
-
-    <div class="roleta-area">
-
-        <!-- Ponteiro fixo -->
-        <div class="ponteiro"></div>
-
-        <!-- Moldura -->
-        <div class="moldura"></div>
-
-        <!-- Roleta -->
-        <div
-            class="roleta"
-            id="roleta"
-        >
-
-            <!-- Linhas divisórias -->
-
-            <div
-                class="linha"
-                style="transform: rotate(0deg);"
-            ></div>
-
-            <div
-                class="linha"
-                style="transform: rotate(60deg);"
-            ></div>
-
-            <div
-                class="linha"
-                style="transform: rotate(120deg);"
-            ></div>
-
-            <div
-                class="linha"
-                style="transform: rotate(180deg);"
-            ></div>
-
-            <div
-                class="linha"
-                style="transform: rotate(240deg);"
-            ></div>
-
-            <div
-                class="linha"
-                style="transform: rotate(300deg);"
-            ></div>
-
-
-            <!-- Textos -->
-
-            <div
-                class="premio"
-                data-indice="0"
-                data-angulo="30"
-            >
-                <span class="icone">🏷️</span>
-                10% DE<br>DESCONTO
-            </div>
-
-
-            <div
-                class="premio"
-                data-indice="1"
-                data-angulo="90"
-            >
-                <span class="icone">👓</span>
-                ARMAÇÃO<br>CORTESIA
-            </div>
-
-
-            <div
-                class="premio"
-                data-indice="2"
-                data-angulo="150"
-            >
-                <span class="icone">🏷️</span>
-                15% DE<br>DESCONTO
-            </div>
-
-
-            <div
-                class="premio"
-                data-indice="3"
-                data-angulo="210"
-            >
-                <span class="icone">🕶️</span>
-                ÓCULOS<br>DE SOL
-            </div>
-
-
-            <div
-                class="premio"
-                data-indice="4"
-                data-angulo="270"
-            >
-                <span class="icone">🧴</span>
-                LIMPA LENTE<br>CLEAN'UP
-            </div>
-
-
-            <div
-                class="premio"
-                data-indice="5"
-                data-angulo="330"
-            >
-                <span class="icone">🧴</span>
-                LIMPA LENTE<br>GRÁTIS
-            </div>
-
-        </div>
-
-
-        <!-- Botão central -->
-
-        <button
-            class="centro"
-            id="btnCentro"
-            type="button"
-        >
-
-            GIRAR
-
-            <span class="simbolo">
-                ↻
-            </span>
-
-        </button>
-
-    </div>
-
-
-    <!-- =========================================================
-         BOTÃO
-    ========================================================== -->
-
-    <button
-        class="botao-girar"
-        id="btnGirar"
-        type="button"
-    >
-        ↻ GIRAR A ROLETA
-    </button>
-
-
-    <!-- =========================================================
-         RESULTADO
-    ========================================================== -->
-
-    <div
-        class="resultado"
-        id="resultado"
-    >
-
-        <div class="resultado-titulo">
-            RESULTADO
-        </div>
-
-        <div
-            class="resultado-premio"
-            id="resultadoPremio"
-        >
-            GIRE A ROLETA
-        </div>
-
-    </div>
-
-
-    <!-- =========================================================
-         AVISO
-    ========================================================== -->
-
-    <div class="aviso">
-
-        A roleta funciona diretamente no navegador.
-        Para uma promoção oficial com controle de tentativas,
-        estoque, auditoria ou validação de prêmios,
-        o sorteio deverá ser realizado por um servidor.
-
-    </div>
-
-
-    <!-- =========================================================
-         RODAPÉ
-    ========================================================== -->
-
-    <div class="rodape">
-        Fábrica de Óculos — Roleta Promocional
-    </div>
-
-
-</div>
-
-
-<script>
-
-    /*
-    ================================================================
-    PRÊMIOS
-
-    A ordem aqui é EXATAMENTE a mesma ordem visual da roleta.
-
-    0 -> 10%
-    1 -> Armação
-    2 -> 15%
-    3 -> Óculos de sol
-    4 -> Clean'Up
-    5 -> Limpa lente grátis
-
-    O índice sorteado é utilizado tanto para posicionar a roleta
-    quanto para mostrar o resultado.
-
-    Isso evita o problema da versão anterior.
-    ================================================================
-    */
-
-    const premios = [
-
-        {
-            nome: "10% DE DESCONTO",
-            icone: "🏷️"
-        },
-
-        {
-            nome: "ARMAÇÃO CORTESIA",
-            icone: "👓"
-        },
-
-        {
-            nome: "15% DE DESCONTO",
-            icone: "🏷️"
-        },
-
-        {
-            nome: "ÓCULOS DE SOL",
-            icone: "🕶️"
-        },
-
-        {
-            nome: "LIMPA LENTE CLEAN'UP",
-            icone: "🧴"
-        },
-
-        {
-            nome: "LIMPA LENTE GRÁTIS",
-            icone: "🧴"
-        }
-
-    ];
-
-
-    /*
-    ================================================================
-    ELEMENTOS
-    ================================================================
-    */
-
-    const roleta =
-        document.getElementById("roleta");
-
-    const btnGirar =
-        document.getElementById("btnGirar");
-
-    const btnCentro =
-        document.getElementById("btnCentro");
-
-    const resultadoPremio =
-        document.getElementById("resultadoPremio");
-
-
-    /*
-    ================================================================
-    CONFIGURAÇÃO
-    ================================================================
-    */
-
-    const quantidadePremios =
-        premios.length;
-
-    const grausPorFatia =
-        360 / quantidadePremios;
-
-    let girando = false;
-
-    let rotacaoAtual = 0;
-
-
-    /*
-    ================================================================
-    POSICIONAMENTO DOS TEXTOS
-
-    Cada texto fica no centro da sua respectiva fatia.
-
-    Como a primeira fatia ocupa:
-
-        0º -> 60º
-
-    o centro dela é:
-
-        30º
-
-    A segunda:
-
-        60º -> 120º
-
-    centro:
-
-        90º
-
-    E assim por diante.
-    ================================================================
-    */
-
-    document
-        .querySelectorAll(".premio")
-        .forEach(elemento => {
-
-            const angulo =
-                Number(
-                    elemento.dataset.angulo
-                );
-
-            elemento.style.transform =
-                `
-                rotate(${angulo}deg)
-                translateY(-108px)
-                rotate(${-angulo}deg)
-                `;
-
-        });
-
-
-    /*
-    ================================================================
-    FUNÇÃO PRINCIPAL DA ROLETA
-    ================================================================
-    */
-
-    function girarRoleta() {
-
-        /*
-        Não permite iniciar outra rotação enquanto a atual
-        ainda estiver acontecendo.
-        */
-
-        if (girando) {
-            return;
-        }
-
-
-        girando = true;
-
-
-        /*
-        Desabilita os botões.
-        */
-
-        btnGirar.disabled = true;
-
-        btnCentro.disabled = true;
-
-
-        /*
-        Mensagem durante o giro.
-        */
-
-        resultadoPremio.innerHTML =
-            "GIRANDO...";
-
-
-        /*
-        ============================================================
-        SORTEIO
-        ============================================================
-
-        O índice sorteado será usado diretamente para:
-
-        1. Escolher a fatia.
-        2. Calcular a rotação.
-        3. Mostrar o resultado.
-
-        Portanto não existe uma segunda lógica de sorteio.
-        ============================================================
-        */
-
-        const indiceSorteado =
-            Math.floor(
-                Math.random() * quantidadePremios
-            );
-
-
-        const premioSorteado =
-            premios[indiceSorteado];
-
-
-        /*
-        ============================================================
-        CÁLCULO DO ÂNGULO
-        ============================================================
-
-        O ponteiro está fixo no topo.
-
-        Cada fatia possui 60 graus.
-
-        O centro da fatia sorteada é:
-
-            indice * 60 + 30
-
-        Precisamos girar a roleta no sentido contrário para
-        colocar esse centro exatamente no topo.
-        ============================================================
-        */
-
-        const centroDaFatia =
-            indiceSorteado * grausPorFatia
-            + grausPorFatia / 2;
-
-
-        const rotacaoDesejada =
-            360 - centroDaFatia;
-
-
-        /*
-        ============================================================
-        EVITA PULO NA ANIMAÇÃO
-
-        Descobrimos quanto falta para chegar ao ângulo desejado
-        partindo da posição atual.
-        ============================================================
-        */
-
-        const rotacaoAtualNormalizada =
-            ((rotacaoAtual % 360) + 360) % 360;
-
-
-        let diferenca =
-            rotacaoDesejada
-            - rotacaoAtualNormalizada;
-
-
-        if (diferenca < 0) {
-            diferenca += 360;
-        }
-
-
-        /*
-        Pelo menos 5 voltas completas.
-        */
-
-        const voltas =
-            5 + Math.floor(
-                Math.random() * 2
-            );
-
-
-        const novaRotacao =
-            rotacaoAtual
-            + voltas * 360
-            + diferenca;
-
-
-        rotacaoAtual =
-            novaRotacao;
-
-
-        /*
-        Aplica a rotação.
-        */
-
-        roleta.style.transform =
-            `rotate(${novaRotacao}deg)`;
-
-
-        /*
-        ============================================================
-        FINAL DA ANIMAÇÃO
-        ============================================================
-        */
-
-        setTimeout(() => {
-
-            /*
-            Mostra EXATAMENTE o prêmio sorteado.
-            */
-
-            resultadoPremio.innerHTML =
-                `
-                ${premioSorteado.icone}
-                ${premioSorteado.nome}
-                `;
-
-
-            girando = false;
-
-
-            btnGirar.disabled = false;
-
-            btnCentro.disabled = false;
-
-
-        }, 4700);
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Fábrica de Óculos — Roleta Promocional</title>
+<style>
+    * { box-sizing: border-box; }
+    html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background: #003b86;
     }
 
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        overflow-x: hidden;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .pagina {
+        position: relative;
+        width: min(100vw, 717px);
+        aspect-ratio: 717 / 1076;
+        background-image: url('./fabrica-layout.png');
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: 100% 100%;
+        flex-shrink: 0;
+    }
 
     /*
-    ================================================================
-    EVENTOS
-    ================================================================
+       Área transparente sobre o botão "GIRAR A ROLETA"
+       da própria arte. A arte continua sendo a base visual;
+       não redesenhamos a página por cima dela.
     */
+    .botao-roleta {
+        position: absolute;
+        left: 22.5%;
+        top: 78.4%;
+        width: 55%;
+        height: 10.8%;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        border-radius: 80px;
+        -webkit-tap-highlight-color: transparent;
+    }
 
-    btnGirar.addEventListener(
-        "click",
-        girarRoleta
-    );
+    .botao-roleta:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 4px;
+    }
 
+    .botao-roleta:active {
+        transform: scale(.98);
+    }
 
-    btnCentro.addEventListener(
-        "click",
-        girarRoleta
-    );
+    /* Resultado aparece somente depois do clique, sem alterar o layout inicial. */
+    .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(0, 20, 55, .78);
+    }
 
+    .modal.aberto { display: flex; }
 
+    .cartao {
+        width: min(92vw, 430px);
+        border: 4px solid #ffd200;
+        border-radius: 22px;
+        background: #003b86;
+        color: #fff;
+        text-align: center;
+        padding: 26px 22px 22px;
+        box-shadow: 0 15px 45px rgba(0,0,0,.45);
+    }
+
+    .cartao .titulo {
+        color: #ffd200;
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: .08em;
+        margin-bottom: 10px;
+    }
+
+    .cartao .premio {
+        color: #ffd200;
+        font-size: clamp(25px, 7vw, 38px);
+        line-height: 1.05;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin: 8px 0 22px;
+    }
+
+    .fechar {
+        border: 0;
+        border-radius: 999px;
+        padding: 13px 28px;
+        background: #ffd200;
+        color: #003b86;
+        font-weight: 900;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .aviso {
+        margin-top: 12px;
+        color: #fff;
+        font-size: 11px;
+        line-height: 1.35;
+        opacity: .9;
+    }
+
+    @media (min-width: 718px) {
+        body { padding: 20px 0; }
+        .pagina { box-shadow: 0 0 35px rgba(0,0,0,.35); }
+    }
+</style>
+</head>
+<body>
+
+<div class="pagina" aria-label="Roleta promocional da Fábrica de Óculos">
+    <button
+        id="btnGirar"
+        class="botao-roleta"
+        aria-label="Girar a roleta"
+        title="Girar a roleta">
+    </button>
+</div>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tituloResultado">
+    <div class="cartao">
+        <div id="tituloResultado" class="titulo">RESULTADO</div>
+        <div id="premio" class="premio"></div>
+        <button id="fechar" class="fechar">FECHAR</button>
+        <div class="aviso">
+            Resultado demonstrativo. Para uma promoção oficial com controle de tentativas,
+            estoque, auditoria ou validação dos prêmios, o sorteio deve ser realizado em um servidor.
+        </div>
+    </div>
+</div>
+
+<script>
+    const premios = [
+        '10% DE DESCONTO',
+        'ARMAÇÃO CORTESIA COMUM',
+        '15% DE DESCONTO',
+        'ÓCULOS DE SOL',
+        'LIMPA LENTE CLEAN’UP',
+        'LIMPA LENTE GRÁTIS'
+    ];
+
+    const btn = document.getElementById('btnGirar');
+    const modal = document.getElementById('modal');
+    const premioEl = document.getElementById('premio');
+    const fechar = document.getElementById('fechar');
+
+    let bloqueado = false;
+
+    btn.addEventListener('click', () => {
+        if (bloqueado) return;
+        bloqueado = true;
+
+        const indice = Math.floor(Math.random() * premios.length);
+        premioEl.textContent = premios[indice];
+
+        // Pequena espera para dar sensação de processamento sem alterar a arte.
+        setTimeout(() => {
+            modal.classList.add('aberto');
+            bloqueado = false;
+            fechar.focus();
+        }, 250);
+    });
+
+    fechar.addEventListener('click', () => {
+        modal.classList.remove('aberto');
+        btn.focus();
+    });
+
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.classList.remove('aberto');
+            btn.focus();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            modal.classList.remove('aberto');
+        }
+    });
 </script>
 
 </body>
