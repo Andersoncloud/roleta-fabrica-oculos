@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Fábrica de Óculos — Roleta Promocional</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Fábrica de Óculos - Roleta Promocional</title>
 
     <meta
         name="description"
@@ -18,9 +24,9 @@
         ========================================================= */
 
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
 
@@ -28,47 +34,65 @@
            BODY
         ========================================================= */
 
+        html,
         body {
-            min-height: 100vh;
+            width: 100%;
+            min-height: 100%;
+
+            background: #0054a6;
 
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            background:
-                linear-gradient(
-                    180deg,
-                    #004aad 0%,
-                    #0066cc 50%,
-                    #004aad 100%
-                );
-
-            color: #ffffff;
-
-            display: flex;
-            justify-content: center;
-
             overflow-x: hidden;
         }
 
 
+        body {
+            display: flex;
+
+            justify-content: center;
+        }
+
+
         /* =========================================================
-           CONTAINER PRINCIPAL
+           APLICAÇÃO
         ========================================================= */
 
-        .container {
+        .app {
             width: 100%;
-            max-width: 760px;
+            max-width: 600px;
 
             min-height: 100vh;
 
-            padding:
-                28px
-                20px
-                50px;
+            background:
+                linear-gradient(
+                    180deg,
+                    #004a96 0%,
+                    #005db8 55%,
+                    #006ac8 100%
+                );
 
-            text-align: center;
+            position: relative;
+
+            overflow: hidden;
+
+            padding-bottom: 30px;
+        }
+
+
+        /* =========================================================
+           BORDA SUPERIOR AMARELA
+        ========================================================= */
+
+        .top-line {
+            width: 100%;
+
+            height: 7px;
+
+            background: #ffd400;
         }
 
 
@@ -76,233 +100,162 @@
            CABEÇALHO
         ========================================================= */
 
-        .logo-symbol {
-            font-size: 54px;
-            line-height: 1;
+        .header {
+            text-align: center;
 
-            color: #ffd400;
+            padding:
+                18px
+                15px
+                8px;
 
-            font-weight: 900;
-
-            margin-bottom: 4px;
-
-            text-shadow:
-                0 3px 5px rgba(0, 0, 0, 0.35);
+            color: #ffffff;
         }
 
 
-        h1 {
-            font-size: clamp(38px, 7vw, 64px);
+        .logo-glasses {
+            color: #ffd400;
 
-            line-height: 1;
+            font-size: 50px;
 
             font-weight: 900;
+
+            line-height: 0.7;
+
+            margin-bottom: 12px;
+        }
+
+
+        .brand {
+            font-size:
+                clamp(
+                    34px,
+                    9vw,
+                    50px
+                );
+
+            font-weight: 900;
+
+            line-height: 0.95;
 
             text-transform: uppercase;
 
-            margin-bottom: 12px;
-
-            text-shadow:
-                0 4px 6px rgba(0, 0, 0, 0.35);
+            letter-spacing: -1px;
         }
 
 
-        h1 span {
+        .brand span {
             color: #ffd400;
         }
 
 
         .subtitle {
-            font-size: clamp(18px, 4vw, 26px);
+            margin-top: 12px;
+
+            font-size:
+                clamp(
+                    18px,
+                    5vw,
+                    26px
+                );
 
             font-weight: 900;
-
-            margin-bottom: 5px;
         }
 
 
         .description {
-            font-size: 17px;
+            margin-top: 4px;
 
-            font-weight: 600;
+            font-size: 16px;
 
-            margin-bottom: 25px;
+            font-weight: 700;
         }
 
 
         /* =========================================================
-           ÁREA DA ROLETA
+           ARTE PRINCIPAL
         ========================================================= */
 
-        .roulette-area {
+        .poster {
             position: relative;
 
-            width: min(92vw, 560px);
+            width: calc(100% - 28px);
+
+            margin:
+                8px
+                auto
+                15px;
+
+            border:
+                4px solid #ffd400;
+
+            border-radius: 16px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.45
+                );
+
+            background: #004a96;
+        }
+
+
+        /*
+         * A imagem original é utilizada aqui.
+         *
+         * Ela contém a identidade visual:
+         * logo, textos, roleta, óculos e faixa amarela.
+         */
+
+        .poster-image {
+            display: block;
+
+            width: 100%;
+
+            height: auto;
+
+            user-select: none;
+
+            -webkit-user-drag: none;
+        }
+
+
+        /* =========================================================
+           CAMADA INTERATIVA
+        ========================================================= */
+
+        .interaction {
+            position: absolute;
+
+            inset: 0;
+
+            pointer-events: none;
+        }
+
+
+        /*
+         * Área sobre o centro da roleta.
+         *
+         * Não colocamos outro círculo aqui.
+         * Apenas transformamos o centro da arte
+         * em uma área clicável.
+         */
+
+        .wheel-click {
+            position: absolute;
+
+            width: 31%;
 
             aspect-ratio: 1 / 1;
 
-            margin: 0 auto 28px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-        }
-
-
-        /* =========================================================
-           PONTEIRO
-        ========================================================= */
-
-        .pointer {
-            position: absolute;
-
-            z-index: 20;
-
-            top: -8px;
-
             left: 50%;
 
-            transform: translateX(-50%);
-
-            width: 0;
-            height: 0;
-
-            border-left:
-                25px solid transparent;
-
-            border-right:
-                25px solid transparent;
-
-            border-top:
-                42px solid #ffd400;
-
-            filter:
-                drop-shadow(
-                    0 4px 4px
-                    rgba(0, 0, 0, 0.45)
-                );
-        }
-
-
-        .pointer::after {
-            content: "";
-
-            position: absolute;
-
-            left: -15px;
-
-            top: -42px;
-
-            width: 30px;
-            height: 10px;
-
-            background: #ffffff;
-
-            border-radius: 50%;
-
-            opacity: 0.8;
-        }
-
-
-        /* =========================================================
-           BORDA DA ROLETA
-        ========================================================= */
-
-        .roulette-frame {
-            position: relative;
-
-            width: 100%;
-            height: 100%;
-
-            border-radius: 50%;
-
-            padding: 7px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #fff4a3,
-                    #ffd000,
-                    #fff4a3,
-                    #e4a900
-                );
-
-            box-shadow:
-                0 0 0 3px #ffffff,
-                0 0 25px rgba(255, 210, 0, 0.9),
-                0 12px 30px rgba(0, 0, 0, 0.45);
-
-            overflow: hidden;
-        }
-
-
-        /* =========================================================
-           ROLETA
-           AQUI ESTÁ O PONTO PRINCIPAL:
-           A IMAGEM É O FUNDO DA ROLETA
-        ========================================================= */
-
-        .roulette {
-            position: relative;
-
-            width: 100%;
-            height: 100%;
-
-            border-radius: 50%;
-
-            overflow: hidden;
-
-            background-image:
-                url("roleta.png");
-
-            background-repeat: no-repeat;
-
-            /*
-             * A imagem original é vertical.
-             * O tamanho abaixo faz com que a parte da roleta
-             * ocupe praticamente todo o círculo.
-             */
-            background-size: 165% auto;
-
-            /*
-             * Ajusta a posição da imagem para deixar
-             * a roleta da arte exatamente no centro.
-             */
-            background-position: center 52%;
-
-            /*
-             * A rotação acontece neste elemento.
-             */
-            transform: rotate(0deg);
-
-            transition:
-                transform 5s
-                cubic-bezier(
-                    0.12,
-                    0.72,
-                    0.18,
-                    1
-                );
-
-            cursor: pointer;
-
-            user-select: none;
-        }
-
-
-        /* =========================================================
-           ÁREA CENTRAL CLICÁVEL
-        ========================================================= */
-
-        .roulette-button {
-            position: absolute;
-
-            z-index: 15;
-
-            top: 50%;
-            left: 50%;
+            top: 48%;
 
             transform:
                 translate(
@@ -310,142 +263,167 @@
                     -50%
                 );
 
-            width: 110px;
-            height: 110px;
-
             border-radius: 50%;
 
-            border: 5px solid #ffd000;
+            cursor: pointer;
+
+            pointer-events: auto;
 
             background:
-                radial-gradient(
-                    circle,
-                    #124b91 0%,
-                    #06336f 70%,
-                    #022550 100%
-                );
+                transparent;
 
-            color: #ffffff;
+            border: none;
 
-            font-size: 20px;
+            outline: none;
+        }
 
-            font-weight: 900;
 
-            display: flex;
+        .wheel-click:focus-visible {
+            outline:
+                3px solid #ffffff;
 
-            align-items: center;
-            justify-content: center;
+            outline-offset: 4px;
+        }
 
+
+        /*
+         * Área sobre o botão GIRAR A ROLETA
+         * existente na própria imagem.
+         */
+
+        .image-spin-button {
+            position: absolute;
+
+            width: 55%;
+
+            height: 9%;
+
+            left: 50%;
+
+            top: 79%;
+
+            transform:
+                translateX(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            pointer-events: auto;
+
+            border-radius: 50px;
+        }
+
+
+        .image-spin-button:focus-visible {
+            outline:
+                3px solid #ffffff;
+
+            outline-offset: 3px;
+        }
+
+
+        /* =========================================================
+           BOTÃO EXTRA
+        ========================================================= */
+
+        .spin-area {
             text-align: center;
 
-            cursor: pointer;
-
-            box-shadow:
-                0 5px 0 #a77700,
-                0 8px 15px
-                rgba(0, 0, 0, 0.45);
-
-            transition:
-                transform 0.15s ease,
-                box-shadow 0.15s ease;
+            padding:
+                0
+                20px
+                12px;
         }
 
-
-        .roulette-button:hover {
-            transform:
-                translate(
-                    -50%,
-                    -50%
-                )
-                scale(1.05);
-        }
-
-
-        .roulette-button:active {
-            transform:
-                translate(
-                    -50%,
-                    -50%
-                )
-                scale(0.97);
-
-            box-shadow:
-                0 2px 0 #a77700,
-                0 5px 10px
-                rgba(0, 0, 0, 0.4);
-        }
-
-
-        .roulette-button:disabled {
-            cursor: not-allowed;
-
-            opacity: 0.8;
-        }
-
-
-        /* =========================================================
-           BOTÃO EXTERNO
-        ========================================================= */
 
         .spin-button {
-            border: none;
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            min-width: 230px;
+
+            padding:
+                15px
+                28px;
+
+            border:
+                3px solid #f7c900;
+
+            border-radius: 50px;
 
             background:
                 linear-gradient(
                     180deg,
-                    #ffe75a,
+                    #fff05a,
                     #ffc400
                 );
 
             color: #003b7a;
 
-            font-size: 22px;
+            font-size: 19px;
 
             font-weight: 900;
-
-            padding:
-                17px
-                38px;
-
-            border-radius: 50px;
 
             cursor: pointer;
 
             box-shadow:
-                0 5px 0 #9b7000,
-                0 8px 18px
-                rgba(0, 0, 0, 0.35);
+                0 5px 0 #9c7100,
+                0 8px 15px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.35
+                );
 
             transition:
                 transform 0.15s ease,
                 box-shadow 0.15s ease;
-
-            margin-bottom: 25px;
         }
 
 
         .spin-button:hover {
-            transform: translateY(-2px);
+            transform:
+                translateY(-2px);
 
             box-shadow:
-                0 7px 0 #9b7000,
-                0 10px 20px
-                rgba(0, 0, 0, 0.4);
+                0 7px 0 #9c7100,
+                0 10px 18px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.4
+                );
         }
 
 
         .spin-button:active {
-            transform: translateY(3px);
+            transform:
+                translateY(3px);
 
             box-shadow:
-                0 2px 0 #9b7000,
-                0 5px 10px
-                rgba(0, 0, 0, 0.3);
+                0 2px 0 #9c7100,
+                0 4px 10px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.3
+                );
         }
 
 
         .spin-button:disabled {
-            opacity: 0.65;
+            opacity: 0.6;
 
             cursor: not-allowed;
 
@@ -458,54 +436,62 @@
         ========================================================= */
 
         .result {
-            width: min(92vw, 560px);
-
-            margin:
-                0 auto
-                25px;
-
-            padding:
-                18px
-                20px;
-
-            border:
-                3px solid #ffd000;
-
-            border-radius: 15px;
-
-            background:
-                rgba(
-                    0,
-                    45,
-                    95,
-                    0.85
+            width:
+                calc(
+                    100% - 40px
                 );
 
+            margin:
+                8px auto
+                18px;
+
+            padding:
+                15px
+                18px;
+
+            background:
+                #063b79;
+
+            border:
+                2px solid #ffd400;
+
+            border-radius: 12px;
+
+            text-align: center;
+
+            color: #ffffff;
+
             box-shadow:
-                0 8px 20px
-                rgba(0, 0, 0, 0.3);
+                0 6px 15px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.25
+                );
         }
 
 
-        .result-label {
-            font-size: 15px;
+        .result-title {
+            font-size: 13px;
 
-            font-weight: 800;
-
-            margin-bottom: 7px;
+            font-weight: 700;
 
             text-transform: uppercase;
+
+            margin-bottom: 5px;
         }
 
 
         .result-value {
-            font-size: clamp(
-                25px,
-                5vw,
-                36px
-            );
-
             color: #ffd400;
+
+            font-size:
+                clamp(
+                    22px,
+                    6vw,
+                    32px
+                );
 
             font-weight: 900;
 
@@ -518,139 +504,81 @@
         ========================================================= */
 
         .notice {
-            max-width: 620px;
-
-            margin:
-                0 auto
-                25px;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-
-            color: #ffffff;
-        }
-
-
-        /* =========================================================
-           QR CODE
-        ========================================================= */
-
-        .qr-container {
-            width: min(92vw, 360px);
-
-            margin:
-                0 auto
-                30px;
-
-            padding: 25px;
-
-            background: #ffffff;
-
-            color: #003b7a;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 10px 25px
-                rgba(0, 0, 0, 0.35);
-        }
-
-
-        .qr-title {
-            font-size: 18px;
-
-            font-weight: 900;
-
-            margin-bottom: 15px;
-        }
-
-
-        .qr-code {
-            width: 100%;
-
-            max-width: 280px;
-
-            aspect-ratio: 1 / 1;
-
-            margin: 0 auto;
-
-            background:
-                repeating-linear-gradient(
-                    45deg,
-                    #000 0,
-                    #000 3px,
-                    #fff 3px,
-                    #fff 6px
+            width:
+                calc(
+                    100% - 45px
                 );
 
-            display: flex;
+            margin:
+                0 auto
+                18px;
 
-            align-items: center;
-            justify-content: center;
+            text-align: center;
 
-            overflow: hidden;
-        }
+            color: #ffffff;
 
+            font-size: 11px;
 
-        .qr-code img {
-            width: 100%;
-            height: 100%;
+            line-height: 1.45;
 
-            object-fit: contain;
-        }
-
-
-        .qr-url {
-            font-size: 10px;
-
-            color: #333;
-
-            margin-top: 10px;
-
-            word-break: break-all;
+            opacity: 0.95;
         }
 
 
         /* =========================================================
-           FOOTER
+           RODAPÉ
         ========================================================= */
 
-        footer {
-            font-size: 12px;
+        .footer {
+            text-align: center;
+
+            color: #ffffff;
+
+            font-size: 11px;
+
+            padding:
+                5px
+                15px
+                10px;
 
             opacity: 0.9;
-
-            margin-top: 15px;
         }
 
 
         /* =========================================================
-           RESPONSIVIDADE
+           MOBILE
         ========================================================= */
 
-        @media (max-width: 600px) {
+        @media (
+            max-width: 480px
+        ) {
 
-            .container {
-                padding:
-                    20px
-                    12px
-                    40px;
+            .top-line {
+                height: 5px;
             }
 
 
-            .logo-symbol {
+            .header {
+                padding-top: 15px;
+            }
+
+
+            .logo-glasses {
                 font-size: 42px;
+
+                margin-bottom: 10px;
             }
 
 
-            h1 {
-                font-size: 38px;
+            .brand {
+                font-size: 36px;
             }
 
 
             .subtitle {
-                font-size: 20px;
+                font-size: 19px;
+
+                margin-top: 9px;
             }
 
 
@@ -659,127 +587,219 @@
             }
 
 
-            .roulette-area {
-                width: min(
-                    94vw,
-                    430px
-                );
-            }
+            .poster {
+                width:
+                    calc(
+                        100% - 18px
+                    );
 
+                margin-top: 8px;
 
-            .roulette-button {
-                width: 85px;
-                height: 85px;
+                border-width: 3px;
 
-                font-size: 16px;
-
-                border-width: 4px;
-            }
-
-
-            .pointer {
-                border-left-width: 20px;
-                border-right-width: 20px;
-                border-top-width: 34px;
+                border-radius: 12px;
             }
 
 
             .spin-button {
-                font-size: 18px;
+                min-width: 215px;
+
+                font-size: 17px;
 
                 padding:
-                    15px
-                    28px;
+                    13px
+                    24px;
             }
 
 
-            .result-value {
-                font-size: 25px;
+            .result {
+                width:
+                    calc(
+                        100% - 28px
+                    );
             }
+
+
+            .notice {
+                width:
+                    calc(
+                        100% - 30px
+                    );
+
+                font-size: 10px;
+            }
+
         }
 
 
+        /* =========================================================
+           TELAS MUITO PEQUENAS
+        ========================================================= */
+
+        @media (
+            max-width: 360px
+        ) {
+
+            .brand {
+                font-size: 31px;
+            }
+
+
+            .subtitle {
+                font-size: 17px;
+            }
+
+
+            .description {
+                font-size: 13px;
+            }
+
+
+            .poster {
+                width:
+                    calc(
+                        100% - 12px
+                    );
+            }
+
+
+            .spin-button {
+                min-width: 200px;
+
+                font-size: 16px;
+            }
+
+        }
+
     </style>
+
 </head>
 
 
 <body>
 
-    <main class="container">
+
+    <main class="app">
+
+
+        <!-- =====================================================
+             LINHA SUPERIOR
+        ====================================================== -->
+
+        <div class="top-line"></div>
 
 
         <!-- =====================================================
              CABEÇALHO
         ====================================================== -->
 
-        <div class="logo-symbol">
-            ∞
-        </div>
+        <header class="header">
 
-        <h1>
-            FÁBRICA
-            <span>DE ÓCULOS</span>
-        </h1>
-
-        <div class="subtitle">
-            ROLETA PROMOCIONAL
-        </div>
-
-        <div class="description">
-            Gire a roleta e concorra a prêmios!
-        </div>
+            <div class="logo-glasses">
+                ∞
+            </div>
 
 
-        <!-- =====================================================
-             ROLETA
-        ====================================================== -->
+            <h1 class="brand">
 
-        <section
-            class="roulette-area"
-            aria-label="Roleta promocional"
-        >
+                FÁBRICA
+                <span>DE ÓCULOS</span>
 
-            <div class="pointer"></div>
+            </h1>
 
-            <div class="roulette-frame">
 
-                <div
-                    id="roulette"
-                    class="roulette"
-                    title="Clique para girar"
-                >
-                </div>
+            <div class="subtitle">
+
+                ROLETA PROMOCIONAL
 
             </div>
 
 
-            <!-- BOTÃO CENTRAL -->
+            <div class="description">
 
-            <button
-                id="rouletteButton"
-                class="roulette-button"
-                type="button"
-                aria-label="Girar roleta"
+                Gire a roleta e concorra a prêmios!
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             ARTE DA PROMOÇÃO
+        ====================================================== -->
+
+        <section class="poster">
+
+
+            <!--
+                IMPORTANTE:
+
+                Coloque a imagem original no GitHub
+                com o nome:
+
+                roleta.png
+            -->
+
+            <img
+                src="roleta.png"
+                alt="Roleta promocional da Fábrica de Óculos"
+                class="poster-image"
+                draggable="false"
             >
-                GIRAR
-                <br>
-                ↻
-            </button>
+
+
+            <!-- CAMADA DE INTERAÇÃO -->
+
+            <div class="interaction">
+
+
+                <!--
+                    Clique no centro da roleta
+                -->
+
+                <button
+                    id="wheelClick"
+                    class="wheel-click"
+                    aria-label="Girar a roleta"
+                    type="button"
+                ></button>
+
+
+                <!--
+                    Clique sobre o botão
+                    GIRAR A ROLETA da própria arte.
+                -->
+
+                <button
+                    id="imageSpinButton"
+                    class="image-spin-button"
+                    aria-label="Girar a roleta"
+                    type="button"
+                ></button>
+
+
+            </div>
 
         </section>
 
 
         <!-- =====================================================
-             BOTÃO
+             BOTÃO PRINCIPAL
         ====================================================== -->
 
-        <button
-            id="spinButton"
-            class="spin-button"
-            type="button"
-        >
-            ↻ GIRAR A ROLETA
-        </button>
+        <section class="spin-area">
+
+            <button
+                id="spinButton"
+                class="spin-button"
+                type="button"
+            >
+
+                ↻ GIRAR A ROLETA
+
+            </button>
+
+        </section>
 
 
         <!-- =====================================================
@@ -792,15 +812,20 @@
             aria-live="polite"
         >
 
-            <div class="result-label">
+            <div class="result-title">
+
                 Resultado
+
             </div>
+
 
             <div
                 id="resultValue"
                 class="result-value"
             >
+
                 Gire a roleta!
+
             </div>
 
         </section>
@@ -813,46 +838,22 @@
         <p class="notice">
 
             A roleta funciona diretamente no navegador.
-            Para uma promoção oficial com controle de tentativas,
-            estoque, auditoria ou validação de prêmios,
-            o sorteio deverá ser realizado por um servidor.
+            Para uma promoção oficial com controle de
+            tentativas, estoque, auditoria ou validação
+            de prêmios, o sorteio deverá ser realizado
+            por um servidor.
 
         </p>
 
 
         <!-- =====================================================
-             QR CODE
+             RODAPÉ
         ====================================================== -->
 
-        <section class="qr-container">
+        <footer class="footer">
 
-            <div class="qr-title">
-                ▦ &nbsp; Escaneie e abra a roleta
-            </div>
-
-            <div class="qr-code">
-
-                <img
-                    id="qrImage"
-                    alt="QR Code da roleta"
-                >
-
-            </div>
-
-            <div
-                id="qrUrl"
-                class="qr-url"
-            ></div>
-
-        </section>
-
-
-        <!-- =====================================================
-             FOOTER
-        ====================================================== -->
-
-        <footer>
             Fábrica de Óculos — Roleta Promocional
+
         </footer>
 
 
@@ -862,7 +863,7 @@
     <script>
 
         /* =========================================================
-           CONFIGURAÇÃO
+           PRÊMIOS
         ========================================================= */
 
         const prizes = [
@@ -904,34 +905,27 @@
            ELEMENTOS
         ========================================================= */
 
-        const roulette =
-            document.getElementById(
-                "roulette"
-            );
-
-        const rouletteButton =
-            document.getElementById(
-                "rouletteButton"
-            );
-
         const spinButton =
             document.getElementById(
                 "spinButton"
             );
 
+
+        const wheelClick =
+            document.getElementById(
+                "wheelClick"
+            );
+
+
+        const imageSpinButton =
+            document.getElementById(
+                "imageSpinButton"
+            );
+
+
         const resultValue =
             document.getElementById(
                 "resultValue"
-            );
-
-        const qrImage =
-            document.getElementById(
-                "qrImage"
-            );
-
-        const qrUrl =
-            document.getElementById(
-                "qrUrl"
             );
 
 
@@ -939,13 +933,11 @@
            ESTADO
         ========================================================= */
 
-        let currentRotation = 0;
-
         let spinning = false;
 
 
         /* =========================================================
-           ESCOLHA DO PRÊMIO
+           ESCOLHER PRÊMIO
         ========================================================= */
 
         function choosePrize() {
@@ -953,14 +945,24 @@
             const total =
                 prizes.reduce(
                     (
-                        total,
+                        sum,
                         prize
-                    ) => total + prize.probability,
+                    ) => {
+
+                        return (
+                            sum +
+                            prize.probability
+                        );
+
+                    },
                     0
                 );
 
+
             let random =
-                Math.random() * total;
+                Math.random() *
+                total;
+
 
             for (
                 const prize of prizes
@@ -968,6 +970,7 @@
 
                 random -=
                     prize.probability;
+
 
                 if (
                     random <= 0
@@ -979,6 +982,7 @@
 
             }
 
+
             return prizes[
                 prizes.length - 1
             ];
@@ -986,20 +990,87 @@
 
 
         /* =========================================================
-           GIRAR ROLETA
+           EFEITO VISUAL DE GIRO
+        ========================================================= */
+
+        function playSpinEffect() {
+
+            /*
+             * Como a arte completa é uma imagem,
+             * não giramos a página inteira.
+             *
+             * Aplicamos apenas um efeito visual
+             * no poster para indicar que o sorteio
+             * está acontecendo.
+             */
+
+            const poster =
+                document.querySelector(
+                    ".poster"
+                );
+
+
+            poster.animate(
+                [
+                    {
+                        transform:
+                            "scale(1)"
+                    },
+
+                    {
+                        transform:
+                            "scale(1.015)"
+                    },
+
+                    {
+                        transform:
+                            "scale(1)"
+                    }
+                ],
+                {
+                    duration: 5000,
+
+                    easing:
+                        "ease-in-out"
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           GIRAR
         ========================================================= */
 
         function spin() {
 
             if (spinning) {
+
                 return;
+
             }
+
 
             spinning = true;
 
-            spinButton.disabled = true;
 
-            rouletteButton.disabled = true;
+            spinButton.disabled =
+                true;
+
+
+            wheelClick.disabled =
+                true;
+
+
+            imageSpinButton.disabled =
+                true;
+
+
+            resultValue.textContent =
+                "Girando...";
+
+
+            playSpinEffect();
 
 
             /*
@@ -1011,27 +1082,7 @@
 
 
             /*
-             * Como a arte já contém os prêmios,
-             * fazemos uma rotação completa aleatória.
-             */
-
-            const extraRotation =
-                1440 +
-                Math.floor(
-                    Math.random() * 720
-                );
-
-
-            currentRotation +=
-                extraRotation;
-
-
-            roulette.style.transform =
-                `rotate(${currentRotation}deg)`;
-
-
-            /*
-             * Aguarda a animação terminar.
+             * Aguarda o efeito.
              */
 
             setTimeout(
@@ -1040,17 +1091,26 @@
                     resultValue.textContent =
                         prize.name;
 
-                    spinning = false;
+
+                    spinning =
+                        false;
+
 
                     spinButton.disabled =
                         false;
 
-                    rouletteButton.disabled =
+
+                    wheelClick.disabled =
+                        false;
+
+
+                    imageSpinButton.disabled =
                         false;
 
                 },
-                5100
+                5000
             );
+
         }
 
 
@@ -1064,79 +1124,21 @@
         );
 
 
-        rouletteButton.addEventListener(
+        wheelClick.addEventListener(
             "click",
             spin
         );
 
 
-        roulette.addEventListener(
+        imageSpinButton.addEventListener(
             "click",
             spin
         );
 
-
-        /* =========================================================
-           QR CODE
-        ========================================================= */
-
-        const siteUrl =
-            window.location.href;
-
-
-        qrUrl.textContent =
-            siteUrl;
-
-
-        /*
-         * QR Code utilizando serviço externo.
-         *
-         * Como o GitHub Pages é estático,
-         * isso evita precisar gerar um arquivo
-         * QR Code manualmente.
-         */
-
-        qrImage.src =
-            "https://api.qrserver.com/v1/create-qr-code/" +
-            "?size=300x300" +
-            "&data=" +
-            encodeURIComponent(siteUrl);
-
-
-        /* =========================================================
-           ACESSIBILIDADE
-        ========================================================= */
-
-        roulette.setAttribute(
-            "role",
-            "button"
-        );
-
-        roulette.setAttribute(
-            "tabindex",
-            "0"
-        );
-
-
-        roulette.addEventListener(
-            "keydown",
-            event => {
-
-                if (
-                    event.key === "Enter" ||
-                    event.key === " "
-                ) {
-
-                    event.preventDefault();
-
-                    spin();
-
-                }
-
-            }
-        );
 
     </script>
 
+
 </body>
+
 </html>
