@@ -1,219 +1,737 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Fábrica de Óculos — Roleta Promocional</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Fábrica de Óculos - Roleta</title>
+
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:#063b78}
-body{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
-.page{width:min(100vw,717px);position:relative}
-.stage{
-    position:relative;
-    width:100%;
-    aspect-ratio:717 / 1076;
-    background:url("fabrica-layout.png") center top/100% 100% no-repeat;
-    overflow:hidden;
-    touch-action:manipulation;
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/*
-   A composição inteira usa a mesma referência 717x1076.
-   Portanto, no celular tudo é reduzido proporcionalmente sem
-   alterar a posição relativa dos elementos.
-*/
-.wheel-wrap{
-    position:absolute;
-    left:calc(87 / 717 * 100%);
-    top:calc(241 / 1076 * 100%);
-    width:calc(538 / 717 * 100%);
-    aspect-ratio:1;
-    z-index:3;
-    border-radius:50%;
-    overflow:visible;
+
+/* =========================================================
+   PÁGINA
+   ========================================================= */
+
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background: #063b78;
 }
 
-/* SOMENTE os setores giram. Não contém fundo, aro ou botão. */
-.wheel{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    display:block;
-    transform:rotate(0deg);
-    transform-origin:50% 50%;
-    transition:transform 4.2s cubic-bezier(.12,.72,.12,1);
-    will-change:transform;
-    pointer-events:none;
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    overflow-x: hidden;
 }
 
-/* Aro fixo */
-.ring{
-    position:absolute;
-    left:calc(87 / 717 * 100%);
-    top:calc(241 / 1076 * 100%);
-    width:calc(538 / 717 * 100%);
-    height:auto;
-    z-index:5;
-    pointer-events:none;
+
+/* =========================================================
+   CONTAINER
+
+   A arte original é 717 x 1076.
+   ========================================================= */
+
+.page {
+    position: relative;
+
+    width: min(100vw, 717px);
+
+    margin: 0 auto;
 }
 
-/* Ponteiro fixo */
-.pointer{
-    position:absolute;
-    left:calc(303 / 717 * 100%);
-    top:calc(145 / 1076 * 100%);
-    width:calc(110 / 717 * 100%);
-    height:auto;
-    z-index:7;
-    pointer-events:none;
+
+/* =========================================================
+   PALCO
+   ========================================================= */
+
+.stage {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 717 / 1076;
+
+    overflow: hidden;
+
+    background: transparent;
 }
 
-/* Centro fixo */
-.center{
-    position:absolute;
-    left:calc(276 / 717 * 100%);
-    top:calc(430 / 1076 * 100%);
-    width:calc(160 / 717 * 100%);
-    height:auto;
-    z-index:8;
-    cursor:pointer;
-    user-select:none;
-    -webkit-user-select:none;
-    -webkit-tap-highlight-color:transparent;
-    filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));
-    touch-action:manipulation;
+
+/* =========================================================
+   FUNDO
+
+   O background.png é a arte completa.
+
+   NÃO GIRA.
+   ========================================================= */
+
+.background {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: fill;
+
+    display: block;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
 }
 
-/* Área clicável sobre o botão amarelo que já existe na arte */
-.hit-button{
-    position:absolute;
-    left:calc(155 / 717 * 100%);
-    top:calc(847 / 1076 * 100%);
-    width:calc(410 / 717 * 100%);
-    height:calc(118 / 1076 * 100%);
-    z-index:9;
-    border:0;
-    padding:0;
-    margin:0;
-    background:transparent;
-    cursor:pointer;
-    -webkit-tap-highlight-color:transparent;
-    touch-action:manipulation;
+
+/* =========================================================
+   CONTAINER DA ROLETA
+
+   Tudo que está dentro dele gira junto:
+   
+   - wheel
+   - ring
+   ========================================================= */
+
+.wheel-wrap {
+    position: absolute;
+
+    left: calc(35px / 717 * 100%);
+
+    top: calc(180px / 1076 * 100%);
+
+    width: calc(647px / 717 * 100%);
+
+    height: calc(647px / 1076 * 100%);
+
+    z-index: 5;
+
+    transform-origin: center center;
+
+    transition:
+        transform 4.2s cubic-bezier(.12,.72,.12,1);
+
+    will-change: transform;
+
+    pointer-events: none;
 }
 
-.resultado{
-    width:calc(100% - 60px);
-    max-width:650px;
-    margin:12px auto 30px;
-    min-height:48px;
-    border:2px solid #ffd100;
-    border-radius:12px;
-    background:#063b78;
-    color:#ffd100;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:10px 16px;
-    font-weight:900;
-    font-size:clamp(16px,3.5vw,24px);
+
+/* =========================================================
+   ROLETA
+   ========================================================= */
+
+.wheel {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform:
+        translate(-50%, -50%);
+
+    object-fit: contain;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
 }
 
-@media(max-width:500px){
-    .resultado{width:calc(100% - 28px);margin-top:10px;margin-bottom:20px;font-size:17px}
+
+/* =========================================================
+   BORDA / LUZES
+
+   Também está dentro do wheel-wrap.
+
+   Portanto gira junto.
+   ========================================================= */
+
+.ring {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 100%;
+    height: 100%;
+
+    transform:
+        translate(-50%, -50%);
+
+    object-fit: contain;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
 }
 
-@media(min-width:718px){
-    .stage{box-shadow:0 0 25px rgba(0,0,0,.25)}
+
+/* =========================================================
+   PONTEIRO
+
+   FIXO.
+   ========================================================= */
+
+.pointer {
+    position: absolute;
+
+    left: calc(303px / 717 * 100%);
+
+    top: calc(145px / 1076 * 100%);
+
+    width: calc(110px / 717 * 100%);
+
+    height: auto;
+
+    z-index: 15;
+
+    display: block;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    -webkit-user-drag: none;
 }
+
+
+/* =========================================================
+   BOTÃO CENTRAL
+
+   AGORA ELE É O PRÓPRIO BOTÃO.
+
+   Não existe mais uma segunda camada
+   hit-button por cima.
+   ========================================================= */
+
+.center-button {
+    position: absolute;
+
+    left: calc(278px / 717 * 100%);
+
+    top: calc(423px / 1076 * 100%);
+
+    width: calc(160px / 717 * 100%);
+
+    height: calc(160px / 1076 * 100%);
+
+    padding: 0;
+
+    margin: 0;
+
+    border: 0;
+
+    background:
+        url("center.png")
+        center center
+        / contain
+        no-repeat;
+
+    background-color: transparent;
+
+    z-index: 30;
+
+    cursor: pointer;
+
+    display: block;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    -webkit-tap-highlight-color: transparent;
+
+    touch-action: manipulation;
+}
+
+
+.center-button:disabled {
+    cursor: default;
+}
+
+
+.center-button:focus {
+    outline: none;
+}
+
+
+/* =========================================================
+   RESULTADO
+   ========================================================= */
+
+.resultado {
+    position: relative;
+
+    width: calc(100% - 90px);
+
+    min-height: 52px;
+
+    margin:
+        12px auto 20px;
+
+    padding:
+        10px 18px;
+
+    border:
+        2px solid #ffd400;
+
+    border-radius: 12px;
+
+    background: #063b78;
+
+    color: #ffd400;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    font-weight: 900;
+
+    font-size:
+        clamp(
+            16px,
+            3.5vw,
+            24px
+        );
+
+    line-height: 1.2;
+
+    z-index: 50;
+}
+
+
+/* =========================================================
+   CELULAR
+   ========================================================= */
+
+@media (max-width: 717px) {
+
+    .page {
+        width: 100%;
+    }
+
+    .resultado {
+        width: calc(100% - 44px);
+    }
+
+}
+
 </style>
-</head>
-<body>
-<div class="page">
-    <div class="stage" id="stage">
-        <!-- Aro parado -->
-        <img class="ring" src="ring-only.png" alt="" aria-hidden="true">
 
-        <!-- ÚNICA camada que gira -->
-        <div class="wheel-wrap">
-            <img id="wheel" class="wheel" src="wheel-sectors.png" alt="Roleta">
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+    <div
+        class="stage"
+        id="stage"
+    >
+
+
+        <!-- =================================================
+             FUNDO
+             ================================================= -->
+
+        <img
+            class="background"
+            src="background.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+
+        <!-- =================================================
+             ROLETA + BORDA
+
+             ESTA É A ÚNICA CAMADA QUE GIRA.
+             ================================================= -->
+
+        <div
+            class="wheel-wrap"
+            id="wheelWrap"
+        >
+
+            <img
+                class="wheel"
+                src="wheel-rotating.png"
+                alt="Roleta"
+            >
+
+            <img
+                class="ring"
+                src="ring.png"
+                alt=""
+                aria-hidden="true"
+            >
+
         </div>
 
-        <!-- Elementos que nunca giram -->
-        <img class="pointer" src="pointer-transparent.png" alt="" aria-hidden="true">
-        <img id="centerButton" class="center" src="center-only.png" alt="Girar">
 
-        <!-- Botão sobre a arte original -->
-        <button id="hitButton" class="hit-button" aria-label="Girar a roleta"></button>
+        <!-- =================================================
+             PONTEIRO FIXO
+             ================================================= -->
+
+        <img
+            class="pointer"
+            src="pointer.png"
+            alt=""
+            aria-hidden="true"
+        >
+
+
+        <!-- =================================================
+             BOTÃO CENTRAL
+
+             O próprio elemento é clicável.
+             ================================================= -->
+
+        <button
+            id="centerButton"
+            class="center-button"
+            type="button"
+            aria-label="Girar a roleta"
+        ></button>
+
+
     </div>
 
-    <div id="resultado" class="resultado">Clique em GIRAR A ROLETA para participar!</div>
+
+    <!-- =====================================================
+         RESULTADO
+         ===================================================== -->
+
+    <div
+        id="resultado"
+        class="resultado"
+    >
+        Clique em GIRAR A ROLETA para participar!
+    </div>
+
+
 </div>
 
+
+
 <script>
+
+/* =========================================================
+   PRÊMIOS
+   ========================================================= */
+
 const premios = [
+
     "10% DE DESCONTO",
+
     "ARMAÇÃO CORTESIA COMUM",
+
     "15% DE DESCONTO",
+
     "ÓCULOS DE SOL",
+
     "LIMPA LENTE CLEAN'UP",
+
     "LIMPA LENTE GRÁTIS"
+
 ];
 
-const wheel = document.getElementById("wheel");
-const centerButton = document.getElementById("centerButton");
-const hitButton = document.getElementById("hitButton");
-const resultado = document.getElementById("resultado");
+
+/* =========================================================
+   ELEMENTOS
+   ========================================================= */
+
+const wheelWrap =
+    document.getElementById("wheelWrap");
+
+const centerButton =
+    document.getElementById("centerButton");
+
+const resultado =
+    document.getElementById("resultado");
+
+
+/* =========================================================
+   CONFIGURAÇÕES
+   ========================================================= */
+
+const NUMERO_SETORES =
+    premios.length;
+
+const GRAUS_POR_SETOR =
+    360 / NUMERO_SETORES;
+
+const DURACAO_GIRO =
+    4200;
+
+
+/* =========================================================
+   CONTROLE
+   ========================================================= */
 
 let girando = false;
-let rotacaoAtual = 0;
-const DURACAO = 4200;
-const SETOR = 60;
 
-function normalizarAngulo(angulo){
-    return ((angulo % 360) + 360) % 360;
+let rotacaoAtual = 0;
+
+
+/* =========================================================
+   NORMALIZA ÂNGULO
+   ========================================================= */
+
+function normalizarAngulo(angulo) {
+
+    return (
+        (angulo % 360) + 360
+    ) % 360;
+
 }
 
-function girar(){
-    if(girando) return;
+
+/* =========================================================
+   CALCULA ROTAÇÃO
+   ========================================================= */
+
+function calcularRotacao(indice) {
+
+    /*
+     * Cada setor possui 60 graus.
+     */
+
+    const alvo =
+        normalizarAngulo(
+            -(indice * GRAUS_POR_SETOR)
+        );
+
+
+    const atual =
+        normalizarAngulo(
+            rotacaoAtual
+        );
+
+
+    let diferenca =
+        alvo - atual;
+
+
+    if (diferenca < 0) {
+
+        diferenca += 360;
+
+    }
+
+
+    /*
+     * Entre 5 e 7 voltas completas.
+     */
+
+    const voltas =
+        5 +
+        Math.floor(
+            Math.random() * 3
+        );
+
+
+    return (
+        rotacaoAtual +
+        (voltas * 360) +
+        diferenca
+    );
+
+}
+
+
+/* =========================================================
+   GIRAR
+   ========================================================= */
+
+function girarRoleta() {
+
+    /*
+     * Impede clicar enquanto está girando.
+     */
+
+    if (girando) {
+
+        return;
+
+    }
+
 
     girando = true;
-    resultado.textContent = "Girando...";
 
-    // A imagem original, sem rotação, possui os setores nesta ordem,
-    // começando pelo topo e seguindo no sentido horário:
-    // 0  = 10%
-    // 1  = Armação
-    // 2  = 15%
-    // 3  = Óculos de Sol
-    // 4  = Clean'Up
-    // 5  = Limpa Lente Grátis
-    const indice = Math.floor(Math.random() * premios.length);
+    centerButton.disabled = true;
 
-    const atual = normalizarAngulo(rotacaoAtual);
-    const desejado = normalizarAngulo(-indice * SETOR);
 
-    // Faz sempre várias voltas para frente e termina exatamente
-    // com o centro do setor sorteado apontando para o ponteiro.
-    let delta = desejado - atual;
-    if(delta < 0) delta += 360;
+    resultado.textContent =
+        "A roleta está girando...";
 
-    const voltas = 5 + Math.floor(Math.random() * 2); // 5 ou 6
-    const novaRotacao = rotacaoAtual + voltas * 360 + delta;
 
-    rotacaoAtual = novaRotacao;
-    wheel.style.transform = `rotate(${novaRotacao}deg)`;
+    /*
+     * Escolhe o prêmio.
+     */
 
-    window.setTimeout(() => {
-        resultado.textContent = `🎉 VOCÊ GANHOU: ${premios[indice]}!`;
-        girando = false;
-    }, DURACAO + 100);
+    const indice =
+        Math.floor(
+            Math.random() *
+            NUMERO_SETORES
+        );
+
+
+    /*
+     * Calcula a nova posição.
+     */
+
+    const novaRotacao =
+        calcularRotacao(indice);
+
+
+    rotacaoAtual =
+        novaRotacao;
+
+
+    /*
+     * AQUI ESTÁ O GIRO.
+
+     * wheelWrap contém:
+     *
+     * wheel-rotating.png
+     * ring.png
+     *
+     * Portanto os dois giram juntos.
+     */
+
+    wheelWrap.style.transform =
+        `rotate(${novaRotacao}deg)`;
+
+
+    /*
+     * Aguarda a animação terminar.
+     */
+
+    setTimeout(
+        function() {
+
+            resultado.innerHTML =
+                `🎉 VOCÊ GANHOU: ${premios[indice]}!`;
+
+            girando = false;
+
+            centerButton.disabled = false;
+
+        },
+        DURACAO_GIRO
+    );
+
 }
 
-hitButton.addEventListener("click", girar);
-centerButton.addEventListener("click", girar);
+
+/* =========================================================
+   CLIQUE
+   ========================================================= */
+
+centerButton.addEventListener(
+    "click",
+    girarRoleta
+);
+
+
+/* =========================================================
+   TESTE PELO TECLADO
+   ========================================================= */
+
+centerButton.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter" ||
+            event.key === " "
+        ) {
+
+            event.preventDefault();
+
+            girarRoleta();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LOG DE TESTE
+
+   Isso ajuda a confirmar no console
+   que o JavaScript carregou.
+   ========================================================= */
+
+console.log(
+    "Roleta carregada corretamente."
+);
+
+console.log(
+    "Botão:",
+    centerButton
+);
+
+console.log(
+    "Roleta:",
+    wheelWrap
+);
+
 </script>
+
+
 </body>
+
 </html>
